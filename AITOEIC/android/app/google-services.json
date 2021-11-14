@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "862641295988",
+    "project_id": "aitoeic",
+    "storage_bucket": "aitoeic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862641295988:android:e3581721d65cfe526b7721",
+        "android_client_info": {
+          "package_name": "com.aitoeic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862641295988-9jftmd0chu907nnfjoi2g7b5s01srq2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM2PUnCcAcLR3lvs5zfegycdl_6AXowNs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862641295988-9jftmd0chu907nnfjoi2g7b5s01srq2v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
