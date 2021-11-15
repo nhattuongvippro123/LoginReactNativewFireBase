@@ -11,7 +11,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to Firebase app</Text>
+      <Text style={styles.text}>AITOEIC</Text>
       <FormInput
         value={email}
         placeholderText='Email'

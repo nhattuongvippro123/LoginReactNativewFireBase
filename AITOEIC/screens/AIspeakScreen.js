@@ -288,16 +288,15 @@
 
 
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet,Button,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
 
-export default function HomeScreen({navigation}) {
-  const { user, logout } = useContext(AuthContext);
+export default function AIspeakScreen() {
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome user {user.uid}</Text>
-      
+      <Text style={styles.text}>AI SPEAK</Text>
     </View>
   );
 }
