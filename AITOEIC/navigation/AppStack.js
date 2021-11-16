@@ -216,7 +216,7 @@ export default function HomeStack() {
     <Tab.Navigator
       initialRouteName="Home"
       activeColor="#9900CC"
-      barStyle={{ backgroundColor: '#DDDDDD' }}
+      barStyle={{ backgroundColor: '#FFFFFF'}}
       screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size, padding }) => {
             let iconName;
@@ -251,21 +251,20 @@ export default function HomeStack() {
       //     tabBarInactiveTintColor: 'gray',
         })}
         tabBarOptions={{
+          
           ActiveTintColor: 'tomato',
           InactiveTintColor: 'gray',
           labelStyle:{fontSize:16},
         }}
     >
-
-
       <Tab.Screen
         name="LuyenTap"
         component={HomeScreen}
         options={{
+          headerShown:false,
           tabBarLabel: 'Luyện Tập',
           tabBarOptions: { showIcon: true },
-          tabBarBadge: 3
-          
+          tabBarBadge: 3,
         }}
       />
       <Tab.Screen
@@ -304,6 +303,7 @@ export default function HomeStack() {
         name="caidat"
         component={SettingScreen}
         options={{
+          headerShown:false,
           tabBarLabel: 'Cài Đặt',
           // tabBarIcon: ({ color }) => (
           //   <MaterialCommunityIcons name="account" color={color} size={26} />
