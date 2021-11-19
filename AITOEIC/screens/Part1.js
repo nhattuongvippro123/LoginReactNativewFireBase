@@ -3,11 +3,11 @@ import { View, Text, StyleSheet } from 'react-native';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
 
-export default function AIspeakScreen() {
+export default function Part1() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>AI SPEAK</Text>
+      <Text style={styles.text}>Part 1</Text>
     </View>
   );
 }

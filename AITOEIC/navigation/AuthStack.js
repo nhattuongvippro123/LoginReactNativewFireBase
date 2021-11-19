@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import SignupScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
+import Part1 from '../screens/Part1';
 const Stack = createStackNavigator();
 export default function AuthStack() {
   return (

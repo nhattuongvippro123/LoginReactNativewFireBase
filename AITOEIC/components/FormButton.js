@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 10,
     width: windowWidth / 2,
-    height: windowHeight / 15,
+    height: windowHeight / 14,
     backgroundColor: '#6646ee',
     padding: 10,
     alignItems: 'center',
