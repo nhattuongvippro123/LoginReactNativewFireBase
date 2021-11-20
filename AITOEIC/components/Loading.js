@@ -1,19 +1,22 @@
 import React from 'react';
-import { View, ActivityIndicator, StyleSheet,Image, } from 'react-native';
+import { View, ActivityIndicator, StyleSheet,Image, ImageBackground } from 'react-native';
 export default function Loading() {
   return (
     <View style={styles.loadingContainer}>
+    <ImageBackground source = {require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/hinhthu.jpg')} 
+                      style={{width: '100%', height: '100%',}}>
       <Image
-        source={require('../assets/banner/banner1.png')}
-        style={{width: '90%', resizeMode: 'contain', margin: 30}}
+        source={require('../assets/theme/hinhthu.jpg')}
+        style={{width: '100%'}}
       />
-      <ActivityIndicator size='large' color='#00FFFF' />
+      <ActivityIndicator size='large' color='#FFFFFF' />
+    </ImageBackground>
     </View>
   );
 }
 const styles = StyleSheet.create({
   loadingContainer: {
-    backgroundColor: '#CCFFFF',
+    backgroundColor: '#6699FF',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
