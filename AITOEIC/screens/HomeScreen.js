@@ -5,21 +5,21 @@ import { AuthContext } from '../navigation/AuthProvider';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Header from '../components/Header';
+import StatusBars from '../components/StatusBars';
 import { StatusBar } from 'react-native';
 
 export default function HomeScreen({navigation}) {
 
   const { user, logout } = useContext(AuthContext);
-  StatusBar.setHidden(true);
-  StatusBar.setBarStyle('dark-content')
   return ( 
     <View style={styles.container}>
-    
+    <StatusBar/>
     <ImageBackground source = {require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')} 
                       style={{width: '100%', height: '100%',}}>
     <Header/>
     <ScrollView style = {{width: 360,marginLeft:15,}}
-                showsVerticalScrollIndicator={false}>
+                showsVerticalScrollIndicator={false}
+                options = {{tabBarVisible:false}}>
     <Image 
       source = {require('G:/LoginReactNativewFireBase/AITOEIC/assets/banner/toeic.jpg')}
       style = {{ width: 360, height: 110,borderRadius:10,marginTop:9,}} />
@@ -257,7 +257,7 @@ export default function HomeScreen({navigation}) {
         <TouchableOpacity
           style = {{backgroundColor:"#FFFFFF",width:70,height:70, borderRadius:10,marginTop:-14,}}
           activeOpacity={0.5}
-          onPress={() => navigation.navigate('thithu')}
+          onPress={() => navigation.navigate('ThiThu')}
           >
           <Image 
             // source={{
@@ -341,9 +341,9 @@ export default function HomeScreen({navigation}) {
         source = {require('G:/LoginReactNativewFireBase/AITOEIC/assets/banner/banner1.png')}
         style = {{width: 360, height: 200,borderRadius:10,marginLeft:0.5}} />
     </View>
-    <Text style ={styles.loaitext}>
+    {/* <Text style ={styles.loaitext}>
       Luyện Thi
-    </Text>
+    </Text> */}
 
     </ScrollView>
     </ImageBackground>

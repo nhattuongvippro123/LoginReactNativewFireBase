@@ -13,133 +13,117 @@ import Part4 from '../screens/Part4';
 import Part5 from '../screens/Part5';
 import Part6 from '../screens/Part6';
 import Part7 from '../screens/Part7';
+import BoTuVung from '../screens/BoTuVung';
+import thithu from '../screens/thithu';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
+function HomeStack() {
+const Tab = createMaterialBottomTabNavigator();
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      activeColor="#9900CC"
+      barStyle={{ backgroundColor: '#FFFFFF'}}
+      screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size, padding }) => {
+            let iconName;
 
-
-
-// export default function AppStack() {
-// const Tab = createMaterialBottomTabNavigator();
-//   return (
-//     <Tab.Navigator
-//       initialRouteName="Home"
-//       activeColor="#9900CC"
-//       barStyle={{ backgroundColor: '#FFFFFF'}}
-//       screenOptions={({ route }) => ({
-//           tabBarIcon: ({ focused, color, size, padding }) => {
-//             let iconName;
-
-//             if (route.name === 'LuyenTap') {
-//               iconName = focused
-//                 ? 'home'
-//                 : 'home-outline';
-//             } 
-//             if (route.name === 'TuVung') {
-//               iconName = focused
-//                 ? 'home'
-//                 : 'home-outline';
-//             } 
-//             if (route.name === 'NguPhap') {
-//               iconName = focused
-//                 ? 'home'
-//                 : 'home-outline';
-//             } 
-//             if (route.name === 'aispeak') {
-//               iconName = focused
-//                 ? 'home'
-//                 : 'home-outline';
-//             } 
-//             else if (route.name === 'caidat') {
-//               iconName = focused ? 'book' : 'book';
-//             }
-
-//             return <Ionicons name={iconName} size={size} color={color} style={{paddingBottom: padding}} />;
-//           },
-//       //     tabBarActiveTintColor: 'tomato',
-//       //     tabBarInactiveTintColor: 'gray',
-//         })}
-//         tabBarOptions={{
-          
-//           ActiveTintColor: 'tomato',
-//           InactiveTintColor: 'gray',
-//           labelStyle:{fontSize:16},
-//         }}
-//     >
-//       <Tab.Screen
-//         name="LuyenTap"
-//         component={HomeScreen}
-//         options={{
-//           headerShown:false,
-//           tabBarLabel: 'Luyện Tập',
-//           tabBarOptions: { showIcon: true },
-//           tabBarBadge: 3,
-//         }}
-//       />
-
-//       <Tab.Screen
-//         name="TuVung"
-//         component={TuVungScreen}
-//         options={{
-//           tabBarLabel: 'Từ Vựng',
-//           // tabBarIcon: ({ color }) => (
-//           //   <MaterialCommunityIcons name="account" color={color} size={26} />
-//           // ),
-//         }}
+            if (route.name === 'LuyenTap') {
+              iconName = focused
+                ? 'home'
+                : 'home-outline';
+            } 
+            if (route.name === 'TuVung') {
+              iconName = focused
+                ? 'home'
+                : 'home-outline';
+            } 
+            if (route.name === 'NguPhap') {
+              iconName = focused
+                ? 'home'
+                : 'home-outline';
+            } 
+            if (route.name === 'aispeak') {
+              iconName = focused
+                ? 'home'
+                : 'home-outline';
+            } 
+            else if (route.name === 'caidat') {
+              iconName = focused ? 'book' : 'book';
+            }
+            return <Ionicons name={iconName} size={size} color={color} style={{paddingBottom: padding}} />;
+          },
+        })}
+        tabBarOptions={{
+          ActiveTintColor: 'tomato',
+          InactiveTintColor: 'gray',
+          labelStyle:{fontSize:16},
+        }}
+    >
+      <Tab.Screen
+        name="LuyenTap"
+        component={HomeScreen}
+        options={{
+          headerShown:false,
+          tabBarLabel: 'Luyện Tập',
+          tabBarOptions: { showIcon: true },
+          tabBarBadge: 3,
+        }}
+      />
+      <Tab.Screen
+        name="TuVung"
+        component={TuVungScreen}
+        options={{
+          tabBarLabel: 'Từ Vựng',
+        }}
         
-//       />
-//       <Tab.Screen
-//         name="NguPhap"
-//         component={NguPhapScreen}
-//         options={{
-//           tabBarLabel: 'Ngữ Pháp',
-//           // tabBarIcon: ({ color }) => (
-//           //   <MaterialCommunityIcons name="Profile" color={color} size={26} />
-//           // ),
-//         }}
-//       />
-//        <Tab.Screen
-//         name="aispeak"
-//         component={AIspeakScreen}
-//         options={{
-//           tabBarLabel: 'AI nói',
-//           // tabBarIcon: ({ color }) => (
-//           //   <MaterialCommunityIcons name="account" color={color} size={26} />
-//           // ),
-//         }}
+      />
+      <Tab.Screen
+        name="NguPhap"
+        component={NguPhapScreen}
+        options={{
+          tabBarLabel: 'Ngữ Pháp',
+        }}
+      />
+       <Tab.Screen
+        name="aispeak"
+        component={AIspeakScreen}
+        options={{
+          tabBarLabel: 'AI nói',
+        }}
         
-//       />
-//       <Tab.Screen
-//         name="caidat"
-//         component={SettingScreen}
-//         options={{
-//           headerShown:false,
-//           tabBarLabel: 'Cài Đặt',
-//           // tabBarIcon: ({ color }) => (
-//           //   <MaterialCommunityIcons name="account" color={color} size={26} />
-//           // ),
-//         }}
-//       />
-//     </Tab.Navigator>
-//   );
-// }
+      />
+      <Tab.Screen
+        name="caidat"
+        component={SettingScreen}
+        options={{
+          headerShown:false,
+          tabBarLabel: 'Cài Đặt',
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
 
-export default function AppStack() {
+  export default function AppStack() {
 
-  const Stack = createNativeStackNavigator();
+  const AppStack = createNativeStackNavigator();
 
   return (
-          <Stack.Navigator>
-            <Stack.Screen name="Home" component={HomeScreen}  options={{headerShown: false }} />
-            <Stack.Screen name="Part1" component = {Part1} options={{title:'Part 1'}}/>
-            <Stack.Screen name="Part2" component = {Part2} options={{title:'Part 2' }}/>
-            <Stack.Screen name="Part3" component = {Part3} options={{title:'Part 3' }}/>
-            <Stack.Screen name="Part4" component = {Part4} options={{title:'Part 4' }}/>
-            <Stack.Screen name="Part5" component = {Part5} options={{title:'Part 5' }}/>
-            <Stack.Screen name="Part6" component = {Part6} options={{title:'Part 6' }}/>
-            <Stack.Screen name="Part7" component = {Part7} options={{title:'Part 7' }}/>
-          </Stack.Navigator>
+          <AppStack.Navigator>
+            <AppStack.Screen name="Home" component={HomeStack}  options={{headerShown: false }} />
+            <AppStack.Screen name="Part1" component = {Part1} options={{title:'Part 1', backgroundColor: 'transparent',}}/>
+            <AppStack.Screen name="Part2" component = {Part2} options={{title:'Part 2' }}/>
+            <AppStack.Screen name="Part3" component = {Part3} options={{title:'Part 3' }}/>
+            <AppStack.Screen name="Part4" component = {Part4} options={{title:'Part 4' }}/>
+            <AppStack.Screen name="Part5" component = {Part5} options={{title:'Part 5' }}/>
+            <AppStack.Screen name="Part6" component = {Part6} options={{title:'Part 6' }}/>
+            <AppStack.Screen name="Part7" component = {Part7} options={{title:'Part 7' }}/>
+            <AppStack.Screen name="BoTuVung" component = {BoTuVung} options={{title:'600 Từ Vựng TOEIC',headerShown: false  }}/>
+            <AppStack.Screen name="ThiThu" component = {thithu} options={{title:'Thi Thử' }}/>
+          </AppStack.Navigator>
   );
 }

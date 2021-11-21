@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity,ScrollView,} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity,ScrollView,ImageBackground,SafeAreaView} from 'react-native';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
 import { useTheme } from '@react-navigation/native';
@@ -23,11 +23,15 @@ export default function SettingScreen() {
 
   ]
   return (
-    <View>
+     <ImageBackground 
+                      source = {require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')} 
+                      style={{width: '100%', height: '100%',}}>
+    <SafeAreaView style={styles.background}>
       <Text style={styles.caidattext}>
         Cài Đặt
       </Text>
-      <ScrollView style={styles.scrollView}>
+    </SafeAreaView> 
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
       {settingsOption.map(({title,subTitle,onPress},index)=> 
       <TouchableOpacity key={title} onPress={onPress}>
         <View style={{
@@ -42,7 +46,7 @@ export default function SettingScreen() {
         </View>
       </TouchableOpacity>)}
       </ScrollView>
-      </View>
+      </ImageBackground>
 
   );
 }
@@ -51,16 +55,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#CCFFFF'
   },
 
+  background: {
+        backgroundColor:'#6699FF',
+        width:390,
+        justifyContent:'center',
+        textAlign:'center',
+      },
   caidattext: {
-    paddingHorizontal:150,
-    paddingTop:15,
-    marginBottom:-50,
-    fontWeight: "bold",
-    fontFamily: "Cochin",
-    fontSize: 25, 
+        color: '#FFF',
+        marginLeft:150,
+        marginBottom:12,
+        paddingTop:20,
+        fontWeight: "bold",
+        fontFamily: "Cochin",
+        fontSize: 25,
   },
 
   Viewborder: {
@@ -69,7 +79,6 @@ const styles = StyleSheet.create({
     backgroundColor:'#adb5bd', 
   },
   scrollView: {
-    marginTop:50,
   },
   text: {
     fontSize: 20,

@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import FormButton from '../components/FormButton';
-import { AuthContext } from '../navigation/AuthProvider';
+import React from 'react';
+import { View, Text, StyleSheet,ImageBackground} from 'react-native';
 
 export default function AIspeakScreen() {
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>AI SPEAK</Text>
-    </View>
+     <ImageBackground 
+                      source = {require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')} 
+                      style={{width: '100%', height: '100%',}}>
+        <View style={styles.container}>
+          <Text>AIspeak</Text>
+        </View>
+      </ImageBackground>
   );
 }
 const styles = StyleSheet.create({
@@ -16,7 +17,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#CCFFFF'
   },
   text: {
     fontSize: 20,
