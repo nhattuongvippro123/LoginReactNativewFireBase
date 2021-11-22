@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet,ImageBackground,SafeAreaView, TouchableOpacity, Image, ScrollView} from 'react-native';
+import { HeaderBackButton, View, Text, StyleSheet,ImageBackground,SafeAreaView, TouchableOpacity, Image, ScrollView} from 'react-native';
 
 export default function Part1({navigation}) {
   return (
@@ -7,7 +7,7 @@ export default function Part1({navigation}) {
                       source = {require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')} 
                       style={{width: '100%', height: '100%',}}>
         <SafeAreaView style={styles.background}>
-          <Text style={styles.title}>600 Từ Vựng TOEIC</Text>
+            <Text style={styles.title}>600 Từ Vựng TOEIC</Text>
         </SafeAreaView>
         <ScrollView>
         
@@ -15,16 +15,16 @@ export default function Part1({navigation}) {
           <TouchableOpacity
           style = {{width:180,height:200,marginTop:20,marginLeft:10,}}
           activeOpacity={0.5}
-          onPress={() => navigation.navigate('Part1')}
+          onPress={() => navigation.navigate('hopdong')}
           >
-          <ImageBackground source={require("G:/LoginReactNativewFireBase/AITOEIC/assets/banner/Tuvung.png")} style={{}}>
+          <ImageBackground source={require("G:/LoginReactNativewFireBase/AITOEIC/assets/imagetuvung/contact.jpg")} style={{}}>
             <Text style={styles.tuvungtext}> Hợp Đồng </Text>
             <Text style={styles.sotu}> 12 Từ </Text>
           </ImageBackground>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style = {{width:180,height:200,marginTop:20,marginLeft:10,}}
+          style = {{width:180,height:200,marginTop:20,marginLeft:10,shadowOpacity: 1, shadowRadius: 1, elevation: 2,}}
           activeOpacity={0.5}
           onPress={() => navigation.navigate('Part1')}
           >

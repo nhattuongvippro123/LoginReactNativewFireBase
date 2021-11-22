@@ -20,6 +20,7 @@ export default function TuVungScreen({navigation}) {
             <Text style={styles.tuvungtext}>600 Từ Vựng TOEIC </Text>
           </ImageBackground>
         </TouchableOpacity>
+        <Text style={styles.text}>Từ Vựng Của Tôi</Text>
 
       </ImageBackground>
 
@@ -62,6 +63,11 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontFamily: "Cochin",
         fontSize: 25,
+        alignItems:"center",
+        justifyContent:"center",
+        shadowOpacity:0.2,
+        shadowRadius:15,
+        zIndex:10,
   },
 
     buttonImageIconStyle: {

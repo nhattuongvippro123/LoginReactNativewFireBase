@@ -15,6 +15,7 @@ import Part6 from '../screens/Part6';
 import Part7 from '../screens/Part7';
 import BoTuVung from '../screens/BoTuVung';
 import thithu from '../screens/thithu';
+import hopdong from '../screens/hopdong';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -122,8 +123,9 @@ const Tab = createMaterialBottomTabNavigator();
             <AppStack.Screen name="Part5" component = {Part5} options={{title:'Part 5' }}/>
             <AppStack.Screen name="Part6" component = {Part6} options={{title:'Part 6' }}/>
             <AppStack.Screen name="Part7" component = {Part7} options={{title:'Part 7' }}/>
-            <AppStack.Screen name="BoTuVung" component = {BoTuVung} options={{title:'600 Từ Vựng TOEIC',headerShown: false  }}/>
+            <AppStack.Screen name="BoTuVung" component = {BoTuVung} options={{title:'600 Từ Vựng TOEIC',headerShown: false, }}/>
             <AppStack.Screen name="ThiThu" component = {thithu} options={{title:'Thi Thử' }}/>
+            <AppStack.Screen name="hopdong" component = {hopdong} options={{title:'Hợp Đồng',headerShown: false,}}/>
           </AppStack.Navigator>
   );
 }

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet,ImageBackground} from 'react-native';
 
 export default function thithu() {
   return (
-     <ImageBackground 
+      <ImageBackground 
                       source = {require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')} 
                       style={{width: '100%', height: '100%',}}>
         <View style={styles.container}>
