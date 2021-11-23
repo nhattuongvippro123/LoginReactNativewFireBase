@@ -1,7 +1,7 @@
 import React from 'react';
 import { HeaderBackButton, View, Text, StyleSheet,ImageBackground,SafeAreaView, TouchableOpacity, Image, ScrollView} from 'react-native';
 
-export default function Part1({navigation}) {
+export default function BoTuVung({navigation}) {
   return (
        <ImageBackground 
                       source = {require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')} 
@@ -26,7 +26,7 @@ export default function Part1({navigation}) {
         <TouchableOpacity
           style = {{width:180,height:200,marginTop:20,marginLeft:10,shadowOpacity: 1, shadowRadius: 1, elevation: 2,}}
           activeOpacity={0.5}
-          onPress={() => navigation.navigate('Part1')}
+          onPress={() => navigation.navigate('hopdong')}
           >
           <ImageBackground source={require("G:/LoginReactNativewFireBase/AITOEIC/assets/banner/Tuvung.png")} style={{}}>
             <Text style={styles.tuvungtext}> Hợp Đồng </Text>

@@ -1,6 +1,7 @@
 import React,{useState, useEffect, useContext }from 'react';
 import database from '@react-native-firebase/database';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 // import firebase from '../firebase/config';
 
 import { Flatlist, Image, TouchableOpacity, View, Text, StyleSheet,ImageBackground, SafeAreaView} from 'react-native';
@@ -15,7 +16,8 @@ export default function hopdong() {
         .then(data => {
         console.log('Total tuvung', data.size);
         data.forEach(doc => {
-        console.log('User ID: ', doc.id, doc.data());
+        
+        console.log('TuVungSo: ', doc.id, doc.data());
         // var value = data._data;
         sethopdong(doc.data());
     });
@@ -26,6 +28,7 @@ export default function hopdong() {
 
     useEffect(() => {
         gettuvung()
+        console.log(HopDong.image[0]);
     }, []);
 
     return (
@@ -39,17 +42,22 @@ export default function hopdong() {
             <TouchableOpacity
                     style = {{flex:1, flexDirection:'row',marginBottom:3,}}
                     activeOpacity={0.5}
-                    onPress={() => navigation.navigate('BoTuVung')}
                     >
-                {/* <Image style= {{width:80,height:80,margin:5}}
-                    source= {{uri:item.image}}/> */}
+
                 <View style= {{flex:1, justifyContent:'center', marginLeft:5,}}>
                         <Text style={{fontSize:18, color:'green', marginBottom:15,}}>
-                            {HopDong.Name}
+                            {HopDong.name}
                         </Text>
                         <Text style={{fontSize:16, color:'red',}}>
                             {HopDong.phienam}
+                            {HopDong.giaithich}
+                            {HopDong.nghia}
+                            {HopDong.tuloai}
+                            {HopDong.vdta}
+                            {HopDong.vdtv}
                         </Text>
+                        <Image style= {{width:80,height:80,margin:5}}
+                       source= {{uri:HopDong.image[0]}}/>
                 </View>
             </TouchableOpacity>
         </ImageBackground>
