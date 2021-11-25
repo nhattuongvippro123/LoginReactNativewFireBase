@@ -5,7 +5,6 @@ import storage from '@react-native-firebase/storage';
 import Sound from 'react-native-sound';
 import dings from '../assets/audio/abide.mp3';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { Modalize } from 'react-native-modalize';
 import Modal from "react-native-modal";
 
 // import firebase from '../firebase/config';
