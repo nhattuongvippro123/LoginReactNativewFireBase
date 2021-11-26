@@ -19,6 +19,27 @@ import hopdong from '../screens/hopdong';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import coban from '../screens/coban';
+import thongdung from '../screens/thongdung';
+import { useSafeAreaInsets} from 'react-native-safe-area-context';
+
+function tobtab() {
+  const tobtab = createMaterialTopTabNavigator();
+  const insets = useSafeAreaInsets();
+  return (
+      <tobtab.Navigator
+        initialRouteName="NguPhap"
+        ScreenOptions={{
+          ActiveTintColor:"#FFFFFF",
+          labelStyle:{ fontSize:17},
+          style:{backgroundColor:'#6699FF', marginTop: insets.top}
+        }}>
+      <tobtab.Screen name="coban" component={coban} options={{ tabBarLabel:'Cơ Bản'}}/>
+      <tobtab.Screen name="thongdung" component={thongdung} options={{ tabBarLabel:'Thông Dụng'}} />
+    </tobtab.Navigator>
+  );
+}
 
 
 function HomeStack() {
@@ -26,7 +47,7 @@ const Tab = createMaterialBottomTabNavigator();
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      activeColor="#9900CC"
+      activeColor="#6699FF"
       barStyle={{ backgroundColor: '#FFFFFF'}}
       screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size, padding }) => {
@@ -58,11 +79,6 @@ const Tab = createMaterialBottomTabNavigator();
             return <Ionicons name={iconName} size={size} color={color} style={{paddingBottom: padding}} />;
           },
         })}
-        tabBarOptions={{
-          ActiveTintColor: 'tomato',
-          InactiveTintColor: 'gray',
-          labelStyle:{fontSize:16},
-        }}
     >
       <Tab.Screen
         name="LuyenTap"
@@ -84,7 +100,7 @@ const Tab = createMaterialBottomTabNavigator();
       />
       <Tab.Screen
         name="NguPhap"
-        component={NguPhapScreen}
+        component={tobtab}
         options={{
           tabBarLabel: 'Ngữ Pháp',
         }}
@@ -108,6 +124,8 @@ const Tab = createMaterialBottomTabNavigator();
     </Tab.Navigator>
   );
 }
+
+
 
   export default function AppStack() {
 
