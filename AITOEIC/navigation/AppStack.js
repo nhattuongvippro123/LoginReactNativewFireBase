@@ -16,6 +16,7 @@ import Part7 from '../screens/Part7';
 import BoTuVung from '../screens/BoTuVung';
 import thithu from '../screens/thithu';
 import hopdong from '../screens/hopdong';
+import p1 from '../screens/detailsnguphap/p1';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -100,7 +101,7 @@ const Tab = createMaterialBottomTabNavigator();
       />
       <Tab.Screen
         name="NguPhap"
-        component={tobtab}
+        component={NguPhapScreen}
         options={{
           tabBarLabel: 'Ngữ Pháp',
         }}
@@ -144,6 +145,7 @@ const Tab = createMaterialBottomTabNavigator();
             <AppStack.Screen name="BoTuVung" component = {BoTuVung} options={{title:'600 Từ Vựng TOEIC',headerShown: false, }}/>
             <AppStack.Screen name="ThiThu" component = {thithu} options={{title:'Thi Thử' }}/>
             <AppStack.Screen name="hopdong" component = {hopdong} options={{title:'Hợp Đồng',headerShown: false,}}/>
+             <AppStack.Screen name="p1" component = {p1} options={{title:'Cấu trúc thành phần một câu' }}/>
           </AppStack.Navigator>
   );
 }

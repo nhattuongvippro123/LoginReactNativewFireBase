@@ -1,20 +1,35 @@
 import React from 'react';
-import { SafeAreaView, View, Text, StyleSheet,ImageBackground} from 'react-native';
-
-
+import { SafeAreaView, View, Text, StyleSheet,ImageBackground,useWindowDimensions} from 'react-native';
+import { TabView, SceneMap } from 'react-native-tab-view';
+import coban from "../screens/coban";
+import thongdung from "../screens/thongdung";
 
 export default function NguPhapScreen(navigation) {
 
+const renderScene = SceneMap({
+  first: coban,
+  second: thongdung,
+});
+
+  const layout = useWindowDimensions();
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'first', title: 'Cơ Bản' },
+    { key: 'second', title: 'Thông Dụng' },
+  ]);
   return (
      <ImageBackground 
                       source = {require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')} 
                       style={{width: '100%', height: '100%',}}>
           <SafeAreaView style={styles.background}>
             <Text style={styles.title}>Ngữ Pháp</Text>
-          </SafeAreaView>         
-        <View style={styles.container}>
-          <Text>s</Text>
-        </View>
+          </SafeAreaView>
+           <TabView
+              navigationState={{ index, routes }}
+              renderScene={renderScene}
+              onIndexChange={setIndex}
+              initialLayout={{ width: layout.width }}
+            />
       </ImageBackground>
   );
 }

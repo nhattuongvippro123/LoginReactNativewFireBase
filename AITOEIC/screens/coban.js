@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
-import { ScrollView,SafeAreaView, View, Text, StyleSheet,ImageBackground,TouchableOpacity,} from 'react-native';
-
+import {ScrollView,SafeAreaView, View, Text, StyleSheet,ImageBackground,TouchableOpacity,} from 'react-native';
+import { useNavigation} from '@react-navigation/native';
 export default function coban(navigation) {
 
-  const settingsOption =[
-        {title: "Cấu trúc chung của một câu",subTitle:"1", onPress:() => {}},
+  navigation = useNavigation();
+
+  const settingsOption= [
+        {title: "Cấu trúc chung của một câu",subTitle:"1", onPress:()=> {navigation.navigate('p1')}},
         {title: "Noun phrase (ngữ danh từ)",subTitle:"2", onPress:() => {}},
         {title: "Verb phrase (ngữ động từ)",subTitle:"3", onPress:() => {}},
         {title: "Sự hòa hợp giữa chủ ngữ và động từ",subTitle:"4", onPress:() => {}},
