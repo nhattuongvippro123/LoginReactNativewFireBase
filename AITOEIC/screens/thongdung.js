@@ -3,19 +3,20 @@ import { ScrollView,SafeAreaView, View, Text, StyleSheet,ImageBackground,Touchab
 
 export default function thongdung(navigation) {
   const settingsOption =[
-        {title: "Cấu trúc chung của một câu",subTitle:"1", onPress:() => {}},
-        {title: "Noun phrase (ngữ danh từ)",subTitle:"2", onPress:() => {}},
-        {title: "Verb phrase (ngữ động từ)",subTitle:"3", onPress:() => {}},
-        {title: "Sự hòa hợp giữa chủ ngữ và động từ",subTitle:"4", onPress:() => {}},
-        {title: "Đại từ",subTitle:"5", onPress:() => {}},
-        {title: "Tân ngữ (complement / object) và các vấn đề liên quan",subTitle:"6", onPress:() => {}},
-        {title: "Một số động từ đặc biệt( need, dare, to be, get)",subTitle:"7", onPress:() => {}},
-        {title: "Câu hỏi",subTitle:"8", onPress:() => {}},
-        {title: "Lối nói phụ họa",subTitle:"9", onPress:() => {}},
-        {title: "Câu phủ định(negation)",subTitle:"10", onPress:() => {}},
-        {title: "Câu mệnh lệnh",subTitle:"11", onPress:() => {}},
-        {title: "Các trợ động từ(Modal Auxiliaries)",subTitle:"12", onPress:() => {}},
-        {title: "Câu điều kiện",subTitle:"13", onPress:() => {}},
+        {title: "Present simple",subTitle:"1", onPress:() => {}},
+        {title: "Present continuous",subTitle:"2", onPress:() => {}},
+        {title: "Present continuous and present simple (1)",subTitle:"3", onPress:() => {}},
+        {title: "Present continuous and present simple (2)",subTitle:"4", onPress:() => {}},
+        {title: "Past simple",subTitle:"5", onPress:() => {}},
+        {title: "Past continuous",subTitle:"6", onPress:() => {}},
+        {title: "Present perfect (1)",subTitle:"7", onPress:() => {}},
+        {title: "Present perfect (2)",subTitle:"8", onPress:() => {}},
+        {title: "Present perfect continuous",subTitle:"9", onPress:() => {}},
+        {title: "Present perfect continuous and simple",subTitle:"10", onPress:() => {}},
+        {title: "How long have you been ?",subTitle:"11", onPress:() => {}},
+        {title: "When? How long? For and Since",subTitle:"12", onPress:() => {}},
+        {title: "Present perfect and past (1)",subTitle:"13", onPress:() => {}},
+        {title: "Present perfect and past (2)",subTitle:"14", onPress:() => {}},
         ]
 
   return (
