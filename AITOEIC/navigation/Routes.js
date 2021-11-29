@@ -20,7 +20,7 @@ export default function Routes() {
     setTimeout(() => {
      const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
      return subscriber; // unsubscribe on unmount
-    }, 3000);
+    }, 1000);
   }, []);
   if (loading) {
     return (

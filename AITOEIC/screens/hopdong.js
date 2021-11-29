@@ -10,7 +10,7 @@ import Modal from "react-native-modal";
 import { TouchableWithoutFeedback,Dimensions,ScrollView, Animated,Flatlist, Image, TouchableOpacity, View, Text, StyleSheet,ImageBackground, SafeAreaView} from 'react-native';
 
 export default function hopdong() {
-    const [HopDong, sethopdong] = useState("")  
+    const [HopDong, sethopdong] = useState('')  
     const [isModalVisible, setModalVisible] = useState(true);
 
     const toggleModal = () => {
@@ -20,16 +20,12 @@ export default function hopdong() {
     const gettuvung = async ()=> {
         const favor = await firestore()
         .collection('HopDong')
+        .doc('1')
         .get()
-        .then(data => {
-        console.log('Total tuvung', data.size);
-        data.forEach(doc => {
-        
-        console.log('TuVungSo: ', doc.id, doc.data());
-        // var value = data._data;
-        sethopdong(doc.data());
-    });
-  });
+         .then(documentSnapshot => {
+          console.log('data:', documentSnapshot.data());
+          sethopdong(documentSnapshot.data());
+      });
     }
 
         useEffect(() => {
