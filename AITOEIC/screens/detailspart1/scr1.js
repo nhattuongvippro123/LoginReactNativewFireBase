@@ -11,13 +11,21 @@ export default function scr1() {
 
     const [correctcount, setCorrectCount] = useState(0);
     const [incorrectcount, setInCorrectCount] = useState(0);
-    const [score, setScore] = useState(0);
-    const [gameOver, setGameOver] = useState(true);
+    const [over, setOver] = useState(false);
     const [TOTAL_QUESTION] = useState(10);
-    const [option, setOption] = useState([])
+    const [optiondata, setOptionData] = useState([])
     const [images, setImages] = useState('')
-    const [ispressed, setIsPressed] = useState(false)
+    const [totaldata, setTotalData] = useState('')
+    const [ispressedA, setIsPressedA] = useState(false)
+    const [ispressedB, setIsPressedB] = useState(false)
+    const [ispressedC, setIsPressedC] = useState(false)
+    const [ispressedD, setIsPressedD] = useState(false)
 
+    const getOptionColor = (ispressed) => {
+        if(ispressed == true){
+            
+        }
+    }
     const shuffleArray = (array) => {
         for (let i = array.length-1; i>0;i--){
             let j = Math.floor(Math.random()*(i+1));
@@ -38,14 +46,16 @@ export default function scr1() {
         .doc('1')
         .get()
         .then(data => {
-            const option = data.data();
-            console.log(option)
-            option.allOptions = shuffleArray([
-            ...option.incorrect_answer,option.correct_answer,
+            const optiondata = data.data();
+            optiondata.allOptions = shuffleArray([
+            ...optiondata.options
             ]);
-            tempoption.push(option);
-            setOption([...tempoption]);
-            setImages(option);
+            tempoption.push(optiondata);
+            console.log([...tempoption]);
+            setOptionData([...tempoption]);
+            setImages(optiondata);
+            setTotalData(optiondata);
+            console.log('Tongdata:',totaldata);
         });
 
         
@@ -71,41 +81,111 @@ export default function scr1() {
                     </View>
                     
                     <View style={{marginTop:20,marginLeft:10}}>
-                    <TouchableHighlight style = {[styles.buttona,]}
-                                    activeOpacity={0.5}
-                                    onPress={() => { console.log('PressedA') }}
-                                    >
-                            <Text style={{justifyContent:'center',alignItems:'center',fontSize:20,}}>
-                                A
-                            </Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight style = {{marginBottom:10,padding:5,justifyContent:'center',alignItems:'center',backgroundColor:'#FFFC',borderWidth: 1,
-                        borderColor: "#20232a",borderRadius:40,height:60,width:60,}}
-                                    activeOpacity={0.5}
-                                    underlayColor="red"
-                                    onPress={() => { console.log('PressedB') }}
-                                    >
-                            <Text style={{justifyContent:'center',alignItems:'center',fontSize:20,}}>
-                                B
-                            </Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight style = {[styles.buttona, ispressed ? { backgroundColor: "#33FF99" } : {}]}
+                    {/* {option.allOption.map(({option},index)=> 
+                    <TouchableOpacity 
+                        key={index} 
+                        style = {styles.buttona} 
+                        onPress={() =>{
+                            if (option.selectedOption){
+                                return null;    
+                            }
+                            if (option == option.correct_answer){
+
+                                setCorrectCount(correctcount+1)
+
+                            }
+                            else{
+                                setInCorrectCount(incorrectcount+1)
+                                backgroundColor: "#33FF99"
+                            }
+                        }}>
+                        <View style={{
+                        paddingHorizontal:20,
+                        paddingBottom:20,
+                        paddingTop:20,}}>
+
+                        </View>
+                    </TouchableOpacity>)} */}
+                    
+                    <TouchableHighlight
+                                    style = {[styles.buttona,ispressedA ? { backgroundColor: "red" } : {}]}
                                     activeOpacity={0.5}
                                     underlayColor='#00000000'
-                                    onShowUnderlay={() => {setIsPressed(true)}}
-                                    onPress={() => { console.log('PressedC') }}
+                                    onShowUnderlay={() => {setIsPressedA(true)}}
+                                    onPress={() => {   console.log('PressedA');
+                                                       if(totaldata.optionA == totaldata.correct_answer){
+                                                           console.log('Right') ;                                             
+                                                           setCorrectCount(correctcount+1);
+                                                           console.log('correctcount: ',correctcount);      
+                                                       }else{
+                                                           console.log('wrong');
+                                                           setInCorrectCount(incorrectcount+1);
+                                                           console.log('sai: ',incorrectcount);
+                                                       }
+                                                       }}
                                     >
                             <Text style={{justifyContent:'center',alignItems:'center',fontSize:20,}}>
-                                C
+                                {totaldata.optionA}
                             </Text>
                     </TouchableHighlight>
-                    <TouchableHighlight style = {{marginBottom:10,padding:5,justifyContent:'center',alignItems:'center',backgroundColor:'#FFFC',borderWidth: 1,
-                        borderColor: "#20232a",borderRadius:40,height:60,width:60,}}
+                    <TouchableHighlight style = {[styles.buttona,ispressedB ? { backgroundColor: "red" } : {}]}
                                     activeOpacity={0.5}
-                                    onPress={() => { console.log('PressedD') }}
+                                    underlayColor='#00000000'
+                                    onShowUnderlay={() => {setIsPressedB(true)}}
+                                    onPress={() => {   console.log('PressedB');
+                                                        if(totaldata.optionB == totaldata.correct_answer){
+                                                            console.log('Right') ;                                             
+                                                            setCorrectCount(correctcount+1);
+                                                            console.log('correctcount: ',correctcount);      
+                                                        }else{
+                                                            console.log('wrong');
+                                                            setInCorrectCount(incorrectcount+1);
+                                                            console.log('sai: ',incorrectcount);
+                                                        }
+                                                        }}
                                     >
                             <Text style={{justifyContent:'center',alignItems:'center',fontSize:20,}}>
-                                D
+                                {totaldata.optionB}
+                            </Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight style = {[styles.buttona, ispressedC ? { backgroundColor: "#33FF99" } : {}]}
+                                    activeOpacity={0.5}
+                                    underlayColor='#00000000'
+                                    onShowUnderlay={() => {setIsPressedC(true)}}
+                                    onPress={() => {   console.log('PressedC');
+                                                       if(totaldata.optionC == totaldata.correct_answer){
+                                                           console.log('Right') ;                                             
+                                                           setCorrectCount(correctcount+1);
+                                                           console.log('correctcount: ',correctcount);      
+                                                       }else{
+                                                           console.log('wrong');
+                                                           setInCorrectCount(incorrectcount+1);
+                                                           console.log('sai: ',incorrectcount);
+                                                       }
+                                                       }}
+                                    >
+                            <Text style={{justifyContent:'center',alignItems:'center',fontSize:20,}}>
+                                {totaldata.optionC}
+                            </Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight style = {[styles.buttona,ispressedD ? { backgroundColor: "red" } : {}]}
+                                    activeOpacity={0.5}
+                                    underlayColor='#00000000'
+                                    onShowUnderlay={() => {setIsPressedD(true)}}
+                                    onPress={() => {   console.log('PressedD');
+                                                       if(totaldata.optionD == totaldata.correct_answer){
+                                                           console.log('Right') ;                                             
+                                                           setCorrectCount(correctcount+1);
+                                                           console.log('dung: ',correctcount);      
+                                                       }else{
+                                                           console.log('wrong');
+                                                           setInCorrectCount(incorrectcount+1);
+                                                           console.log('sai: ',incorrectcount);
+                                                       }
+                                                       }}
+                                    >
+                            <Text style={{justifyContent:'center',alignItems:'center',fontSize:20,}}>
+                                {totaldata.optionD}
                             </Text>
                     </TouchableHighlight>
                         
