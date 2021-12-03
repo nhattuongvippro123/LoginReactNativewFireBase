@@ -23,8 +23,8 @@ export default function scr1() {
     const [ispressedC, setIsPressedC] = useState('')
     const [ispressedD, setIsPressedD] = useState('')
     const [correctA, setCorrectA] = useState(false)
-
-
+    const [selected,setSelected] = useState()
+    const [flag,setFlag] = useState(false)
     const handleSelection = () => {
         
     }
@@ -62,11 +62,11 @@ export default function scr1() {
             ...optiondata.options
             ]);
             tempoption.push(optiondata);
-            console.log('Da xao tron:',[...tempoption]);
+            // console.log('Da xao tron:',[...tempoption]);
             setOptionData([...tempoption]);
             setImages(optiondata);
             setTotalData(optiondata);
-            console.log('Tongdata:',totaldata);
+            // console.log('Tongdata:',optiondata);
         });
 
         
@@ -74,7 +74,15 @@ export default function scr1() {
     useEffect(() => {
         getoption()
     }, [])
-
+    const handleAnswer = (item,index) =>{
+        console.log(optiondata[0].correct_answer)
+        console.log(item);
+            setSelected(index)
+            setFlag(false)
+        if(item == optiondata[0].correct_answer){
+            setFlag(true)
+        }
+    }
     // let randomoption = totaldata.allOptions[Math.floor(Math.random() * totaldata.allOptions.length)]
 
     return (
@@ -118,7 +126,25 @@ export default function scr1() {
                         </View>
                     </TouchableOpacity>)} */}
                     
-                    <TouchableHighlight
+                    {optiondata[0]?.allOptions?.map((item,index)=>{
+                        return(
+                            <TouchableHighlight 
+                            key={index}
+                                    style = {[styles.buttona,selected == index ? {backgroundColor: flag == true ? "green" : "red"} :{}]}
+                                    activeOpacity={0.5}
+                                    underlayColor='#00000000'
+                                    onPress={()=>handleAnswer(item,index)}
+                                    >
+                            <Text style={{justifyContent:'center',alignItems:'center',fontSize:20,
+                            
+                            }}>
+                                {item}
+                            </Text>
+                    </TouchableHighlight>
+                        )
+                    })}
+                    
+                    {/* <TouchableHighlight
                                     style = {[styles.buttona,ispressedA ? {backgroundColor:getOptionColor()} :{}]}
                                     activeOpacity={0.5}
                                     underlayColor='#00000000'
@@ -206,7 +232,7 @@ export default function scr1() {
                             <Text style={{justifyContent:'center',alignItems:'center',fontSize:20,}}>
                                 {totaldata.optionD}
                             </Text>
-                    </TouchableHighlight>
+                    </TouchableHighlight> */}
                         
                     </View>
                 </View>
