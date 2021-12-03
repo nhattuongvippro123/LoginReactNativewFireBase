@@ -135,7 +135,6 @@ const Tab = createMaterialBottomTabNavigator();
 
   return (
           <AppStack.Navigator>
-            <AppStack.Screen name="scr1" component = {scr1} options={{title:'scr1' }}/>
             <AppStack.Screen name="Home" component={HomeStack}  options={{headerShown: false }} />
             <AppStack.Screen name="Part1" component = {Part1} options={{title:'Mô tả hình ảnh',backgroundColor: 'transparent',}}/>
             <AppStack.Screen name="Part2" component = {Part2} options={{title:'Part 2' }}/>
@@ -148,7 +147,7 @@ const Tab = createMaterialBottomTabNavigator();
             <AppStack.Screen name="ThiThu" component = {thithu} options={{title:'Thi Thử' }}/>
             <AppStack.Screen name="hopdong" component = {hopdong} options={{title:'Hợp Đồng',headerShown: false,}}/>
             <AppStack.Screen name="p1" component = {p1} options={{title:'Cấu trúc thành phần một câu' }}/>
-            {/* <AppStack.Screen name="scr1" component = {scr1} options={{title:'scr1' }}/>  */}
+            <AppStack.Screen name="scr1" component = {scr1} options={{title:'scr1' }}/>
           </AppStack.Navigator>
   );
 }
