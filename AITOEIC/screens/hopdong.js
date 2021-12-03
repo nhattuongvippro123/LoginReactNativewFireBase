@@ -10,7 +10,8 @@ import Modal from "react-native-modal";
 import { TouchableWithoutFeedback,Dimensions,ScrollView, Animated,Flatlist, Image, TouchableOpacity, View, Text, StyleSheet,ImageBackground, SafeAreaView} from 'react-native';
 
 export default function hopdong() {
-    const [HopDong, sethopdong] = useState('')  
+    const [HopDong, sethopdong] = useState('');  
+    const [isAudio, setAudio] = useState(""); 
     const [isModalVisible, setModalVisible] = useState(true);
 
     const toggleModal = () => {
@@ -25,6 +26,7 @@ export default function hopdong() {
          .then(documentSnapshot => {
           console.log('data:', documentSnapshot.data());
           sethopdong(documentSnapshot.data());
+          setAudio(documentSnapshot.data().audiotv);
       });
     }
 
@@ -32,11 +34,12 @@ export default function hopdong() {
         gettuvung()
         docaudio()
         }, []);
-
           
           var Sound = require('react-native-sound')
-          var audiofb = HopDong.audiotv;
-          const audioo = new Sound(audiofb,(error) => {        
+          // var audiofb = HopDong.audiotv;
+          console.log(isAudio + " hd:  ");
+          const audioo = new Sound(isAudio, null,(error) => {    
+            //  console.log("hd:"+error);    
           if (error) {
           console.log('failed to load the sound', error);
           return;

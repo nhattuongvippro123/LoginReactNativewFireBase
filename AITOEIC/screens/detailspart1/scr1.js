@@ -6,25 +6,36 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import { Text,Header } from 'react-native-elements';
 import { useNavigation} from '@react-navigation/native';
+import COLORSS from './colors';
+
 
 export default function scr1() {
 
-    const [correctcount, setCorrectCount] = useState(0);
-    const [incorrectcount, setInCorrectCount] = useState(0);
+    const [correctcount, setCorrectCount] = useState(1);
+    const [incorrectcount, setInCorrectCount] = useState(1);
     const [over, setOver] = useState(false);
     const [TOTAL_QUESTION] = useState(10);
     const [optiondata, setOptionData] = useState([])
     const [images, setImages] = useState('')
     const [totaldata, setTotalData] = useState('')
     const [ispressedA, setIsPressedA] = useState(false)
-    const [ispressedB, setIsPressedB] = useState(false)
-    const [ispressedC, setIsPressedC] = useState(false)
-    const [ispressedD, setIsPressedD] = useState(false)
+    const [ispressedB, setIsPressedB] = useState('')
+    const [ispressedC, setIsPressedC] = useState('')
+    const [ispressedD, setIsPressedD] = useState('')
+    const [correctA, setCorrectA] = useState(false)
 
-    const getOptionColor = (ispressed) => {
-        if(ispressed == true){
-            
-        }
+
+    const handleSelection = () => {
+        
+    }
+    const getOptionColor = () => {
+        if(correctA){
+            let backgroundColor: "#33FF99";
+            return backgroundColor
+        }else{
+            let backgroundColor: "#EE2C2C";
+            return backgroundColor
+            }
     }
     const shuffleArray = (array) => {
         for (let i = array.length-1; i>0;i--){
@@ -51,7 +62,7 @@ export default function scr1() {
             ...optiondata.options
             ]);
             tempoption.push(optiondata);
-            console.log([...tempoption]);
+            console.log('Da xao tron:',[...tempoption]);
             setOptionData([...tempoption]);
             setImages(optiondata);
             setTotalData(optiondata);
@@ -64,7 +75,7 @@ export default function scr1() {
         getoption()
     }, [])
 
-
+    // let randomoption = totaldata.allOptions[Math.floor(Math.random() * totaldata.allOptions.length)]
 
     return (
         <ImageBackground 
@@ -108,39 +119,43 @@ export default function scr1() {
                     </TouchableOpacity>)} */}
                     
                     <TouchableHighlight
-                                    style = {[styles.buttona,ispressedA ? { backgroundColor: "red" } : {}]}
+                                    style = {[styles.buttona,ispressedA ? {backgroundColor:getOptionColor()} :{}]}
                                     activeOpacity={0.5}
                                     underlayColor='#00000000'
-                                    onShowUnderlay={() => {setIsPressedA(true)}}
-                                    onPress={() => {   console.log('PressedA');
-                                                       if(totaldata.optionA == totaldata.correct_answer){
-                                                           console.log('Right') ;                                             
-                                                           setCorrectCount(correctcount+1);
-                                                           console.log('correctcount: ',correctcount);      
-                                                       }else{
-                                                           console.log('wrong');
-                                                           setInCorrectCount(incorrectcount+1);
-                                                           console.log('sai: ',incorrectcount);
-                                                       }
-                                                       }}
+                                    onPress={() => {    console.log('PressedA');                                                       
+                                                        if(totaldata.allOptions[0] == totaldata.correct_answer){
+                                                            console.log('Right') ;                                             
+                                                            setCorrectCount(correctcount+1);
+                                                            setIsPressedA(true);
+                                                            setCorrectA(true);
+                                                            console.log('dem cau dung:  ',correctcount);                                                                 
+                                                        }else{
+                                                            console.log('wrong');
+                                                            setInCorrectCount(incorrectcount+1);
+                                                            console.log('dem cau sai: ',incorrectcount);
+                                                            setIsPressedA(null);
+                                                        }
+                                                        }}
                                     >
                             <Text style={{justifyContent:'center',alignItems:'center',fontSize:20,}}>
                                 {totaldata.optionA}
                             </Text>
                     </TouchableHighlight>
-                    <TouchableHighlight style = {[styles.buttona,ispressedB ? { backgroundColor: "red" } : {}]}
+                    <TouchableHighlight style = {[styles.buttona,ispressedB ? { backgroundColor: "#33FF99" } : {}]}
                                     activeOpacity={0.5}
                                     underlayColor='#00000000'
                                     onShowUnderlay={() => {setIsPressedB(true)}}
                                     onPress={() => {   console.log('PressedB');
-                                                        if(totaldata.optionB == totaldata.correct_answer){
+                                                        if(totaldata.allOptions[1] == totaldata.correct_answer){
                                                             console.log('Right') ;                                             
                                                             setCorrectCount(correctcount+1);
-                                                            console.log('correctcount: ',correctcount);      
+                                                            console.log('correctcount: ',correctcount); 
+                                                            setIsPressedB(true);     
                                                         }else{
                                                             console.log('wrong');
                                                             setInCorrectCount(incorrectcount+1);
                                                             console.log('sai: ',incorrectcount);
+                                                            setIsPressedB(null);
                                                         }
                                                         }}
                                     >
@@ -148,19 +163,21 @@ export default function scr1() {
                                 {totaldata.optionB}
                             </Text>
                     </TouchableHighlight>
-                    <TouchableHighlight style = {[styles.buttona, ispressedC ? { backgroundColor: "#33FF99" } : {}]}
+                    <TouchableHighlight style = {[styles.buttona,ispressedC ? { backgroundColor: "#33FF99" } : {}]}
                                     activeOpacity={0.5}
                                     underlayColor='#00000000'
                                     onShowUnderlay={() => {setIsPressedC(true)}}
                                     onPress={() => {   console.log('PressedC');
-                                                       if(totaldata.optionC == totaldata.correct_answer){
+                                                       if(totaldata.allOptions[2] == totaldata.correct_answer){
                                                            console.log('Right') ;                                             
                                                            setCorrectCount(correctcount+1);
-                                                           console.log('correctcount: ',correctcount);      
+                                                           console.log('correctcount: ',correctcount);
+                                                           setIsPressedC(true); 
                                                        }else{
                                                            console.log('wrong');
                                                            setInCorrectCount(incorrectcount+1);
                                                            console.log('sai: ',incorrectcount);
+                                                           setIsPressedC(null);
                                                        }
                                                        }}
                                     >
@@ -168,19 +185,21 @@ export default function scr1() {
                                 {totaldata.optionC}
                             </Text>
                     </TouchableHighlight>
-                    <TouchableHighlight style = {[styles.buttona,ispressedD ? { backgroundColor: "red" } : {}]}
+                    <TouchableHighlight style = {[styles.buttona,ispressedD ? { backgroundColor: "#33FF99" } : {}]}
                                     activeOpacity={0.5}
                                     underlayColor='#00000000'
                                     onShowUnderlay={() => {setIsPressedD(true)}}
                                     onPress={() => {   console.log('PressedD');
-                                                       if(totaldata.optionD == totaldata.correct_answer){
+                                                       if(totaldata.allOptions[3] == totaldata.correct_answer){
                                                            console.log('Right') ;                                             
                                                            setCorrectCount(correctcount+1);
-                                                           console.log('dung: ',correctcount);      
+                                                           console.log('dung: ',correctcount);
+                                                           setIsPressedD(true)    
                                                        }else{
                                                            console.log('wrong');
                                                            setInCorrectCount(incorrectcount+1);
                                                            console.log('sai: ',incorrectcount);
+                                                           setIsPressedD(false)
                                                        }
                                                        }}
                                     >
