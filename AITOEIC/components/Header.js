@@ -1,10 +1,11 @@
 import React from 'react';
-import { Text, SafeAreaView, StyleSheet } from 'react-native';
-export default function Header() {
+import { Text, SafeAreaView, StyleSheet,View } from 'react-native';
+const  Header = (props)=> {
+  const {style} = props
   return (
-    <SafeAreaView style={styles.background}>
-    <Text style={styles.title}>AITOEIC</Text>
-    </SafeAreaView>
+    <View style={(styles.background, style)}>
+      {props.children}
+    </View>
   );
 }
 const styles = StyleSheet.create({
@@ -13,6 +14,7 @@ const styles = StyleSheet.create({
         width:390,
         justifyContent:'center',
         textAlign:'center',
+        height:100
       },
     title: {
         color: '#FFF',
@@ -24,3 +26,4 @@ const styles = StyleSheet.create({
         fontSize: 25,
   },
   });
+  export default  Header;
