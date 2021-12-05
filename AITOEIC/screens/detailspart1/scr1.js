@@ -3,20 +3,28 @@ import {
   View,
   StyleSheet,
   ImageBackground,
-  Image,
   TouchableHighlight,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import database from '@react-native-firebase/database';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import {Text, Icon} from 'react-native-elements';
+import {Text, Icon, Image} from 'react-native-elements';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {COLORS} from './colors';
 import Header from './../../components/Header';
+import {ActivityIndicator} from 'react-native';
+import AwesomeAlert from 'react-native-awesome-alerts';
+import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
+import Loading from './../../components/Loading';
 
 const scr1 = (navigation) => {
+  navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
+  const [isAudio, setAudio] = useState('');
+  const [Alert, setShowAlert] = useState(false);
   const [correctcount, setCorrectCount] = useState(1);
   const [incorrectcount, setInCorrectCount] = useState(1);
   const [over, setOver] = useState(false);
@@ -24,58 +32,53 @@ const scr1 = (navigation) => {
   const [optiondata, setOptionData] = useState([]);
   const [images, setImages] = useState('');
   const [totaldata, setTotalData] = useState('');
-  const [ispressedA, setIsPressedA] = useState(false);
-  const [ispressedB, setIsPressedB] = useState('');
-  const [ispressedC, setIsPressedC] = useState('');
-  const [ispressedD, setIsPressedD] = useState('');
-  const [correctA, setCorrectA] = useState(false);
+
   const [flag, setFlag] = useState(false);
   const [click, setClick] = useState(false);
   const [selected, setSelected] = useState();
-  const handleSelection = () => {};
-  const getOptionColor = () => {
-    if (correctA) {
-      let backgroundColor: '#33FF99';
-      return backgroundColor;
-    } else {
-      let backgroundColor: '#EE2C2C';
-      return backgroundColor;
+
+  const [isplay, setIsPlay] = useState(false);
+  const [playstate, setPlayState] = useState('pause');
+  const [playseconds, setPlaySeconds] = useState(0);
+  const [duration, setDuration] = useState('');
+
+  const load_data = async () => {
+    try {
+      setLoading(true);
+      let tempoption = [];
+      firestore()
+        .collection('Quizzes')
+        .doc('part1')
+        .collection('cau1')
+        .doc('1')
+        .get()
+        .then((data) => {
+          const optiondata = data.data();
+          optiondata.allOptions = shuffleArray([...optiondata.options]);
+          tempoption.push(optiondata);
+          setOptionData([...tempoption]);
+          setImages(optiondata);
+          setTotalData(optiondata);
+          setAudio(optiondata.audio);
+        });
+    } catch (error) {
+      Alert.alert('Error');
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const ShowAlert = () => {
+    setShowAlert(true);
+  };
+  const HideAlert = () => {
+    setShowAlert(false);
   };
   const shuffleArray = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1));
-
-      let temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-    }
     return array;
   };
-  const getoption = async () => {
-    let tempoption = [];
-    firestore()
-      .collection('Quizzes')
-      .doc('part1')
-      .collection('cau1')
-      .doc('1')
-      .get()
-      .then((data) => {
-        const optiondata = data.data();
-        optiondata.allOptions = shuffleArray([...optiondata.options]);
-        tempoption.push(optiondata);
-        console.log('Da xao tron:', [...tempoption]);
-        setOptionData([...tempoption]);
-        setImages(optiondata);
-        setTotalData(optiondata);
-        // console.log('Tongdata:',optiondata);
-      });
-  };
-  useEffect(() => {
-    getoption();
-  }, []);
+
   const handleAnswer = (item, index) => {
-    console.log(optiondata[0].correct_answer);
     setSelected(index);
     setClick(true);
     setFlag(false);
@@ -83,27 +86,166 @@ const scr1 = (navigation) => {
       setFlag(true);
     }
   };
-  // let randomoption = totaldata.allOptions[Math.floor(Math.random() * totaldata.allOptions.length)]
+  const docaudio = () => {
+    audioo.setVolume(1);
+    return () => {
+      audioo.release();
+    };
+  };
 
+  var Sound = require('react-native-sound');
+  const audioo = new Sound(isAudio, null, (error) => {
+    setTimeout(() => {
+      if (error && loading == false) {
+        console.log('Không lấy được audio', error);
+        return;
+      } else {
+        console.log('Lấy audio thành công');
+        play();
+      }
+    }, 700);
+  });
+
+  const play = () => {
+    audioo.play((success) => {
+      if (success) {
+        console.log('Audio đã chạy xong!');
+      } else {
+        console.log('playback failed due to audio decoding errors');
+      }
+    });
+  };
+  const stop = () => {
+    audioo.stop();
+  };
+  useEffect(() => {
+    load_data();
+  }, []);
   return (
     <ImageBackground
       // source = {require('../assets/theme/backgroundapp.jpg')}
-      style={{flex: 1}}>
-      <Header>
+      style={{
+        flex: 1,
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+      }}>
+      <Header style={{backgroundColor: '#6699FF'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+          }}>
+          <TouchableOpacity
+            onPress={() => ShowAlert()}
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 30,
+              margin: 5,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Icon name="arrow-back-outline" type="ionicon" color="white" />
+          </TouchableOpacity>
+
+          <View
+            style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <Text
+              style={{
+                color: '#FFF',
+                fontWeight: 'bold',
+                fontFamily: 'Cochin',
+                fontSize: 25,
+              }}>
+              AITOEIC
+            </Text>
+          </View>
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <TouchableOpacity
+              onPress={() => ShowAlert()}
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 30,
+                margin: 5,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Icon name="arrow-back-outline" type="ionicon" color="black" />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <AwesomeAlert
+          show={Alert}
+          showProgress={false}
+          title="Bạn có chắc chắn thoát không?"
+          closeOnTouchOutside={true}
+          showCancelButton={true}
+          showConfirmButton={true}
+          cancelText="Không"
+          confirmText="Có, tôi muốn thoát"
+          confirmButtonColor="#DD6B55"
+          onCancelPressed={() => {
+            HideAlert();
+          }}
+          onConfirmPressed={() => {
+            navigation.goBack();
+          }}
+        />
+      </Header>
+      <View
+        style={{
+          flexDirection: 'row',
+          backgroundColor: '#000022',
+        }}>
         <TouchableOpacity
-          onPress={() => navigation.goBack()}
+          onPress={play}
           style={{
             width: 40,
             height: 40,
             borderRadius: 30,
-            backgroundColor: 'lightblue',
             margin: 5,
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Icon name="arrow-back-outline" type="ionicon" color="#517fa4" />
+          <Icon name="play-back-outline" type="ionicon" color="white" />
         </TouchableOpacity>
-      </Header>
+        <TouchableOpacity
+          onPress={stop}
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 30,
+            margin: 5,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Icon name="play-outline" type="ionicon" color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={{}}
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 30,
+            margin: 5,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Icon name="play-forward-outline" type="ionicon" color="white" />
+        </TouchableOpacity>
+
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <Text
+            style={{
+              color: '#FFF',
+              fontWeight: 'bold',
+              fontFamily: 'Cochin',
+              fontSize: 25,
+            }}>
+            00:{duration}
+          </Text>
+        </View>
+      </View>
 
       <View style={[styles.shadowContainerStyle]}>
         <View style={styles.containerView}>
@@ -121,37 +263,16 @@ const scr1 = (navigation) => {
         <View style={{marginLeft: 10}}>
           <Image
             source={{uri: images.image}}
-            style={{height: 250, width: 320, borderRadius: 5}}
+            style={{
+              height: 250,
+              width: '97%',
+              borderRadius: 5,
+            }}
+            PlaceholderContent={<ActivityIndicator />}
           />
         </View>
 
         <View style={{marginTop: 20, marginLeft: 10}}>
-          {/* {option.allOption.map(({option},index)=> 
-                        <TouchableOpacity 
-                            key={index} 
-                            style = {styles.buttona} 
-                            onPress={() =>{
-                                if (option.selectedOption){
-                                    return null;    
-                                }
-                                if (option == option.correct_answer){
-
-                                    setCorrectCount(correctcount+1)
-
-                                }
-                                else{
-                                    setInCorrectCount(incorrectcount+1)
-                                    backgroundColor: "#33FF99"
-                                }
-                            }}>
-                            <View style={{
-                            paddingHorizontal:20,
-                            paddingBottom:20,
-                            paddingTop:20,}}>
-
-                            </View>
-                        </TouchableOpacity>)} */}
-
           {optiondata[0]?.allOptions?.map((item, index) => {
             return (
               <TouchableHighlight
@@ -185,98 +306,17 @@ const scr1 = (navigation) => {
               </TouchableHighlight>
             );
           })}
-
-          {/* <TouchableHighlight
-                                        style = {[styles.buttona,ispressedA ? {backgroundColor:getOptionColor()} :{}]}
-                                        activeOpacity={0.5}
-                                        underlayColor='#00000000'
-                                        onPress={() => {    console.log('PressedA');                                                       
-                                                            if(totaldata.allOptions[0] == totaldata.correct_answer){
-                                                                console.log('Right') ;                                             
-                                                                setCorrectCount(correctcount+1);
-                                                                setIsPressedA(true);
-                                                                setCorrectA(true);
-                                                                console.log('dem cau dung:  ',correctcount);                                                                 
-                                                            }else{
-                                                                console.log('wrong');
-                                                                setInCorrectCount(incorrectcount+1);
-                                                                console.log('dem cau sai: ',incorrectcount);
-                                                                setIsPressedA(null);
-                                                            }
-                                                            }}
-                                        >
-                                <Text style={{justifyContent:'center',alignItems:'center',fontSize:20,}}>
-                                    {totaldata.optionA}
-                                </Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight style = {[styles.buttona,ispressedB ? { backgroundColor: "#33FF99" } : {}]}
-                                        activeOpacity={0.5}
-                                        underlayColor='#00000000'
-                                        onShowUnderlay={() => {setIsPressedB(true)}}
-                                        onPress={() => {   console.log('PressedB');
-                                                            if(totaldata.allOptions[1] == totaldata.correct_answer){
-                                                                console.log('Right') ;                                             
-                                                                setCorrectCount(correctcount+1);
-                                                                console.log('correctcount: ',correctcount); 
-                                                                setIsPressedB(true);     
-                                                            }else{
-                                                                console.log('wrong');
-                                                                setInCorrectCount(incorrectcount+1);
-                                                                console.log('sai: ',incorrectcount);
-                                                                setIsPressedB(null);
-                                                            }
-                                                            }}
-                                        >
-                                <Text style={{justifyContent:'center',alignItems:'center',fontSize:20,}}>
-                                    {totaldata.optionB}
-                                </Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight style = {[styles.buttona,ispressedC ? { backgroundColor: "#33FF99" } : {}]}
-                                        activeOpacity={0.5}
-                                        underlayColor='#00000000'
-                                        onShowUnderlay={() => {setIsPressedC(true)}}
-                                        onPress={() => {   console.log('PressedC');
-                                                        if(totaldata.allOptions[2] == totaldata.correct_answer){
-                                                            console.log('Right') ;                                             
-                                                            setCorrectCount(correctcount+1);
-                                                            console.log('correctcount: ',correctcount);
-                                                            setIsPressedC(true); 
-                                                        }else{
-                                                            console.log('wrong');
-                                                            setInCorrectCount(incorrectcount+1);
-                                                            console.log('sai: ',incorrectcount);
-                                                            setIsPressedC(null);
-                                                        }
-                                                        }}
-                                        >
-                                <Text style={{justifyContent:'center',alignItems:'center',fontSize:20,}}>
-                                    {totaldata.optionC}
-                                </Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight style = {[styles.buttona,ispressedD ? { backgroundColor: "#33FF99" } : {}]}
-                                        activeOpacity={0.5}
-                                        underlayColor='#00000000'
-                                        onShowUnderlay={() => {setIsPressedD(true)}}
-                                        onPress={() => {   console.log('PressedD');
-                                                        if(totaldata.allOptions[3] == totaldata.correct_answer){
-                                                            console.log('Right') ;                                             
-                                                            setCorrectCount(correctcount+1);
-                                                            console.log('dung: ',correctcount);
-                                                            setIsPressedD(true)    
-                                                        }else{
-                                                            console.log('wrong');
-                                                            setInCorrectCount(incorrectcount+1);
-                                                            console.log('sai: ',incorrectcount);
-                                                            setIsPressedD(false)
-                                                        }
-                                                        }}
-                                        >
-                                <Text style={{justifyContent:'center',alignItems:'center',fontSize:20,}}>
-                                    {totaldata.optionD}
-                                </Text>
-                        </TouchableHighlight> */}
         </View>
       </View>
+      {loading ? (
+        <OrientationLoadingOverlay
+          visible={true}
+          color="white"
+          indicatorSize="large"
+          messageFontSize={24}
+          message="Loading..."
+        />
+      ) : null}
     </ImageBackground>
   );
 };
@@ -317,15 +357,35 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.9,
     shadowRadius: 3,
     elevation: 3,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
   containerView: {
+    width: Dimensions.get('window').width,
     justifyContent: 'center',
     backgroundColor: '#6699FF',
-    width: '92%',
+    width: '95%',
     marginBottom: 10,
     marginTop: 10,
     marginLeft: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
+  },
+  containeralert: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
+  buttonalert: {
+    margin: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+    borderRadius: 5,
+    backgroundColor: '#AEDEF4',
+  },
+  textalert: {
+    color: '#fff',
+    fontSize: 15,
   },
 });

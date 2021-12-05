@@ -45,11 +45,6 @@ export default function hopdong() {
       });
   };
 
-  useEffect(() => {
-    gettuvung();
-    docaudio();
-  }, []);
-
   var Sound = require('react-native-sound');
   // var audiofb = HopDong.audiotv;
   console.log(isAudio + ' hd:  ');
@@ -76,7 +71,10 @@ export default function hopdong() {
       audioo.release();
     };
   };
-
+  useEffect(() => {
+    gettuvung();
+    docaudio();
+  }, []);
   return (
     <ImageBackground
       source={require('../assets/theme/backgroundapp.jpg')}
