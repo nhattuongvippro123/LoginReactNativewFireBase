@@ -6,6 +6,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Dimensions,
+  Alert,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import database from '@react-native-firebase/database';
@@ -19,19 +20,22 @@ import {ActivityIndicator} from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
 import Loading from './../../components/Loading';
+import Sound from 'react-native-sound';
 
 const scr1 = (navigation) => {
   navigation = useNavigation();
+  const [arr, setTatCaData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isAudio, setAudio] = useState('');
   const [Alert, setShowAlert] = useState(false);
+
   const [correctcount, setCorrectCount] = useState(1);
   const [incorrectcount, setInCorrectCount] = useState(1);
   const [over, setOver] = useState(false);
   const [TOTAL_QUESTION] = useState(10);
-  const [optiondata, setOptionData] = useState([]);
-  const [images, setImages] = useState('');
-  const [totaldata, setTotalData] = useState('');
+
+  const [loaddataxong, setLoadDataXong] = useState(false);
+  const [loadaudio, setLoadAudio] = useState('');
 
   const [flag, setFlag] = useState(false);
   const [click, setClick] = useState(false);
@@ -42,159 +46,144 @@ const scr1 = (navigation) => {
   const [playseconds, setPlaySeconds] = useState(0);
   const [duration, setDuration] = useState('');
 
+  const [questionlist, setQuestionList] = useState([]);
+  const [listnextquestion, setListNextQuestion] = useState(null);
+  const [nextquestion, setNextQuestion] = useState(0);
+
+  const nextQuestion = () => {
+    var nextq = nextquestion + 1;
+    setNextQuestion(nextq);
+    console.log('next qs: ' + nextquestion);
+    LoadAudioEachQuestion(arr[nextquestion].audio);
+  };
+
+  const handleAnswer = (item, index) => {
+    LoadAudioEachQuestion('');
+    setSelected(index);
+    setClick(true);
+    setFlag(false);
+    if (item == arr[nextquestion].correct_answer) {
+      setFlag(true);
+    }
+    nextQuestion();
+    setFlag(false);
+  };
+
   const load_data = async () => {
+    let arr = [];
     try {
       setLoading(true);
-      let tempoption = [];
-      firestore()
+      const totalpart1Ref = await firestore()
         .collection('Quizzes')
         .doc('part1')
         .collection('cau1')
-        .doc('1')
-        .get()
-        .then((data) => {
-          const optiondata = data.data();
-          optiondata.allOptions = shuffleArray([...optiondata.options]);
-          tempoption.push(optiondata);
-          setOptionData([...tempoption]);
-          setAudio(optiondata.audio);
-          setImages(optiondata);
-          setTotalData(optiondata);
+        .get();
+
+      totalpart1Ref.docs.forEach(async (doc) => {
+        arr.push({
+          id: doc.id,
+          ...doc.data(),
         });
+      });
+
+      // console.log(arr[2].audio);
+      setLoadDataXong(true);
+      setTatCaData(arr);
+      LoadAudioEachQuestion(arr[nextquestion].audio);
+
+      // console.log(arr[2].audio);
+
+      // let QuestionList = [];
+      // const getAllQuestionPart1Ref = firestore()
+      //   .collection('Quizzes')
+      //   .doc('part1')
+      //   .collection('cau1');
+      // getAllQuestionPart1Ref.get().then((snapshot) => {
+      //   snapshot.forEach((doc) => {
+      //     QuestionList.push({
+      //       id: doc.id,
+      //       ...doc.data(),
+      //     });
+      //   });
+      //   setQuestionList([...QuestionList]);
+      //   // console.log(QuestionList[0]);
+
+      //   // setAudio(QuestionList[0].audio');
+
+      //   // console.log(loadaudio);
+      //   setListNextQuestion('ss');
+      //   console.log(listnextquestion);
+
+      // });
     } catch (error) {
-      Alert.alert('Error');
+      console.log(error);
     } finally {
       setLoading(false);
     }
   };
 
-  const ShowAlert = () => {
-    setShowAlert(true);
-  };
-  const HideAlert = () => {
-    setShowAlert(false);
-  };
-  const shuffleArray = (array) => {
-    return array;
-  };
-
-  const handleAnswer = (item, index) => {
-    setSelected(index);
-    setClick(true);
-    setFlag(false);
-    if (item == optiondata[0].correct_answer) {
-      setFlag(true);
+  const LoadAudioEachQuestion = (audio = '') => {
+    if (audio) {
+      console.log(nextquestion);
+      const audioo = new Sound(audio, null, (error) => {
+        if (error) {
+          console.log('Không lấy được audio', error);
+          return;
+        } else {
+          console.log('Lấy audio thành công');
+          audioo.play((success) => {
+            if (success) {
+              console.log('Audio đã chạy xong!');
+            } else {
+              console.log('errors');
+            }
+          });
+        }
+      });
     }
   };
-
-  var Sound = require('react-native-sound');
-  const audioo = new Sound(isAudio, null, (error) => {
-    if (error) {
-      console.log('Không lấy được audio1', error);
-      return;
-    } else {
-      setTimeout(() => {
-        console.log('Lấy audio thành công');
-        play();
-      }, 700);
-    }
-  });
-
   const play = () => {
     audioo.play((success) => {
       if (success) {
         console.log('Audio đã chạy xong!');
       } else {
-        console.log('playback failed due to audio decoding errors');
+        console.log('errors');
       }
     });
   };
   const stop = () => {
     audioo.stop();
   };
-  useEffect(() => {
-    load_data();
-    console.log(optiondata.audio);
-  }, []);
-  if (Loading) {
-    return (
-      <ImageBackground
-        // source = {require('../assets/theme/backgroundapp.jpg')}
-        style={{
-          flex: 1,
-          width: Dimensions.get('window').width,
-          height: Dimensions.get('window').height,
-        }}>
-        <Header style={{backgroundColor: '#6699FF'}}>
-          <View
-            style={{
-              flexDirection: 'row',
-            }}>
-            <TouchableOpacity
-              onPress={() => ShowAlert()}
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 30,
-                margin: 5,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Icon name="arrow-back-outline" type="ionicon" color="white" />
-            </TouchableOpacity>
+  const ShowAlert = () => {
+    setShowAlert(true);
+  };
+  const HideAlert = () => {
+    setShowAlert(false);
+  };
 
-            <View
-              style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-              <Text
-                style={{
-                  color: '#FFF',
-                  fontWeight: 'bold',
-                  fontFamily: 'Cochin',
-                  fontSize: 25,
-                }}>
-                AITOEIC
-              </Text>
-            </View>
-            <View style={{alignItems: 'center', justifyContent: 'center'}}>
-              <TouchableOpacity
-                onPress={() => ShowAlert()}
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 30,
-                  margin: 5,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Icon name="arrow-back-outline" type="ionicon" color="black" />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <AwesomeAlert
-            show={Alert}
-            showProgress={false}
-            title="Bạn có chắc chắn thoát không?"
-            closeOnTouchOutside={true}
-            showCancelButton={true}
-            showConfirmButton={true}
-            cancelText="Không"
-            confirmText="Có, tôi muốn thoát"
-            confirmButtonColor="#DD6B55"
-            onCancelPressed={() => {
-              HideAlert();
-            }}
-            onConfirmPressed={() => {
-              navigation.goBack();
-            }}
-          />
-        </Header>
+  useEffect(() => {
+    if (!loaddataxong) {
+      load_data();
+    }
+
+    // console.log(listnextquestion);
+  }, []);
+
+  return (
+    <ImageBackground
+      // source = {require('../assets/theme/backgroundapp.jpg')}
+      style={{
+        flex: 1,
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+      }}>
+      <Header background="#6699FF" title="AITOEIC">
         <View
           style={{
             flexDirection: 'row',
-            backgroundColor: '#000022',
           }}>
           <TouchableOpacity
-            onPress={play}
+            onPress={() => ShowAlert()}
             style={{
               width: 40,
               height: 40,
@@ -203,31 +192,7 @@ const scr1 = (navigation) => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Icon name="play-back-outline" type="ionicon" color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={stop}
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: 30,
-              margin: 5,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Icon name="play-outline" type="ionicon" color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={{}}
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: 30,
-              margin: 5,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Icon name="play-forward-outline" type="ionicon" color="white" />
+            <Icon name="arrow-back-outline" type="ionicon" color="white" />
           </TouchableOpacity>
 
           <View
@@ -239,84 +204,171 @@ const scr1 = (navigation) => {
                 fontFamily: 'Cochin',
                 fontSize: 25,
               }}>
-              00:{duration}
+              AITOEIC
             </Text>
           </View>
-        </View>
-
-        <View style={[styles.shadowContainerStyle]}>
-          <View style={styles.containerView}>
-            <Text
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <TouchableOpacity
+              onPress={() => ShowAlert()}
               style={{
-                margin: 10,
-                fontSize: 20,
-                textAlign: 'center',
-                color: '#FFF',
-                fontWeight: 'bold',
+                width: 40,
+                height: 40,
+                borderRadius: 30,
+                margin: 5,
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-              Select the answer:{' '}
-            </Text>
-          </View>
-          <View style={{marginLeft: 10}}>
-            <Image
-              source={{uri: images.image}}
-              style={{
-                height: 250,
-                width: '97%',
-                borderRadius: 5,
-              }}
-              PlaceholderContent={<ActivityIndicator />}
-            />
-          </View>
-
-          <View style={{marginTop: 20, marginLeft: 10}}>
-            {optiondata[0]?.allOptions?.map((item, index) => {
-              return (
-                <TouchableHighlight
-                  key={index}
-                  style={[
-                    styles.buttona,
-                    click == true
-                      ? {
-                          backgroundColor:
-                            item == optiondata[0]?.correct_answer
-                              ? COLORS.right
-                              : selected == index
-                              ? COLORS.wrong
-                              : null,
-                        }
-                      : null,
-                  ]}
-                  activeOpacity={0.5}
-                  underlayColor="#00000000"
-                  onPress={() => {
-                    handleAnswer(item, index);
-                  }}>
-                  <Text
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      fontSize: 20,
-                    }}>
-                    {item}
-                  </Text>
-                </TouchableHighlight>
-              );
-            })}
+              <Icon name="arrow-back-outline" type="ionicon" color="black" />
+            </TouchableOpacity>
           </View>
         </View>
-        {loading ? (
-          <OrientationLoadingOverlay
-            visible={true}
-            color="white"
-            indicatorSize="large"
-            messageFontSize={24}
-            message="Loading..."
+        <AwesomeAlert
+          show={Alert}
+          showProgress={false}
+          title="Bạn có chắc chắn thoát không?"
+          closeOnTouchOutside={true}
+          showCancelButton={true}
+          showConfirmButton={true}
+          cancelText="Không"
+          confirmText="Có, tôi muốn thoát"
+          confirmButtonColor="#DD6B55"
+          onCancelPressed={() => {
+            HideAlert();
+          }}
+          onConfirmPressed={() => {
+            navigation.goBack();
+          }}
+        />
+      </Header>
+      <View
+        style={{
+          flexDirection: 'row',
+          backgroundColor: '#000022',
+        }}>
+        <TouchableOpacity
+          onPress={play}
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 30,
+            margin: 5,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Icon name="play-back-outline" type="ionicon" color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={stop}
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 30,
+            margin: 5,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Icon name="play-outline" type="ionicon" color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={{}}
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 30,
+            margin: 5,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Icon name="play-forward-outline" type="ionicon" color="white" />
+        </TouchableOpacity>
+
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <Text
+            style={{
+              color: '#FFF',
+              fontWeight: 'bold',
+              fontFamily: 'Cochin',
+              fontSize: 25,
+            }}>
+            00:{duration}
+          </Text>
+        </View>
+      </View>
+
+      <View style={[styles.shadowContainerStyle]}>
+        <View style={styles.containerView}>
+          <Text
+            style={{
+              margin: 10,
+              fontSize: 20,
+              textAlign: 'center',
+              color: '#FFF',
+              fontWeight: 'bold',
+            }}>
+            Select the answer:
+          </Text>
+        </View>
+        <View style={{marginLeft: 10}}>
+          <Image
+            source={{uri: arr[nextquestion]?.image}}
+            style={{
+              height: 250,
+              width: '97%',
+              borderRadius: 5,
+            }}
+            PlaceholderContent={<ActivityIndicator />}
           />
-        ) : null}
-      </ImageBackground>
-    );
-  }
+        </View>
+
+        <View style={{marginTop: 20, marginLeft: 10}}>
+          {arr[nextquestion]?.options.map((item, index) => {
+            return (
+              <TouchableHighlight
+                key={index}
+                style={[
+                  styles.buttona,
+                  click == true
+                    ? {
+                        backgroundColor:
+                          item == arr[nextquestion]?.correct_answer
+                            ? COLORS.right
+                            : selected == index
+                            ? COLORS.wrong
+                            : null,
+                      }
+                    : null,
+                ]}
+                activeOpacity={0.5}
+                underlayColor="#00000000"
+                onPress={() => {
+                  handleAnswer(item, index);
+                }}>
+                <Text
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    fontSize: 20,
+                  }}>
+                  {item}
+                </Text>
+              </TouchableHighlight>
+            );
+          })}
+        </View>
+      </View>
+      {loading ? (
+        <OrientationLoadingOverlay
+          visible={true}
+          color="white"
+          indicatorSize="large"
+          messageFontSize={24}
+          message="Loading..."
+        />
+      ) : (
+        console.log('Null data')
+      )}
+    </ImageBackground>
+  );
 };
 export default scr1;
 const styles = StyleSheet.create({

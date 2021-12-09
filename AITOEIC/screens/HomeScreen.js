@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   View,
   Text,
@@ -22,11 +22,11 @@ export default function HomeScreen({navigation}) {
   const {user, logout} = useContext(AuthContext);
   return (
     <View style={styles.container}>
+      <Header />
       <StatusBar />
       <ImageBackground
         source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')}
         style={{width: '100%', height: '100%'}}>
-        <Header />
         <ScrollView
           style={{width: 360, marginLeft: 15}}
           showsVerticalScrollIndicator={false}

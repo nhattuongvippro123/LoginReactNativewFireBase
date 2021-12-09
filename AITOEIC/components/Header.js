@@ -1,16 +1,21 @@
 import React from 'react';
 import {Text, SafeAreaView, StyleSheet, View} from 'react-native';
-const Header = (props) => {
-  const {style} = props;
-  return <View style={(styles.background, style)}>{props.children}</View>;
+const Header = (props, navigation) => {
+  const {style, title} = props;
+  return (
+    <View style={styles.background}>
+      <Text style={styles.title}>{title}</Text>
+    </View>
+  );
 };
 const styles = StyleSheet.create({
   background: {
+    // flexDirection: 'row',
     backgroundColor: '#6699FF',
     width: 390,
     justifyContent: 'center',
     textAlign: 'center',
-    height: 100,
+    height: 70,
   },
   title: {
     color: '#FFF',
