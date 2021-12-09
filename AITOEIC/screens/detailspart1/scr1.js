@@ -32,7 +32,7 @@ const scr1 = (navigation) => {
   const [correctcount, setCorrectCount] = useState(1);
   const [incorrectcount, setInCorrectCount] = useState(1);
   const [over, setOver] = useState(false);
-  const [TOTAL_QUESTION] = useState(10);
+  const [TOTAL_QUESTION] = useState(6);
 
   const [loaddataxong, setLoadDataXong] = useState(false);
   const [loadaudio, setLoadAudio] = useState('');
@@ -52,21 +52,38 @@ const scr1 = (navigation) => {
 
   const nextQuestion = () => {
     var nextq = nextquestion + 1;
-    setNextQuestion(nextq);
-    console.log('next qs: ' + nextquestion);
-    LoadAudioEachQuestion(arr[nextquestion].audio);
+    if (nextq < arr.length) {
+      setNextQuestion(nextq);
+      console.log('next qs: ' + nextquestion);
+      LoadAudioEachQuestion(arr[nextquestion + 1].audio);
+      setClick(false);
+    } else {
+      //Man hinh ket qua
+      console.log('Xong');
+      console.log('Số câu đúng:', correctcount);
+      if (correctcount < arr.length) {
+        console.log(
+          'Bạn cần cải thiện nhiều hơn về Part1, vì nó đơn giản không thể mất điểm',
+        );
+      } else {
+        console.log(
+          'Rất tốt, bạn nhớ giữ vững phong độ và cứ tiếp tục phát huy',
+        );
+      }
+    }
   };
 
   const handleAnswer = (item, index) => {
-    LoadAudioEachQuestion('');
     setSelected(index);
     setClick(true);
     setFlag(false);
     if (item == arr[nextquestion].correct_answer) {
       setFlag(true);
+      setCorrectCount(correctcount + 1);
     }
-    nextQuestion();
-    setFlag(false);
+    setTimeout(() => {
+      nextQuestion();
+    }, 700);
   };
 
   const load_data = async () => {
@@ -85,36 +102,9 @@ const scr1 = (navigation) => {
           ...doc.data(),
         });
       });
-
-      // console.log(arr[2].audio);
       setLoadDataXong(true);
       setTatCaData(arr);
       LoadAudioEachQuestion(arr[nextquestion].audio);
-
-      // console.log(arr[2].audio);
-
-      // let QuestionList = [];
-      // const getAllQuestionPart1Ref = firestore()
-      //   .collection('Quizzes')
-      //   .doc('part1')
-      //   .collection('cau1');
-      // getAllQuestionPart1Ref.get().then((snapshot) => {
-      //   snapshot.forEach((doc) => {
-      //     QuestionList.push({
-      //       id: doc.id,
-      //       ...doc.data(),
-      //     });
-      //   });
-      //   setQuestionList([...QuestionList]);
-      //   // console.log(QuestionList[0]);
-
-      //   // setAudio(QuestionList[0].audio');
-
-      //   // console.log(loadaudio);
-      //   setListNextQuestion('ss');
-      //   console.log(listnextquestion);
-
-      // });
     } catch (error) {
       console.log(error);
     } finally {
