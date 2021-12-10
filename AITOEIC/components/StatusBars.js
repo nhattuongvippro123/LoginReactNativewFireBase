@@ -1,13 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, StatusBar } from 'react-native';
-
-export default function StatusBars() {
-  return (
-    <StatusBar style= {styles.statusbar}/>
-  );
-}
+import {View, Text, StyleSheet, StatusBar} from 'react-native';
+const StatusBars = (props) => {
+  const {style} = props;
+  return <View style={styles.background}></View>;
+};
 const styles = StyleSheet.create({
-  statusbar: {
-    backgroundColor:"#6699FF",
+  background: {
+    backgroundColor: '#6699FF',
   },
 });
+export default StatusBars;

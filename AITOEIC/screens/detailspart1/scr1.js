@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Dimensions,
   Alert,
+  Modal,
+  Pressable,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import database from '@react-native-firebase/database';
@@ -21,6 +23,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
 import Loading from './../../components/Loading';
 import Sound from 'react-native-sound';
+import {ProgressBar, Colors} from 'react-native-paper';
 
 const scr1 = (navigation) => {
   navigation = useNavigation();
@@ -29,13 +32,15 @@ const scr1 = (navigation) => {
   const [isAudio, setAudio] = useState('');
   const [Alert, setShowAlert] = useState(false);
 
-  const [correctcount, setCorrectCount] = useState(1);
+  const [correctcount, setCorrectCount] = useState(0);
   const [incorrectcount, setInCorrectCount] = useState(1);
   const [over, setOver] = useState(false);
-  const [TOTAL_QUESTION] = useState(6);
+  const [totalquestion, TOTAL_QUESTION] = useState('');
+  const [dunghet, setDungHet] = useState(false);
 
   const [loaddataxong, setLoadDataXong] = useState(false);
   const [loadaudio, setLoadAudio] = useState('');
+  const [dungaudio, setDungAudio] = useState(false);
 
   const [flag, setFlag] = useState(false);
   const [click, setClick] = useState(false);
@@ -49,8 +54,10 @@ const scr1 = (navigation) => {
   const [questionlist, setQuestionList] = useState([]);
   const [listnextquestion, setListNextQuestion] = useState(null);
   const [nextquestion, setNextQuestion] = useState(0);
-
+  const [endquestion, setEndQuestion] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const nextQuestion = () => {
+    setDungAudio(false);
     var nextq = nextquestion + 1;
     if (nextq < arr.length) {
       setNextQuestion(nextq);
@@ -58,16 +65,19 @@ const scr1 = (navigation) => {
       LoadAudioEachQuestion(arr[nextquestion + 1].audio);
       setClick(false);
     } else {
-      //Man hinh ket qua
+      setEndQuestion(true);
+      setModalVisible(true);
       console.log('Xong');
       console.log('Số câu đúng:', correctcount);
-      if (correctcount < arr.length) {
+      if (correctcount == arr.length - 1) {
+        setDungHet(true);
+        console.log(dunghet);
         console.log(
-          'Bạn cần cải thiện nhiều hơn về Part1, vì nó đơn giản không thể mất điểm',
+          'Rất tốt, bạn nhớ giữ vững phong độ và cứ tiếp tục phát huy',
         );
       } else {
         console.log(
-          'Rất tốt, bạn nhớ giữ vững phong độ và cứ tiếp tục phát huy',
+          'Bạn cần cải thiện nhiều hơn về Part1, vì nó đơn giản không thể mất điểm',
         );
       }
     }
@@ -79,6 +89,7 @@ const scr1 = (navigation) => {
     setFlag(false);
     if (item == arr[nextquestion].correct_answer) {
       setFlag(true);
+      setDungAudio(true);
       setCorrectCount(correctcount + 1);
     }
     setTimeout(() => {
@@ -102,30 +113,39 @@ const scr1 = (navigation) => {
           ...doc.data(),
         });
       });
+      setDungHet(false);
       setLoadDataXong(true);
       setTatCaData(arr);
       LoadAudioEachQuestion(arr[nextquestion].audio);
+      TOTAL_QUESTION(arr.length);
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
   };
-
+  const clearAudio = (audio = '') => {};
   const LoadAudioEachQuestion = (audio = '') => {
     if (audio) {
       console.log(nextquestion);
       const audioo = new Sound(audio, null, (error) => {
+        const stop = () => {
+          audioo.stop();
+        };
         if (error) {
           console.log('Không lấy được audio', error);
           return;
         } else {
           console.log('Lấy audio thành công');
+
           audioo.play((success) => {
             if (success) {
               console.log('Audio đã chạy xong!');
             } else {
               console.log('errors');
+            }
+            if (dungaudio) {
+              stop();
             }
           });
         }
@@ -354,8 +374,222 @@ const scr1 = (navigation) => {
           messageFontSize={24}
           message="Loading..."
         />
+      ) : null}
+      {endquestion && dunghet ? (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Image
+                source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/chucmung.jpg')}
+                style={{
+                  height: 150,
+                  width: '97%',
+                  borderRadius: 5,
+                }}
+              />
+              <Text style={styles.modalText}>
+                Bạn đã hoàn thành bài luyện tập
+              </Text>
+              <Text
+                style={{
+                  marginBottom: 5,
+                  textAlign: 'center',
+                  color: '#6699FF',
+                  fontWeight: 'bold',
+                  fontSize: 17,
+                  borderRadius: 10,
+                }}>
+                Mô tả hình ảnh
+              </Text>
+              <Text
+                style={{
+                  marginBottom: 15,
+                  textAlign: 'center',
+                  color: '#6699FF',
+                  fontWeight: 'bold',
+                  fontSize: 17,
+                  borderRadius: 10,
+                }}>
+                (Nghe hiểu)
+              </Text>
+              <View
+                style={{
+                  borderRadius: 10,
+                  backgroundColor: '#6699FF',
+                  marginBottom: 15,
+                  padding: 20,
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: COLORS.right,
+                    fontWeight: 'bold',
+                    fontSize: 30,
+                  }}>
+                  Correct: {correctcount}/{arr.length}
+                </Text>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: COLORS.white,
+                    fontWeight: 'bold',
+                    fontSize: 17,
+                  }}>
+                  Rất tốt, bạn nhớ giữ vững phong độ và cứ tiếp tục phát huy.
+                </Text>
+              </View>
+
+              <Pressable
+                style={[styles.buttonmodal, styles.buttonClosemodal]}
+                onPress={() => navigation.navigate('Home')}>
+                <Text style={styles.textmodal}>Về màn hình chính</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.buttonmodal, styles.buttonClosemodal]}
+                onPress={() => navigation.navigate('Part1')}>
+                <Text style={styles.textmodal}>Làm lại Part 1</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.buttonmodal, styles.buttonClosemodal]}
+                onPress={() => navigation.navigate('Part2')}>
+                <Text style={styles.textmodal}>Tiếp tục luyện tập Part 2</Text>
+              </Pressable>
+              <View style={{flexDirection: 'row'}}>
+                <Image
+                  source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/chucmung3l.jpg')}
+                  style={{
+                    height: 250,
+                    width: '97%',
+                    borderRadius: 5,
+                  }}
+                />
+                <Image
+                  source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/chucmung3r.jpg')}
+                  style={{
+                    height: 250,
+                    width: '97%',
+                    borderRadius: 5,
+                  }}
+                />
+              </View>
+            </View>
+          </View>
+        </Modal>
       ) : (
-        console.log('Null data')
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Image
+                source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/chucmung.jpg')}
+                style={{
+                  height: 150,
+                  width: '97%',
+                  borderRadius: 5,
+                }}
+              />
+              <Text style={styles.modalText}>
+                Bạn đã hoàn thành bài luyện tập
+              </Text>
+              <Text
+                style={{
+                  marginBottom: 5,
+                  textAlign: 'center',
+                  color: '#6699FF',
+                  fontWeight: 'bold',
+                  fontSize: 17,
+                  borderRadius: 10,
+                }}>
+                Mô tả hình ảnh
+              </Text>
+              <Text
+                style={{
+                  marginBottom: 15,
+                  textAlign: 'center',
+                  color: '#6699FF',
+                  fontWeight: 'bold',
+                  fontSize: 17,
+                  borderRadius: 10,
+                }}>
+                (Nghe hiểu)
+              </Text>
+              <View
+                style={{
+                  borderRadius: 10,
+                  backgroundColor: '#6699FF',
+                  marginBottom: 15,
+                  padding: 20,
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: COLORS.wrong,
+                    fontWeight: 'bold',
+                    fontSize: 30,
+                  }}>
+                  Correct: {correctcount}/{arr.length}
+                </Text>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: COLORS.white,
+                    fontWeight: 'bold',
+                    fontSize: 17,
+                  }}>
+                  Bạn cần cải thiện nhiều hơn về Part1, vì nó đơn giản không thể
+                  mất điểm.
+                </Text>
+              </View>
+
+              <Pressable
+                style={[styles.buttonmodal, styles.buttonClosemodal]}
+                onPress={() => navigation.navigate('Home')}>
+                <Text style={styles.textmodal}>Màn hình chính</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.buttonmodal, styles.buttonClosemodal]}
+                onPress={() => navigation.navigate('Part1')}>
+                <Text style={styles.textmodal}>Làm lại Part 1</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.buttonmodal, styles.buttonClosemodal]}
+                onPress={() => navigation.navigate('Part2')}>
+                <Text style={styles.textmodal}>Tiếp tục Part 2</Text>
+              </Pressable>
+              <View style={{flexDirection: 'row'}}>
+                <Image
+                  source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/chucmung3l.jpg')}
+                  style={{
+                    height: 250,
+                    width: '97%',
+                    borderRadius: 5,
+                  }}
+                />
+                <Image
+                  source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/chucmung3r.jpg')}
+                  style={{
+                    height: 250,
+                    width: '97%',
+                    borderRadius: 5,
+                  }}
+                />
+              </View>
+            </View>
+          </View>
+        </Modal>
       )}
     </ImageBackground>
   );
@@ -427,5 +661,51 @@ const styles = StyleSheet.create({
   textalert: {
     color: '#fff',
     fontSize: 15,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    height: 710,
+    width: 400,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  buttonmodal: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    margin: 10,
+  },
+  buttonClosemodal: {
+    backgroundColor: '#2196F3',
+  },
+  textmodal: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    color: COLORS.white,
+    fontWeight: 'bold',
+    fontSize: 20,
+    padding: 5,
+    color: '#4630EB',
   },
 });

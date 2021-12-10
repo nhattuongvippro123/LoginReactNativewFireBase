@@ -292,6 +292,33 @@ export default function hopdong() {
                   1. {HopDong.giaithich}
                 </Text>
               </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  marginLeft: 18,
+                  marginTop: 18,
+                  padding: 5,
+                }}>
+                <Text
+                  style={{
+                    marginBottom: 10,
+                    fontSize: 20,
+                    color: '#808080',
+                    fontWeight: 'bold',
+                    fontStyle: 'italic',
+                  }}>
+                  Ví dụ:
+                </Text>
+                <Text
+                  style={{fontSize: 20, color: '#222222', marginBottom: 10}}>
+                  {HopDong.vdta}
+                </Text>
+                <Text
+                  style={{fontSize: 20, color: '#222222', marginBottom: 20}}>
+                  {HopDong.vdtv}
+                </Text>
+              </View>
             </View>
           </ScrollView>
         </Modal>

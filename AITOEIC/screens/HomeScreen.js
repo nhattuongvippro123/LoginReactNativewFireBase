@@ -22,8 +22,8 @@ export default function HomeScreen({navigation}) {
   const {user, logout} = useContext(AuthContext);
   return (
     <View style={styles.container}>
-      <Header />
-      <StatusBar />
+      <Header title="AITOEIC" />
+      <StatusBar style={{backgroundColor: '#6699FF'}} />
       <ImageBackground
         source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')}
         style={{width: '100%', height: '100%'}}>
