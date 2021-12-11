@@ -4,10 +4,10 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Modal from 'react-native-modal';
-import {COLORS} from './detailspart1/colors';
+import {COLORS} from './../detailspart1/colors';
 import Sound from 'react-native-sound';
 import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
-import Header from '../components/Header';
+import Header from './../../components/Header';
 
 // import firebase from '../firebase/config';
 
@@ -26,7 +26,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 
-export default function hopdong() {
+export default function thitruong() {
   const [loaddataxong, setLoadDataXong] = useState(false);
   const [isModalVisible, setModalVisible] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -106,10 +106,12 @@ export default function hopdong() {
   }, []);
   return (
     <ImageBackground
-      source={require('../assets/theme/backgroundapp.jpg')}
+      source={require('./../../assets/theme/backgroundapp.jpg')}
       style={{width: '100%', height: '100%'}}>
-      <Header title="HỢP ĐỒNG" />
+      <Header title="THỊ TRƯỜNG" />
       <FlatList
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
         data={arr}
         keyExtractor={(item, index) => index}
         renderItem={({item, index}) => (

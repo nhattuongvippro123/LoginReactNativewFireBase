@@ -15,7 +15,9 @@ import Part6 from '../screens/Part6';
 import Part7 from '../screens/Part7';
 import BoTuVung from '../screens/BoTuVung';
 import thithu from '../screens/thithu';
-import hopdong from '../screens/hopdong';
+import hopdong from '../screens/vocabulary/hopdong';
+import thitruong from '../screens/vocabulary/thitruong';
+import subaohanh from '../screens/vocabulary/subaohanh';
 import p1 from '../screens/detailsnguphap/p1';
 import scr1 from '../screens/detailspart1/scr1';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
@@ -136,11 +138,6 @@ export default function AppStack() {
 
   return (
     <AppStack.Navigator>
-      {/* <AppStack.Screen
-        name="hopdong"
-        component={hopdong}
-        options={{title: 'Hợp Đồng', headerShown: false}}
-      /> */}
       <AppStack.Screen
         name="Home"
         component={HomeStack}
@@ -149,7 +146,10 @@ export default function AppStack() {
       <AppStack.Screen
         name="Part1"
         component={Part1}
-        options={{title: 'Mô tả hình ảnh', backgroundColor: 'transparent'}}
+        options={{
+          title: 'Mô tả hình ảnh',
+          backgroundColor: 'transparent',
+        }}
       />
       <AppStack.Screen
         name="Part2"
@@ -195,6 +195,16 @@ export default function AppStack() {
         name="hopdong"
         component={hopdong}
         options={{title: 'Hợp Đồng', headerShown: false}}
+      />
+      <AppStack.Screen
+        name="thitruong"
+        component={thitruong}
+        options={{title: 'Thị Trường', headerShown: false}}
+      />
+      <AppStack.Screen
+        name="subaohanh"
+        component={subaohanh}
+        options={{title: 'Sự Bảo Hành', headerShown: false}}
       />
       <AppStack.Screen
         name="p1"

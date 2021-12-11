@@ -52,6 +52,9 @@ const styles = StyleSheet.create({
   },
 
   tuvungtext: {
+    textShadowColor: 'black',
+    textShadowOffset: {width: -3, height: 3},
+    textShadowRadius: 20,
     marginTop: 150,
     marginLeft: 10,
     marginBottom: 10,
