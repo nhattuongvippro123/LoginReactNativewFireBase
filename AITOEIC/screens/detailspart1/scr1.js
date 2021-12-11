@@ -140,12 +140,12 @@ const scr1 = (navigation) => {
 
           audioo.play((success) => {
             if (success) {
+              audioo.stop();
               console.log('Audio đã chạy xong!');
+            } else if (dungaudio) {
+              stop();
             } else {
               console.log('errors');
-            }
-            if (dungaudio) {
-              stop();
             }
           });
         }
@@ -254,6 +254,7 @@ const scr1 = (navigation) => {
         style={{
           flexDirection: 'row',
           backgroundColor: '#000022',
+          height: '7%',
         }}>
         <TouchableOpacity
           onPress={play}
@@ -299,6 +300,8 @@ const scr1 = (navigation) => {
               fontWeight: 'bold',
               fontFamily: 'Cochin',
               fontSize: 25,
+              alignItems: 'center',
+              justifyContent: 'center',
             }}>
             00:{duration}
           </Text>
@@ -318,19 +321,23 @@ const scr1 = (navigation) => {
             Select the answer:
           </Text>
         </View>
-        <View style={{marginLeft: 10}}>
+        <View style={{margin: '3%'}}>
           <Image
             source={{uri: arr[nextquestion]?.image}}
             style={{
-              height: 250,
-              width: '97%',
+              height: 210,
+              width: Dimensions.get('window').width,
               borderRadius: 5,
             }}
             PlaceholderContent={<ActivityIndicator />}
           />
         </View>
 
-        <View style={{marginTop: 20, marginLeft: 10}}>
+        <View
+          style={{
+            marginLeft: 10,
+            paddingBottom: 10,
+          }}>
           {arr[nextquestion]?.options.map((item, index) => {
             return (
               <TouchableHighlight
@@ -620,6 +627,7 @@ const styles = StyleSheet.create({
   },
   shadowContainerStyle: {
     //<--- Style with elevation
+    flexDirection: 'column',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     borderWidth: 1,
@@ -636,10 +644,8 @@ const styles = StyleSheet.create({
   },
   containerView: {
     width: Dimensions.get('window').width,
-    justifyContent: 'center',
     backgroundColor: '#6699FF',
     width: '95%',
-    marginBottom: 10,
     marginTop: 10,
     marginLeft: 10,
     borderTopLeftRadius: 10,

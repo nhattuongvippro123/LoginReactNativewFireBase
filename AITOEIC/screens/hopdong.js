@@ -7,6 +7,7 @@ import Modal from 'react-native-modal';
 import {COLORS} from './detailspart1/colors';
 import Sound from 'react-native-sound';
 import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
+import Header from '../components/Header';
 
 // import firebase from '../firebase/config';
 
@@ -107,10 +108,7 @@ export default function hopdong() {
     <ImageBackground
       source={require('../assets/theme/backgroundapp.jpg')}
       style={{width: '100%', height: '100%'}}>
-      <SafeAreaView style={styles.background}>
-        <Text style={styles.title}>Hợp Đồng</Text>
-      </SafeAreaView>
-
+      <Header title="HỢP ĐỒNG" />
       <FlatList
         data={arr}
         keyExtractor={(item, index) => index}
@@ -198,7 +196,8 @@ export default function hopdong() {
             <Modal
               key={selectedItem}
               style={{
-                borderRadius: 30,
+                borderTopLeftRadius: 30,
+                borderTopRightRadius: 30,
                 marginTop: 200,
                 margin: 0,
                 backgroundColor: '#FFFF',

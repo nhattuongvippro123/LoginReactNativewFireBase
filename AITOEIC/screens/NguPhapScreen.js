@@ -10,6 +10,7 @@ import {
 import {TabView, SceneMap} from 'react-native-tab-view';
 import coban from '../screens/coban';
 import thongdung from '../screens/thongdung';
+import Header from '../components/Header';
 
 export default function NguPhapScreen(navigation) {
   const renderScene = SceneMap({
@@ -27,9 +28,7 @@ export default function NguPhapScreen(navigation) {
     <ImageBackground
       source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')}
       style={{width: '100%', height: '100%'}}>
-      <SafeAreaView style={styles.background}>
-        <Text style={styles.title}>Ngữ Pháp</Text>
-      </SafeAreaView>
+      <Header title="NGỮ PHÁP" />
       <TabView
         navigationState={{index, routes}}
         renderScene={renderScene}

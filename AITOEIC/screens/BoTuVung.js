@@ -9,20 +9,21 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Dimensions,
 } from 'react-native';
+import Header from '../components/Header';
 
 export default function BoTuVung({navigation}) {
   return (
     <ImageBackground
       source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')}
       style={{width: '100%', height: '100%'}}>
-      <SafeAreaView style={styles.background}>
-        <Text style={styles.title}>600 Từ Vựng TOEIC</Text>
-      </SafeAreaView>
+      <Header title="BỘ TỪ VỰNG" />
       <ScrollView>
-        <View style={{flexDirection: 'row'}}>
+        <View
+          style={{flexDirection: 'row', width: Dimensions.get('window').width}}>
           <TouchableOpacity
-            style={{width: 180, height: 200, marginTop: 20, marginLeft: 10}}
+            style={{width: 190, height: 200, marginTop: 20, marginLeft: 10}}
             activeOpacity={0.5}
             onPress={() => navigation.navigate('hopdong')}>
             <ImageBackground
@@ -35,7 +36,7 @@ export default function BoTuVung({navigation}) {
 
           <TouchableOpacity
             style={{
-              width: 180,
+              width: 190,
               height: 200,
               marginTop: 20,
               marginLeft: 10,

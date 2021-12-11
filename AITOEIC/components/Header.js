@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, SafeAreaView, StyleSheet, View} from 'react-native';
+import {Text, SafeAreaView, StyleSheet, View, Dimensions} from 'react-native';
 const Header = (props, navigation) => {
   const {style, title} = props;
   return (
@@ -12,16 +12,17 @@ const styles = StyleSheet.create({
   background: {
     // flexDirection: 'row',
     backgroundColor: '#6699FF',
-    width: 390,
-    justifyContent: 'center',
-    textAlign: 'center',
+    width: Dimensions.get('window').width,
+
     height: 70,
   },
   title: {
     color: '#FFF',
-    marginLeft: 150,
+    // marginLeft: 150,
     marginBottom: 12,
     paddingTop: 20,
+    justifyContent: 'center',
+    textAlign: 'center',
     fontWeight: 'bold',
     fontFamily: 'Cochin',
     fontSize: 25,

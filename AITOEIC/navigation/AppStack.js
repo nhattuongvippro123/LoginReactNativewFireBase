@@ -25,6 +25,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import coban from '../screens/coban';
 import thongdung from '../screens/thongdung';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Icon} from 'react-native-elements';
 
 function tobtab() {
   const tobtab = createMaterialTopTabNavigator();
@@ -66,18 +67,19 @@ function HomeStack() {
             iconName = focused ? 'home' : 'home-outline';
           }
           if (route.name === 'TuVung') {
-            iconName = focused ? 'home' : 'home-outline';
+            iconName = focused ? 'book' : 'book-outline';
           }
           if (route.name === 'NguPhap') {
-            iconName = focused ? 'home' : 'home-outline';
+            iconName = focused ? 'reader' : 'reader-outline';
           }
           if (route.name === 'aispeak') {
-            iconName = focused ? 'home' : 'home-outline';
+            iconName = focused ? 'language-sharp' : 'language-outline';
           } else if (route.name === 'caidat') {
-            iconName = focused ? 'book' : 'book';
+            iconName = focused ? 'settings-sharp' : 'settings-outline';
           }
           return (
-            <Ionicons
+            <Icon
+              type="ionicon"
               name={iconName}
               size={size}
               color={color}
@@ -93,7 +95,7 @@ function HomeStack() {
           headerShown: false,
           tabBarLabel: 'Luyện Tập',
           tabBarOptions: {showIcon: true},
-          tabBarBadge: 3,
+          // tabBarBadge: 3,
         }}
       />
       <Tab.Screen
@@ -134,6 +136,11 @@ export default function AppStack() {
 
   return (
     <AppStack.Navigator>
+      {/* <AppStack.Screen
+        name="hopdong"
+        component={hopdong}
+        options={{title: 'Hợp Đồng', headerShown: false}}
+      /> */}
       <AppStack.Screen
         name="Home"
         component={HomeStack}

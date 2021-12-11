@@ -22,11 +22,11 @@ export default function HomeScreen({navigation}) {
   const {user, logout} = useContext(AuthContext);
   return (
     <View style={styles.container}>
-      <Header title="AITOEIC" />
       <StatusBar style={{backgroundColor: '#6699FF'}} />
       <ImageBackground
         source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')}
         style={{width: '100%', height: '100%'}}>
+        <Header title="AITOEIC" />
         <ScrollView
           style={{width: 360, marginLeft: 15}}
           showsVerticalScrollIndicator={false}
@@ -346,6 +346,198 @@ export default function HomeScreen({navigation}) {
                 marginLeft: 0.5,
               }}
             />
+          </View>
+          <Text
+            style={{
+              marginBottom: 10,
+              alignItems: 'center',
+              paddingTop: 23,
+              fontWeight: 'bold',
+              fontFamily: 'Cochin',
+              fontSize: 17,
+              color: 'black',
+            }}>
+            Đọc Hiểu
+          </Text>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              paddingTop: 20,
+              paddingLeft: 10,
+              marginLeft: 5,
+            }}>
+            <View style={styles.viewStyleOne}>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  width: 70,
+                  height: 70,
+                  borderRadius: 10,
+                  marginTop: -14,
+                }}
+                activeOpacity={0.5}
+                onPress={() => navigation.navigate('Part5')}>
+                <Image
+                  // source={{
+                  //   uri:
+                  //     'https://raw.githubusercontent.com/AboutReact/sampleresource/master/facebook.png',
+                  // }}
+                  source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/image/part5.png')}
+                  style={styles.buttonImageIconStyle}
+                />
+              </TouchableOpacity>
+              <Text style={styles.buttonTitleStyle}>Part 5</Text>
+              <Text style={styles.buttonTextStyle}>Điền</Text>
+              <Text style={styles.buttonTextStyle}>Vào Câu</Text>
+            </View>
+            <View style={styles.viewStyleOne}>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  width: 70,
+                  height: 70,
+                  borderRadius: 10,
+                  marginTop: -14,
+                }}
+                activeOpacity={0.5}
+                onPress={() => navigation.navigate('Part6')}>
+                <Image
+                  // source={{
+                  //   uri:
+                  //     'https://raw.githubusercontent.com/AboutReact/sampleresource/master/facebook.png',
+                  // }}
+                  source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/image/part6.jpg')}
+                  style={styles.buttonImageIconStyle}
+                />
+              </TouchableOpacity>
+              <Text style={styles.buttonTitleStyle}>Part 6</Text>
+              <Text style={styles.buttonTextStyle}>Điền Vào</Text>
+              <Text style={styles.buttonTextStyle}>Đoạn Văn</Text>
+            </View>
+            <View style={styles.viewStyleOne}>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  width: 70,
+                  height: 70,
+                  borderRadius: 10,
+                  marginTop: -14,
+                }}
+                activeOpacity={0.5}
+                onPress={() => navigation.navigate('Part7')}>
+                <Image
+                  // source={{
+                  //   uri:
+                  //     'https://raw.githubusercontent.com/AboutReact/sampleresource/master/facebook.png',
+                  // }}
+                  source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/image/part7.jpg')}
+                  style={styles.buttonImageIconStyle}
+                />
+              </TouchableOpacity>
+              <Text style={styles.buttonTitleStyle}>Part 7</Text>
+              <Text style={styles.buttonTextStyle}>Đọc Hiểu</Text>
+              <Text style={styles.buttonTextStyle}>Đoạn Văn</Text>
+            </View>
+            <View style={styles.viewStyleOne}></View>
+          </View>
+          <Text
+            style={{
+              marginBottom: 10,
+              alignItems: 'center',
+              paddingTop: 23,
+              fontWeight: 'bold',
+              fontFamily: 'Cochin',
+              fontSize: 17,
+              color: 'black',
+            }}>
+            Đọc Hiểu
+          </Text>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              paddingTop: 20,
+              paddingLeft: 10,
+              marginLeft: 5,
+            }}>
+            <View style={styles.viewStyleOne}>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  width: 70,
+                  height: 70,
+                  borderRadius: 10,
+                  marginTop: -14,
+                }}
+                activeOpacity={0.5}
+                onPress={() => navigation.navigate('Part5')}>
+                <Image
+                  // source={{
+                  //   uri:
+                  //     'https://raw.githubusercontent.com/AboutReact/sampleresource/master/facebook.png',
+                  // }}
+                  source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/image/part5.png')}
+                  style={styles.buttonImageIconStyle}
+                />
+              </TouchableOpacity>
+              <Text style={styles.buttonTitleStyle}>Part 5</Text>
+              <Text style={styles.buttonTextStyle}>Điền</Text>
+              <Text style={styles.buttonTextStyle}>Vào Câu</Text>
+            </View>
+            <View style={styles.viewStyleOne}>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  width: 70,
+                  height: 70,
+                  borderRadius: 10,
+                  marginTop: -14,
+                }}
+                activeOpacity={0.5}
+                onPress={() => navigation.navigate('Part6')}>
+                <Image
+                  // source={{
+                  //   uri:
+                  //     'https://raw.githubusercontent.com/AboutReact/sampleresource/master/facebook.png',
+                  // }}
+                  source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/image/part6.jpg')}
+                  style={styles.buttonImageIconStyle}
+                />
+              </TouchableOpacity>
+              <Text style={styles.buttonTitleStyle}>Part 6</Text>
+              <Text style={styles.buttonTextStyle}>Điền Vào</Text>
+              <Text style={styles.buttonTextStyle}>Đoạn Văn</Text>
+            </View>
+            <View style={styles.viewStyleOne}>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  width: 70,
+                  height: 70,
+                  borderRadius: 10,
+                  marginTop: -14,
+                }}
+                activeOpacity={0.5}
+                onPress={() => navigation.navigate('Part7')}>
+                <Image
+                  // source={{
+                  //   uri:
+                  //     'https://raw.githubusercontent.com/AboutReact/sampleresource/master/facebook.png',
+                  // }}
+                  source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/image/part7.jpg')}
+                  style={styles.buttonImageIconStyle}
+                />
+              </TouchableOpacity>
+              <Text style={styles.buttonTitleStyle}>Part 7</Text>
+              <Text style={styles.buttonTextStyle}>Đọc Hiểu</Text>
+              <Text style={styles.buttonTextStyle}>Đoạn Văn</Text>
+            </View>
+            <View style={styles.viewStyleOne}></View>
           </View>
           {/* <Text style ={styles.loaitext}>
       Luyện Thi
