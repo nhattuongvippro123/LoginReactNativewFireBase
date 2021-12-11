@@ -4,6 +4,9 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Modal from 'react-native-modal';
+import {COLORS} from './detailspart1/colors';
+import Sound from 'react-native-sound';
+import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
 
 // import firebase from '../firebase/config';
 
@@ -12,7 +15,7 @@ import {
   Dimensions,
   ScrollView,
   Animated,
-  Flatlist,
+  FlatList,
   Image,
   TouchableOpacity,
   View,
@@ -23,57 +26,82 @@ import {
 } from 'react-native';
 
 export default function hopdong() {
-  const [HopDong, sethopdong] = useState('');
-  const [isAudio, setAudio] = useState('');
+  const [loaddataxong, setLoadDataXong] = useState(false);
   const [isModalVisible, setModalVisible] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
+  const [arr, setTatCaData] = useState([]);
+
+  const toggleModal = (item) => {
+    if (item.id == item.id) {
+      setModalVisible(!isModalVisible);
+      setSelectedItem(item);
+    }
+  };
+  const handleOnCloseModal = () => {
+    setSelectedItem(null);
+    setModalVisible(isModalVisible);
   };
 
   const gettuvung = async () => {
-    const favor = await firestore()
-      .collection('Vocabulary')
-      .doc('hopdong')
-      .collection('word')
-      .doc('1')
-      .get()
-      .then((documentSnapshot) => {
-        console.log('data:', documentSnapshot.data());
-        sethopdong(documentSnapshot.data());
-        setAudio(documentSnapshot.data().audiotv);
+    let arr = [];
+    try {
+      setLoading(true);
+      const favor = await firestore()
+        .collection('Vocabulary')
+        .doc('hopdong')
+        .collection('word')
+        .get();
+      favor.docs.forEach(async (doc) => {
+        arr.push({
+          id: doc.id,
+          ...doc.data(),
+        });
       });
-  };
-
-  var Sound = require('react-native-sound');
-  // var audiofb = HopDong.audiotv;
-  console.log(isAudio + ' hd:  ');
-  const audioo = new Sound(isAudio, null, (error) => {
-    //  console.log("hd:"+error);
-    if (error) {
-      console.log('failed to load the sound', error);
-      return;
+      setTatCaData(arr);
+      setLoadDataXong(true);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
-  });
+  };
 
-  const play = () => {
-    audioo.play((success) => {
-      if (success) {
-        console.log('successfully finished playing');
-      } else {
-        console.log('playback failed due to audio decoding errors');
-      }
-    });
+  const LoadAudioEachQuestion = (audio = '') => {
+    if (audio) {
+      const audioo = new Sound(audio, null, (error) => {
+        const stop = () => {
+          audioo.stop();
+        };
+        if (error) {
+          console.log('Không lấy được audio', error);
+          return;
+        } else {
+          console.log('Lấy audio thành công');
+
+          audioo.play((success) => {
+            if (success) {
+              console.log('Audio đã chạy xong!');
+            } else {
+              console.log('errors');
+            }
+            // if (dungaudio) {
+            //   stop();
+            // }
+          });
+        }
+      });
+    }
   };
-  const docaudio = () => {
-    audioo.setVolume(1);
-    return () => {
-      audioo.release();
-    };
+  const test = (item) => {
+    if (item.id == item.id) console.log(item.id);
   };
+
   useEffect(() => {
-    gettuvung();
-    docaudio();
+    if (!loaddataxong) {
+      gettuvung();
+    }
   }, []);
   return (
     <ImageBackground
@@ -83,135 +111,70 @@ export default function hopdong() {
         <Text style={styles.title}>Hợp Đồng</Text>
       </SafeAreaView>
 
-      <ScrollView>
-        <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity
-            style={{
-              flex: 2,
-              flexDirection: 'row',
-              marginBottom: 3,
-              backgroundColor: '#FFFC',
-              width: 700,
-              height: 110,
-            }}
-            activeOpacity={0.5}
-            onPress={() => {
-              toggleModal();
-            }}>
-            <View style={{padding: 5}}>
-              <Image
-                source={{uri: HopDong.image}}
-                style={{height: 100, width: 120, padding: 5, borderRadius: 10}}
-              />
-            </View>
-            <View style={{flex: 1, justifyContent: 'center', marginLeft: 10}}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: '#6699FF',
-                  fontWeight: 'bold',
-                  marginBottom: 15,
-                }}>
-                {HopDong.name}
-              </Text>
-              <Text style={{fontSize: 20, color: '#333366'}}>
-                {HopDong.phienam}
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              marginBottom: 3,
-              backgroundColor: '#FFFC',
-              width: 700,
-              height: 110,
-              justifyContent: 'center',
-            }}>
+      <FlatList
+        data={arr}
+        keyExtractor={(item, index) => index}
+        renderItem={({item, index}) => (
+          <ScrollView>
             <TouchableOpacity
+              key={item}
               style={{
-                padding: 5,
-                justifyContent: 'center',
-                marginLeft: 5,
-                marginTop: 30,
-                backgroundColor: '#FFFC',
-                borderWidth: 2,
-                borderColor: '#20232a',
-                borderRadius: 30,
-                height: 50,
-                width: 50,
+                marginBottom: 3,
+                backgroundColor: COLORS.white,
+                width: Dimensions.get('window').width,
+                height: 110,
               }}
               activeOpacity={0.5}
-              onPress={play}>
-              <Text style={{justifyContent: 'center', marginLeft: 3}}>
-                <Icon
-                  style={{justifyContent: 'center', marginLeft: 5}}
-                  name="sound"
-                  size={30}
-                  color="#6699FF"
-                />
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <Modal
-          style={{
-            borderRadius: 30,
-            marginTop: 200,
-            margin: 0,
-            backgroundColor: '#FFFF',
-          }}
-          isVisible={!isModalVisible}
-          // onSwipeComplete={() => setModalVisible(true)}
-          onBackdropPress={() => setModalVisible(true)}
-          // swipeDirection="down"
-          propagateSwipe={false}>
-          <View
-            style={{
-              flexDirection: 'row',
-              backgroundColor: '#FFFC',
-              borderRadius: 30,
-            }}>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                marginTop: 10,
-                borderBottomColor: '#C0C0C0',
-                borderBottomWidth: 1,
+              onPress={() => {
+                toggleModal(item.id);
+                // test(item);
               }}>
-              <TouchableOpacity
-                style={{
-                  padding: 7,
-                  justifyContent: 'center',
-                  marginLeft: 6,
-                  height: 50,
-                  width: 60,
-                }}
-                activeOpacity={0.5}
-                onPress={() => setModalVisible(true)}>
-                <Text style={{justifyContent: 'center', marginLeft: 3}}>
-                  <Icon
-                    style={{marginBottom: 12, padding: 5}}
-                    name="close"
-                    size={28}
-                    color="#6699FF"
+              <View style={{flexDirection: 'row'}}>
+                <View style={{padding: 5}}>
+                  <Image
+                    source={{uri: item?.image}}
+                    style={{
+                      height: 100,
+                      width: 120,
+                      padding: 5,
+                      borderRadius: 10,
+                    }}
                   />
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <ScrollView style={{backgroundColor: '#FFFC', borderRadius: 30}}>
-            <View style={{flexDirection: 'column'}}>
-              <View style={{flex: 1, flexDirection: 'row', marginTop: 30}}>
-                <View style={{flex: 1, marginLeft: 20}}>
+                </View>
+
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    marginLeft: 10,
+                    flex: 2,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      color: '#6699FF',
+                      fontWeight: 'bold',
+                      marginBottom: 15,
+                    }}>
+                    {item?.name}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      color: '#333366',
+                    }}>
+                    {item?.phienam}
+                  </Text>
+                </View>
+
+                <View style={{flex: 1}}>
                   <TouchableOpacity
+                    key={item?.audiotv}
                     style={{
                       padding: 5,
                       justifyContent: 'center',
-                      marginTop: 5,
+                      marginLeft: 16,
+                      marginTop: 30,
+                      backgroundColor: '#FFFC',
                       borderWidth: 2,
                       borderColor: '#20232a',
                       borderRadius: 30,
@@ -219,10 +182,10 @@ export default function hopdong() {
                       width: 50,
                     }}
                     activeOpacity={0.5}
-                    onPress={play}>
+                    onPress={() => LoadAudioEachQuestion(item?.audiotv)}>
                     <Text style={{justifyContent: 'center', marginLeft: 3}}>
                       <Icon
-                        style={{justifyContent: 'center'}}
+                        style={{justifyContent: 'center', marginLeft: 5}}
                         name="sound"
                         size={30}
                         color="#6699FF"
@@ -230,99 +193,198 @@ export default function hopdong() {
                     </Text>
                   </TouchableOpacity>
                 </View>
-                <View style={{flex: 5, marginLeft: 5}}>
-                  <Text
+              </View>
+            </TouchableOpacity>
+            <Modal
+              key={selectedItem}
+              style={{
+                borderRadius: 30,
+                marginTop: 200,
+                margin: 0,
+                backgroundColor: '#FFFF',
+              }}
+              isVisible={!isModalVisible}
+              animationType="fade"
+              transparent={true}
+              onClose={handleOnCloseModal}
+              onBackdropPress={() => handleOnCloseModal()}
+              propagateSwipe={false}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  backgroundColor: '#FFFC',
+                  borderRadius: 30,
+                }}>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                    marginTop: 10,
+                    borderBottomColor: '#C0C0C0',
+                    borderBottomWidth: 1,
+                  }}>
+                  <TouchableOpacity
                     style={{
-                      fontSize: 20,
-                      color: '#6699FF',
-                      fontWeight: 'bold',
-                      marginBottom: 2,
-                    }}>
-                    {HopDong.name}
-                  </Text>
-                  <Text style={{fontSize: 20, color: '#333366'}}>
-                    {HopDong.phienam}
-                  </Text>
+                      padding: 7,
+                      justifyContent: 'center',
+                      marginLeft: 6,
+                      height: 50,
+                      width: 60,
+                    }}
+                    activeOpacity={0.5}
+                    onPress={() => handleOnCloseModal()}>
+                    <Text style={{justifyContent: 'center', marginLeft: 3}}>
+                      <Icon
+                        style={{marginBottom: 12, padding: 5}}
+                        name="close"
+                        size={28}
+                        color="#6699FF"
+                      />
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </View>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  marginTop: 18,
-                  alignItems: 'center',
-                }}>
-                <Image
-                  source={{uri: HopDong.image}}
-                  style={{height: 150, width: 180, padding: 5, margin: 10}}
-                />
-              </View>
-              <View style={{flex: 1, justifyContent: 'center', marginLeft: 18}}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    color: '#333366',
-                    textDecorationLine: 'underline',
-                    fontStyle: 'italic',
-                  }}>
-                  {HopDong.tuloai}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  marginLeft: 18,
-                  marginTop: 18,
-                  padding: 5,
-                }}>
-                <Text style={{fontSize: 20, color: '#66CCFF'}}>
-                  {HopDong.nghia}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  marginLeft: 18,
-                  marginTop: 18,
-                  padding: 5,
-                }}>
-                <Text style={{fontSize: 20, color: '#222222'}}>
-                  1. {HopDong.giaithich}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  marginLeft: 18,
-                  marginTop: 18,
-                  padding: 5,
-                }}>
-                <Text
-                  style={{
-                    marginBottom: 10,
-                    fontSize: 20,
-                    color: '#808080',
-                    fontWeight: 'bold',
-                    fontStyle: 'italic',
-                  }}>
-                  Ví dụ:
-                </Text>
-                <Text
-                  style={{fontSize: 20, color: '#222222', marginBottom: 10}}>
-                  {HopDong.vdta}
-                </Text>
-                <Text
-                  style={{fontSize: 20, color: '#222222', marginBottom: 20}}>
-                  {HopDong.vdtv}
-                </Text>
-              </View>
-            </View>
+              <ScrollView style={{backgroundColor: '#FFFC', borderRadius: 30}}>
+                <View style={{flexDirection: 'column'}}>
+                  <View style={{flex: 1, flexDirection: 'row', marginTop: 30}}>
+                    <View style={{flex: 1, marginLeft: 20}}>
+                      <TouchableOpacity
+                        style={{
+                          padding: 5,
+                          justifyContent: 'center',
+                          marginTop: 5,
+                          borderWidth: 2,
+                          borderColor: '#20232a',
+                          borderRadius: 30,
+                          height: 50,
+                          width: 50,
+                        }}
+                        activeOpacity={0.5}
+                        onPress={() => LoadAudioEachQuestion(item?.audiotv)}>
+                        <Text style={{justifyContent: 'center', marginLeft: 3}}>
+                          <Icon
+                            style={{justifyContent: 'center'}}
+                            name="sound"
+                            size={30}
+                            color="#6699FF"
+                          />
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={{flex: 5, marginLeft: 5}}>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          color: '#6699FF',
+                          fontWeight: 'bold',
+                          marginBottom: 2,
+                        }}>
+                        {item?.name}
+                      </Text>
+                      <Text style={{fontSize: 20, color: '#333366'}}>
+                        {item?.phienam}
+                      </Text>
+                    </View>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      marginTop: 18,
+                      alignItems: 'center',
+                    }}>
+                    <Image
+                      source={{uri: item?.image}}
+                      style={{height: 150, width: 180, padding: 5, margin: 10}}
+                    />
+                  </View>
+                  <View
+                    style={{flex: 1, justifyContent: 'center', marginLeft: 18}}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: '#333366',
+                        textDecorationLine: 'underline',
+                        fontStyle: 'italic',
+                      }}>
+                      {item?.tuloai}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      marginLeft: 18,
+                      marginTop: 18,
+                      padding: 5,
+                    }}>
+                    <Text style={{fontSize: 20, color: '#66CCFF'}}>
+                      {item?.nghia}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      marginLeft: 18,
+                      marginTop: 18,
+                      padding: 5,
+                    }}>
+                    <Text style={{fontSize: 20, color: '#222222'}}>
+                      1. {item?.giaithich}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      marginLeft: 18,
+                      marginTop: 18,
+                      padding: 5,
+                    }}>
+                    <Text
+                      style={{
+                        marginBottom: 10,
+                        fontSize: 20,
+                        color: '#808080',
+                        fontWeight: 'bold',
+                        fontStyle: 'italic',
+                      }}>
+                      Ví dụ:
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: '#222222',
+                        marginBottom: 10,
+                      }}>
+                      {item?.vdta}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: '#222222',
+                        marginBottom: 20,
+                      }}>
+                      {item?.vdtv}
+                    </Text>
+                  </View>
+                </View>
+              </ScrollView>
+            </Modal>
           </ScrollView>
-        </Modal>
-      </ScrollView>
+        )}
+      />
+      {loading ? (
+        <OrientationLoadingOverlay
+          visible={true}
+          color="white"
+          indicatorSize="large"
+          messageFontSize={24}
+          message="Loading..."
+        />
+      ) : null}
     </ImageBackground>
   );
 }
