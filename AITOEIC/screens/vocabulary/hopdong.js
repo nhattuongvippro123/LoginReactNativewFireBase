@@ -31,14 +31,12 @@ export default function hopdong() {
   const [isModalVisible, setModalVisible] = useState(true);
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-
+  const [dataItem, setDataItem] = useState();
   const [arr, setTatCaData] = useState([]);
 
   const toggleModal = (item) => {
-    if (item.id == item.id) {
-      setModalVisible(!isModalVisible);
-      setSelectedItem(item);
-    }
+    setModalVisible(!isModalVisible);
+    setSelectedItem(item);
   };
   const handleOnCloseModal = () => {
     setSelectedItem(null);
@@ -126,8 +124,10 @@ export default function hopdong() {
               }}
               activeOpacity={0.5}
               onPress={() => {
-                toggleModal(item.id);
+                // toggleModal(item.id);
                 // test(item);
+                setModalVisible(false);
+                setDataItem(item);
               }}>
               <View style={{flexDirection: 'row'}}>
                 <View style={{padding: 5}}>
@@ -196,7 +196,6 @@ export default function hopdong() {
               </View>
             </TouchableOpacity>
             <Modal
-              key={selectedItem}
               style={{
                 borderTopLeftRadius: 30,
                 borderTopRightRadius: 30,
@@ -209,7 +208,7 @@ export default function hopdong() {
               transparent={true}
               onClose={handleOnCloseModal}
               onBackdropPress={() => handleOnCloseModal()}
-              propagateSwipe={false}>
+              propagateSwipe={true}>
               <View
                 style={{
                   flexDirection: 'row',
@@ -234,7 +233,7 @@ export default function hopdong() {
                       width: 60,
                     }}
                     activeOpacity={0.5}
-                    onPress={() => handleOnCloseModal()}>
+                    onPress={() => setModalVisible(!isModalVisible)}>
                     <Text style={{justifyContent: 'center', marginLeft: 3}}>
                       <Icon
                         style={{marginBottom: 12, padding: 5}}
@@ -262,7 +261,9 @@ export default function hopdong() {
                           width: 50,
                         }}
                         activeOpacity={0.5}
-                        onPress={() => LoadAudioEachQuestion(item?.audiotv)}>
+                        onPress={() =>
+                          LoadAudioEachQuestion(dataItem?.audiotv)
+                        }>
                         <Text style={{justifyContent: 'center', marginLeft: 3}}>
                           <Icon
                             style={{justifyContent: 'center'}}
@@ -281,10 +282,10 @@ export default function hopdong() {
                           fontWeight: 'bold',
                           marginBottom: 2,
                         }}>
-                        {item?.name}
+                        {dataItem?.name}
                       </Text>
                       <Text style={{fontSize: 20, color: '#333366'}}>
-                        {item?.phienam}
+                        {dataItem?.phienam}
                       </Text>
                     </View>
                   </View>
@@ -296,7 +297,7 @@ export default function hopdong() {
                       alignItems: 'center',
                     }}>
                     <Image
-                      source={{uri: item?.image}}
+                      source={{uri: dataItem?.image}}
                       style={{height: 150, width: 180, padding: 5, margin: 10}}
                     />
                   </View>
@@ -309,7 +310,7 @@ export default function hopdong() {
                         textDecorationLine: 'underline',
                         fontStyle: 'italic',
                       }}>
-                      {item?.tuloai}
+                      {dataItem?.tuloai}
                     </Text>
                   </View>
                   <View
@@ -321,7 +322,7 @@ export default function hopdong() {
                       padding: 5,
                     }}>
                     <Text style={{fontSize: 20, color: '#66CCFF'}}>
-                      {item?.nghia}
+                      {dataItem?.nghia}
                     </Text>
                   </View>
                   <View
@@ -333,7 +334,7 @@ export default function hopdong() {
                       padding: 5,
                     }}>
                     <Text style={{fontSize: 20, color: '#222222'}}>
-                      1. {item?.giaithich}
+                      1. {dataItem?.giaithich}
                     </Text>
                   </View>
                   <View
@@ -360,7 +361,7 @@ export default function hopdong() {
                         color: '#222222',
                         marginBottom: 10,
                       }}>
-                      {item?.vdta}
+                      {dataItem?.vdta}
                     </Text>
                     <Text
                       style={{
@@ -368,7 +369,33 @@ export default function hopdong() {
                         color: '#222222',
                         marginBottom: 20,
                       }}>
-                      {item?.vdtv}
+                      {dataItem?.vdtv}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      marginLeft: 18,
+                      marginTop: 18,
+                      padding: 5,
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: '#222222',
+                        marginBottom: 20,
+                        fontWeight: 'bold',
+                      }}>
+                      Từ đồng nghĩa:
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: '#222222',
+                        marginBottom: 20,
+                      }}>
+                      {dataItem?.tudongnghia}
                     </Text>
                   </View>
                 </View>

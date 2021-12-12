@@ -20,6 +20,13 @@ import thitruong from '../screens/vocabulary/thitruong';
 import subaohanh from '../screens/vocabulary/subaohanh';
 import p1 from '../screens/detailsnguphap/p1';
 import scr1 from '../screens/detailspart1/scr1';
+import scr2 from '../screens/detailspart1/scr2';
+import scr3 from '../screens/detailspart1/scr3';
+import scr4 from '../screens/detailspart1/scr4';
+import scr5 from '../screens/detailspart1/scr5';
+import scr6 from '../screens/detailspart1/scr6';
+import scr7 from '../screens/detailspart1/scr7';
+import scrthithu from '../screens/detailspart1/scrthithu';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -147,6 +154,7 @@ export default function AppStack() {
         name="Part1"
         component={Part1}
         options={{
+          headerShown: false,
           title: 'Mô tả hình ảnh',
           backgroundColor: 'transparent',
         }}
@@ -154,32 +162,32 @@ export default function AppStack() {
       <AppStack.Screen
         name="Part2"
         component={Part2}
-        options={{title: 'Part 2'}}
+        options={{title: 'Part 2', headerShown: false}}
       />
       <AppStack.Screen
         name="Part3"
         component={Part3}
-        options={{title: 'Part 3'}}
+        options={{title: 'Part 3', headerShown: false}}
       />
       <AppStack.Screen
         name="Part4"
         component={Part4}
-        options={{title: 'Part 4'}}
+        options={{title: 'Part 4', headerShown: false}}
       />
       <AppStack.Screen
         name="Part5"
         component={Part5}
-        options={{title: 'Part 5'}}
+        options={{title: 'Part 5', headerShown: false}}
       />
       <AppStack.Screen
         name="Part6"
         component={Part6}
-        options={{title: 'Part 6'}}
+        options={{title: 'Part 6', headerShown: false}}
       />
       <AppStack.Screen
         name="Part7"
         component={Part7}
-        options={{title: 'Part 7'}}
+        options={{title: 'Part 7', headerShown: false}}
       />
       <AppStack.Screen
         name="BoTuVung"
@@ -189,7 +197,7 @@ export default function AppStack() {
       <AppStack.Screen
         name="ThiThu"
         component={thithu}
-        options={{title: 'Thi Thử'}}
+        options={{title: 'Thi Thử', headerShown: false}}
       />
       <AppStack.Screen
         name="hopdong"
@@ -209,12 +217,47 @@ export default function AppStack() {
       <AppStack.Screen
         name="p1"
         component={p1}
-        options={{title: 'Cấu trúc thành phần một câu'}}
+        options={{title: 'Cấu trúc thành phần một câu', headerShown: false}}
       />
       <AppStack.Screen
         name="scr1"
         component={scr1}
         options={{title: 'scr1', headerShown: false}}
+      />
+      <AppStack.Screen
+        name="scr2"
+        component={scr2}
+        options={{title: 'scr2', headerShown: false}}
+      />
+       <AppStack.Screen
+        name="scr3"
+        component={scr3}
+        options={{title: 'scr3', headerShown: false}}
+      />
+       <AppStack.Screen
+        name="scr4"
+        component={scr4}
+        options={{title: 'scr4', headerShown: false}}
+      />
+       <AppStack.Screen
+        name="scr5"
+        component={scr5}
+        options={{title: 'scr5', headerShown: false}}
+      />
+       <AppStack.Screen
+        name="scr6"
+        component={scr6}
+        options={{title: 'scr6', headerShown: false}}
+      />
+       <AppStack.Screen
+        name="scr7"
+        component={scr7}
+        options={{title: 'scr7', headerShown: false}}
+      />
+       <AppStack.Screen
+        name="scrthithu"
+        component={scrthithu}
+        options={{title: 'scrthithu', headerShown: false}}
       />
     </AppStack.Navigator>
   );

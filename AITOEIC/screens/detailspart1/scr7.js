@@ -25,7 +25,7 @@ import Loading from './../../components/Loading';
 import Sound from 'react-native-sound';
 import {ProgressBar, Colors} from 'react-native-paper';
 
-const scr1 = (navigation) => {
+const scr7 = (navigation) => {
   navigation = useNavigation();
   const [arr, setTatCaData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -52,12 +52,14 @@ const scr1 = (navigation) => {
   const [playseconds, setPlaySeconds] = useState(0);
   const [duration, setDuration] = useState('');
 
+  const [countquestion, setCountQuestion] = useState(1);
   const [questionlist, setQuestionList] = useState([]);
   const [listnextquestion, setListNextQuestion] = useState(null);
   const [nextquestion, setNextQuestion] = useState(0);
   const [endquestion, setEndQuestion] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const nextQuestion = () => {
+    setCountQuestion(countquestion + 1);
     stop(arr[nextquestion.audio]);
     var nextq = nextquestion + 1;
     if (nextq < arr.length) {
@@ -105,8 +107,8 @@ const scr1 = (navigation) => {
       setLoading(true);
       const totalpart1Ref = await firestore()
         .collection('Quizzes')
-        .doc('part1')
-        .collection('cau1')
+        .doc('part2')
+        .collection('caccauhoi')
         .get();
 
       totalpart1Ref.docs.forEach(async (doc) => {
@@ -313,23 +315,15 @@ const scr1 = (navigation) => {
             Select the answer:
           </Text>
         </View>
-        <View style={{margin: '3%'}}>
-          <Image
-            source={{uri: arr[nextquestion]?.image}}
-            style={{
-              height: 210,
-              width: Dimensions.get('window').width,
-              borderRadius: 5,
-            }}
-            PlaceholderContent={<ActivityIndicator />}
-          />
-        </View>
-
         <View
           style={{
             marginLeft: 10,
             paddingBottom: 10,
+            marginTop: 15,
           }}>
+          <Text style={{fontSize: 30, marginBottom: 20}}>
+            Câu {countquestion}:
+          </Text>
           {arr[nextquestion]?.options.map((item, index) => {
             return (
               <TouchableHighlight
@@ -405,7 +399,7 @@ const scr1 = (navigation) => {
                   fontSize: 17,
                   borderRadius: 10,
                 }}>
-                Mô tả hình ảnh
+                Hỏi & Đáp
               </Text>
               <Text
                 style={{
@@ -452,13 +446,13 @@ const scr1 = (navigation) => {
               </Pressable>
               <Pressable
                 style={[styles.buttonmodal, styles.buttonClosemodal]}
-                onPress={() => navigation.navigate('Part1')}>
-                <Text style={styles.textmodal}>Làm lại Part 1</Text>
+                onPress={() => navigation.navigate('Part2')}>
+                <Text style={styles.textmodal}>Làm lại Part 2</Text>
               </Pressable>
               <Pressable
                 style={[styles.buttonmodal, styles.buttonClosemodal]}
-                onPress={() => navigation.navigate('Part2')}>
-                <Text style={styles.textmodal}>Tiếp tục luyện tập Part 2</Text>
+                onPress={() => navigation.navigate('Part3')}>
+                <Text style={styles.textmodal}>Tiếp tục Part 3</Text>
               </Pressable>
               <View style={{flexDirection: 'row'}}>
                 <Image
@@ -512,7 +506,7 @@ const scr1 = (navigation) => {
                   fontSize: 17,
                   borderRadius: 10,
                 }}>
-                Mô tả hình ảnh
+                Hỏi & Đáp
               </Text>
               <Text
                 style={{
@@ -560,13 +554,13 @@ const scr1 = (navigation) => {
               </Pressable>
               <Pressable
                 style={[styles.buttonmodal, styles.buttonClosemodal]}
-                onPress={() => navigation.navigate('Part1')}>
-                <Text style={styles.textmodal}>Làm lại Part 1</Text>
+                onPress={() => navigation.navigate('Part2')}>
+                <Text style={styles.textmodal}>Làm lại Part 2</Text>
               </Pressable>
               <Pressable
                 style={[styles.buttonmodal, styles.buttonClosemodal]}
                 onPress={() => navigation.navigate('Part2')}>
-                <Text style={styles.textmodal}>Tiếp tục Part 2</Text>
+                <Text style={styles.textmodal}>Tiếp tục Part 3</Text>
               </Pressable>
               <View style={{flexDirection: 'row'}}>
                 <Image
@@ -593,7 +587,7 @@ const scr1 = (navigation) => {
     </ImageBackground>
   );
 };
-export default scr1;
+export default scr7;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

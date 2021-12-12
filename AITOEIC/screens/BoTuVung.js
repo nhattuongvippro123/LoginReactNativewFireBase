@@ -52,21 +52,28 @@ export default function BoTuVung({navigation}) {
       <Header title="BỘ TỪ VỰNG" />
       <FlatList
         // horizontal
+        style={{padding: 5}}
+        numColumns={2}
+        columnWrapperStyle={{justifyContent: 'space-between'}}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         data={arr}
         keyExtractor={(item, index) => index}
         renderItem={({item, index}) => (
           <ScrollView>
-            <TouchableOpacity
-              style={{width: 190, height: 200, marginTop: 10, marginLeft: 10}}
-              activeOpacity={0.5}
-              onPress={() => navigation.navigate(item.id)}>
-              <ImageBackground source={{uri: item?.imagebackground}} style={{}}>
-                <Text style={styles.tuvungtext}>{item?.name}</Text>
-                <Text style={styles.sotu}>Số từ: {item?.sotu}</Text>
-              </ImageBackground>
-            </TouchableOpacity>
+            <View style={{padding: 1, margin: 5}}>
+              <TouchableOpacity
+                style={{width: 180, height: 200}}
+                activeOpacity={0.5}
+                onPress={() => navigation.navigate(item.id)}>
+                <ImageBackground
+                  source={{uri: item?.imagebackground}}
+                  style={{}}>
+                  <Text style={styles.tuvungtext}>{item?.name}</Text>
+                  <Text style={styles.sotu}>Số từ: {item?.sotu}</Text>
+                </ImageBackground>
+              </TouchableOpacity>
+            </View>
           </ScrollView>
         )}
       />
