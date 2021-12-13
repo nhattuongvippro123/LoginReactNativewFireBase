@@ -9,6 +9,7 @@ import {
   Alert,
   Modal,
   Pressable,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import database from '@react-native-firebase/database';
@@ -107,7 +108,7 @@ const scr3 = (navigation) => {
       setLoading(true);
       const totalpart1Ref = await firestore()
         .collection('Quizzes')
-        .doc('part2')
+        .doc('part3')
         .collection('caccauhoi')
         .get();
 
@@ -312,51 +313,109 @@ const scr3 = (navigation) => {
               color: '#FFF',
               fontWeight: 'bold',
             }}>
-            Select the answer:
+            Bài 1:
           </Text>
         </View>
         <View
           style={{
-            marginLeft: 10,
+            margin: 10,
             paddingBottom: 10,
             marginTop: 15,
+            backgroundColor: '#EEEEEE',
+            borderWidth: 3,
+            borderRadius: 20,
+            padding: 5,
           }}>
-          <Text style={{fontSize: 30, marginBottom: 20}}>
-            Câu {countquestion}:
-          </Text>
-          {arr[nextquestion]?.options.map((item, index) => {
-            return (
-              <TouchableHighlight
-                key={index}
-                style={[
-                  styles.buttona,
-                  click == true
-                    ? {
-                        backgroundColor:
-                          item == arr[nextquestion]?.correct_answer
-                            ? COLORS.right
-                            : selected == index
-                            ? COLORS.wrong
-                            : null,
-                      }
-                    : null,
-                ]}
-                activeOpacity={0.5}
-                underlayColor="#00000000"
-                onPress={() => {
-                  handleAnswer(item, index);
-                }}>
-                <Text
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    fontSize: 20,
-                  }}>
-                  {item}
-                </Text>
-              </TouchableHighlight>
-            );
-          })}
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingTop: 10,
+              paddingLeft: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text
+              style={{
+                backgroundColor: '#FFFF',
+                borderRadius: 10,
+                borderWidth: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: 50,
+                height: 50,
+              }}></Text>
+            <Text
+              style={{
+                flex: 1,
+                padding: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontSize: 20,
+                color: '#000099',
+              }}>
+              {arr[0]?.cauhoi1}
+            </Text>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <View
+              style={{
+                backgroundColor: COLORS.wrong,
+                flexDirection: 'column',
+                paddingTop: 10,
+                paddingLeft: 10,
+                justifyContent: 'center',
+              }}>
+              {arr[nextquestion]?.options1.map((item, index) => {
+                return (
+                  <TouchableHighlight
+                    key={index}
+                    style={[
+                      styles.buttona,
+                      click == true
+                        ? {
+                            backgroundColor:
+                              item == arr[nextquestion]?.correct_answer1
+                                ? COLORS.right
+                                : selected == index
+                                ? COLORS.wrong
+                                : null,
+                          }
+                        : null,
+                    ]}
+                    activeOpacity={0.5}
+                    underlayColor="#00000000"
+                    onPress={() => {
+                      handleAnswer(item, index);
+                    }}>
+                    <Text
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        fontSize: 20,
+                      }}>
+                      {item}
+                    </Text>
+                  </TouchableHighlight>
+                );
+              })}
+            </View>
+            <View style={{flex: 1, backgroundColor: COLORS.right}}>
+              {arr[nextquestion]?.answer1.map((item, index) => {
+                return (
+                  <TouchableWithoutFeedback key={index} style={styles.buttona}>
+                    <Text
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        fontSize: 30,
+                      }}>
+                      {item}
+                    </Text>
+                  </TouchableWithoutFeedback>
+                );
+              })}
+            </View>
+          </View>
         </View>
       </View>
       {loading ? (
@@ -595,6 +654,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttona: {
+    marginBottom: 10,
     marginBottom: 10,
     padding: 5,
     justifyContent: 'center',
