@@ -93,7 +93,7 @@ export default function Part1(navigation) {
           <View style={{alignItems: 'center', marginBottom: 50}}>
             <FormButton
               buttonTitle="Bắt đầu"
-              onPress={() => navigation.navigate('scr2')}
+              onPress={() => navigation.navigate('scr1')}
             />
           </View>
         </View>

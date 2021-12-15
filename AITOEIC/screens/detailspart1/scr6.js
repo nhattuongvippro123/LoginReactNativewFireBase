@@ -9,6 +9,8 @@ import {
   Alert,
   Modal,
   Pressable,
+  TouchableWithoutFeedback,
+  ScrollView,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import database from '@react-native-firebase/database';
@@ -25,54 +27,65 @@ import Loading from './../../components/Loading';
 import Sound from 'react-native-sound';
 import {ProgressBar, Colors} from 'react-native-paper';
 
-const scr5 = (navigation) => {
+const scr6 = (navigation) => {
   navigation = useNavigation();
+  const scrollRef = useRef();
   const [arr, setTatCaData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [isAudio, setAudio] = useState('');
   const [Alert, setShowAlert] = useState(false);
 
+  const [countselectedanswer, setCountSelectedAnswer] = useState(4);
+  const [counthoanthanhbai, setCountHoanThanhBai] = useState(1);
+  const [countbai, setCountBai] = useState(1);
   const [correctcount, setCorrectCount] = useState(0);
   const [incorrectcount, setInCorrectCount] = useState(1);
-  const [over, setOver] = useState(false);
   const [totalquestion, TOTAL_QUESTION] = useState('');
   const [dunghet, setDungHet] = useState(false);
 
   const [loaddataxong, setLoadDataXong] = useState(false);
-  const [loadaudio, setLoadAudio] = useState('');
-  const [dungaudio, setDungAudio] = useState(false);
-  const [audiostop, setAudioStop] = useState('');
 
   const [flag, setFlag] = useState(false);
-  const [click, setClick] = useState(false);
-  const [selected, setSelected] = useState();
+  const [click1, setClick1] = useState(false);
+  const [click2, setClick2] = useState(false);
+  const [click3, setClick3] = useState(false);
+  const [click4, setClick4] = useState(false);
 
-  const [isplay, setIsPlay] = useState(false);
-  const [playstate, setPlayState] = useState('pause');
-  const [playseconds, setPlaySeconds] = useState(0);
-  const [duration, setDuration] = useState('');
-
+  const [selected1, setSelected1] = useState();
+  const [selected2, setSelected2] = useState();
+  const [selected3, setSelected3] = useState();
+  const [selected4, setSelected4] = useState();
   const [countquestion, setCountQuestion] = useState(1);
   const [questionlist, setQuestionList] = useState([]);
   const [listnextquestion, setListNextQuestion] = useState(null);
   const [nextquestion, setNextQuestion] = useState(0);
   const [endquestion, setEndQuestion] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const backtotopscrollview = () => {
+    scrollRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  };
+
   const nextQuestion = () => {
+    backtotopscrollview();
+    setCountBai(countbai + 1);
     setCountQuestion(countquestion + 1);
-    stop(arr[nextquestion.audio]);
     var nextq = nextquestion + 1;
     if (nextq < arr.length) {
       setNextQuestion(nextq);
       console.log('next qs: ' + nextquestion);
-      LoadAudioEachQuestion(arr[nextquestion + 1].audio);
-      setClick(false);
+      setClick1(false);
+      setClick2(false);
+      setClick3(false);
+      setClick4(false);
     } else {
       setEndQuestion(true);
       setModalVisible(true);
       console.log('Xong');
       console.log('Số câu đúng:', correctcount);
-      if (correctcount == arr.length - 1) {
+      if (correctcount == countselectedanswer) {
         setDungHet(true);
         console.log(dunghet);
         console.log(
@@ -86,18 +99,82 @@ const scr5 = (navigation) => {
     }
   };
 
-  const handleAnswer = (item, index) => {
-    setSelected(index);
-    setClick(true);
+  const handleAnswer1 = (item, index) => {
+    setCountHoanThanhBai(counthoanthanhbai + 1);
+    console.log(counthoanthanhbai);
+    setSelected1(index);
+    setClick1(true);
+    setFlag(false);
+    if (item == arr[nextquestion].correct_answer1) {
+      setFlag(true);
+      setCorrectCount(correctcount + 1);
+      console.log('đúng');
+    }
+    setTimeout(() => {
+      if (counthoanthanhbai == countselectedanswer) {
+        setCountSelectedAnswer(countselectedanswer + 4);
+        nextQuestion();
+      }
+    }, 700);
+  };
+
+  const handleAnswer2 = (item, index) => {
+    setCountHoanThanhBai(counthoanthanhbai + 1);
+    console.log(counthoanthanhbai);
+    setSelected2(index);
+    setClick2(true);
+    setFlag(false);
+    if (item == arr[nextquestion].correct_answer2) {
+      setFlag(true);
+      setCorrectCount(correctcount + 1);
+      console.log('đúng');
+    }
+    setTimeout(() => {
+      if (counthoanthanhbai == countselectedanswer) {
+        setCountSelectedAnswer(countselectedanswer + 4);
+        nextQuestion();
+      }
+    }, 700);
+  };
+
+  const handleAnswer3 = (item, index) => {
+    setCountHoanThanhBai(counthoanthanhbai + 1);
+    console.log(counthoanthanhbai);
+    console.log(countselectedanswer);
+    setSelected3(index);
+    setClick3(true);
     setFlag(false);
     if (item == arr[nextquestion].correct_answer) {
       setFlag(true);
       setCorrectCount(correctcount + 1);
-      stop(arr[nextquestion.audio]);
+      console.log('đúng');
+      console.log(counthoanthanhbai);
     }
     setTimeout(() => {
-      nextQuestion();
-      stop(arr[nextquestion.audio]);
+      if (counthoanthanhbai == countselectedanswer) {
+        setCountSelectedAnswer(countselectedanswer + 4);
+
+        nextQuestion();
+      }
+    }, 700);
+  };
+
+  const handleAnswer4 = (item, index) => {
+    setCountHoanThanhBai(counthoanthanhbai + 1);
+    console.log(counthoanthanhbai);
+    setSelected4(index);
+    setClick4(true);
+    setFlag(false);
+    if (item == arr[nextquestion].correct_answer1) {
+      setFlag(true);
+      setCorrectCount(correctcount + 1);
+      console.log('đúng');
+    }
+    setTimeout(() => {
+      if (counthoanthanhbai == countselectedanswer) {
+        setCountSelectedAnswer(countselectedanswer + 4);
+        nextQuestion();
+      }
     }, 700);
   };
 
@@ -107,7 +184,7 @@ const scr5 = (navigation) => {
       setLoading(true);
       const totalpart1Ref = await firestore()
         .collection('Quizzes')
-        .doc('part2')
+        .doc('part6')
         .collection('caccauhoi')
         .get();
 
@@ -119,7 +196,6 @@ const scr5 = (navigation) => {
       });
       setLoadDataXong(true);
       setTatCaData(arr);
-      LoadAudioEachQuestion(arr[nextquestion].audio);
       TOTAL_QUESTION(arr.length);
     } catch (error) {
       console.log(error);
@@ -127,37 +203,7 @@ const scr5 = (navigation) => {
       setLoading(false);
     }
   };
-  const LoadAudioEachQuestion = (audio = '') => {
-    if (audio) {
-      console.log(nextquestion);
-      const audioo = new Sound(audio, null, (error) => {
-        if (error) {
-          console.log('Không lấy được audio', error);
-          return;
-        }
-        console.log('Lấy audio thành công');
 
-        audioo.play((success) => {
-          if (success) {
-            console.log('Audio đã chạy xong!');
-          } else {
-            console.log('errors');
-          }
-        });
-      });
-    }
-  };
-  const stop = (audio) => {
-    const audioo = new Sound(audio + '', null, (error) => {
-      audioo.getCurrentTime((seconds) => {
-        console.log(audio);
-        console.log('at ' + seconds);
-        console.log('ko dung duoc audio');
-      });
-      audioo.stop();
-      audioo.setVolume(0.0);
-    });
-  };
   const ShowAlert = () => {
     setShowAlert(true);
   };
@@ -244,63 +290,6 @@ const scr5 = (navigation) => {
           }}
         />
       </Header>
-      <View
-        style={{
-          flexDirection: 'row',
-          backgroundColor: '#000022',
-          height: '7%',
-        }}>
-        <TouchableOpacity
-          onPress={{}}
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: 30,
-            margin: 5,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Icon name="play-back-outline" type="ionicon" color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={stop}
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: 30,
-            margin: 5,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Icon name="play-outline" type="ionicon" color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={{}}
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: 30,
-            margin: 5,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Icon name="play-forward-outline" type="ionicon" color="white" />
-        </TouchableOpacity>
-
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <Text
-            style={{
-              color: '#FFF',
-              fontWeight: 'bold',
-              fontFamily: 'Cochin',
-              fontSize: 25,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            00:{duration}
-          </Text>
-        </View>
-      </View>
 
       <View style={[styles.shadowContainerStyle]}>
         <View style={styles.containerView}>
@@ -312,52 +301,459 @@ const scr5 = (navigation) => {
               color: '#FFF',
               fontWeight: 'bold',
             }}>
-            Select the answer:
+            Bài {countbai}:
           </Text>
         </View>
-        <View
-          style={{
-            marginLeft: 10,
-            paddingBottom: 10,
-            marginTop: 15,
-          }}>
-          <Text style={{fontSize: 30, marginBottom: 20}}>
-            Câu {countquestion}:
-          </Text>
-          {arr[nextquestion]?.options.map((item, index) => {
-            return (
-              <TouchableHighlight
-                key={index}
-                style={[
-                  styles.buttona,
-                  click == true
-                    ? {
-                        backgroundColor:
-                          item == arr[nextquestion]?.correct_answer
-                            ? COLORS.right
-                            : selected == index
-                            ? COLORS.wrong
-                            : null,
-                      }
-                    : null,
-                ]}
-                activeOpacity={0.5}
-                underlayColor="#00000000"
-                onPress={() => {
-                  handleAnswer(item, index);
+
+        <ScrollView ref={scrollRef} style={{marginBottom: 35}}>
+          <View
+            style={{
+              margin: 10,
+              paddingBottom: 10,
+              marginTop: 15,
+              backgroundColor: '#EEEEEE',
+              borderWidth: 3,
+              borderRadius: 20,
+              padding: 5,
+              alignCenter: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text
+              style={{
+                padding: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontSize: 25,
+                color: '#000099',
+              }}>
+              {arr[nextquestion]?.debai}
+            </Text>
+          </View>
+        </ScrollView>
+
+        <ScrollView ref={scrollRef}>
+          <View
+            style={{
+              margin: 10,
+              paddingBottom: 10,
+              marginTop: 15,
+              backgroundColor: '#EEEEEE',
+              borderWidth: 3,
+              borderRadius: 20,
+              padding: 5,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingTop: 10,
+                paddingLeft: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <View
+                style={{
+                  backgroundColor: '#FFFF',
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  justifyContent: 'center',
+                  width: 50,
+                  alignItems: 'center',
+                  height: 50,
                 }}>
-                <Text
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    fontSize: 20,
-                  }}>
-                  {item}
-                </Text>
-              </TouchableHighlight>
-            );
-          })}
-        </View>
+                <Text style={{fontSize: 30}}>1</Text>
+              </View>
+              <Text
+                style={{
+                  flex: 1,
+                  padding: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: 25,
+                  color: '#000099',
+                }}>
+                ---- (1) ----
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  paddingTop: 10,
+                  paddingLeft: 10,
+                  justifyContent: 'center',
+                }}>
+                {arr[nextquestion]?.options.map((item, index) => {
+                  return (
+                    <TouchableHighlight
+                      key={index}
+                      style={[
+                        styles.buttona,
+                        click1 == true
+                          ? {
+                              backgroundColor:
+                                item == arr[nextquestion]?.correct_answer1
+                                  ? COLORS.right
+                                  : selected1 == index
+                                  ? COLORS.wrong
+                                  : null,
+                            }
+                          : null,
+                      ]}
+                      activeOpacity={0.5}
+                      underlayColor="#00000000"
+                      onPress={() => {
+                        handleAnswer1(item, index);
+                      }}>
+                      <Text
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          fontSize: 20,
+                        }}>
+                        {item}
+                      </Text>
+                    </TouchableHighlight>
+                  );
+                })}
+              </View>
+              <View style={{flex: 1}}>
+                {arr[nextquestion]?.answer1.map((item, index) => {
+                  return (
+                    <TouchableWithoutFeedback
+                      key={index}
+                      style={styles.buttona}>
+                      <Text
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          fontSize: 25,
+                          padding: 20,
+                        }}>
+                        {item}
+                      </Text>
+                    </TouchableWithoutFeedback>
+                  );
+                })}
+              </View>
+            </View>
+          </View>
+          <View
+            style={{
+              margin: 10,
+              paddingBottom: 10,
+              marginTop: 15,
+              backgroundColor: '#EEEEEE',
+              borderWidth: 3,
+              borderRadius: 20,
+              padding: 5,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingTop: 10,
+                paddingLeft: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <View
+                style={{
+                  backgroundColor: '#FFFF',
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  justifyContent: 'center',
+                  width: 50,
+                  alignItems: 'center',
+                  height: 50,
+                }}>
+                <Text style={{fontSize: 30}}>2</Text>
+              </View>
+              <Text
+                style={{
+                  flex: 1,
+                  padding: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: 25,
+                  color: '#000099',
+                }}>
+                ---- (2) ----
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  paddingTop: 10,
+                  paddingLeft: 10,
+                  justifyContent: 'center',
+                }}>
+                {arr[nextquestion]?.options.map((item, index) => {
+                  return (
+                    <TouchableHighlight
+                      key={index}
+                      style={[
+                        styles.buttona,
+                        click2 == true
+                          ? {
+                              backgroundColor:
+                                item == arr[nextquestion]?.correct_answer2
+                                  ? COLORS.right
+                                  : selected2 == index
+                                  ? COLORS.wrong
+                                  : null,
+                            }
+                          : null,
+                      ]}
+                      activeOpacity={0.5}
+                      underlayColor="#00000000"
+                      onPress={() => {
+                        handleAnswer2(item, index);
+                      }}>
+                      <Text
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          fontSize: 20,
+                        }}>
+                        {item}
+                      </Text>
+                    </TouchableHighlight>
+                  );
+                })}
+              </View>
+              <View style={{flex: 1}}>
+                {arr[nextquestion]?.answer2.map((item, index) => {
+                  return (
+                    <TouchableWithoutFeedback
+                      key={index}
+                      style={styles.buttona}>
+                      <Text
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          fontSize: 25,
+                          padding: 20,
+                        }}>
+                        {item}
+                      </Text>
+                    </TouchableWithoutFeedback>
+                  );
+                })}
+              </View>
+            </View>
+          </View>
+          <View
+            style={{
+              margin: 10,
+              paddingBottom: 10,
+              marginTop: 15,
+              backgroundColor: '#EEEEEE',
+              borderWidth: 3,
+              borderRadius: 20,
+              padding: 5,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingTop: 10,
+                paddingLeft: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <View
+                style={{
+                  backgroundColor: '#FFFF',
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  justifyContent: 'center',
+                  width: 50,
+                  alignItems: 'center',
+                  height: 50,
+                }}>
+                <Text style={{fontSize: 30}}>3</Text>
+              </View>
+              <Text
+                style={{
+                  flex: 1,
+                  padding: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: 25,
+                  color: '#000099',
+                }}>
+                ---- (3) ----
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  paddingTop: 10,
+                  paddingLeft: 10,
+                  justifyContent: 'center',
+                }}>
+                {arr[nextquestion]?.options.map((item, index) => {
+                  return (
+                    <TouchableHighlight
+                      key={index}
+                      style={[
+                        styles.buttona,
+                        click3 == true
+                          ? {
+                              backgroundColor:
+                                item == arr[nextquestion]?.correct_answer3
+                                  ? COLORS.right
+                                  : selected3 == index
+                                  ? COLORS.wrong
+                                  : null,
+                            }
+                          : null,
+                      ]}
+                      activeOpacity={0.5}
+                      underlayColor="#00000000"
+                      onPress={() => {
+                        handleAnswer3(item, index);
+                      }}>
+                      <Text
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          fontSize: 20,
+                        }}>
+                        {item}
+                      </Text>
+                    </TouchableHighlight>
+                  );
+                })}
+              </View>
+              <View style={{flex: 1}}>
+                {arr[nextquestion]?.answer3.map((item, index) => {
+                  return (
+                    <TouchableWithoutFeedback
+                      key={index}
+                      style={styles.buttona}>
+                      <Text
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          fontSize: 25,
+                          padding: 20,
+                        }}>
+                        {item}
+                      </Text>
+                    </TouchableWithoutFeedback>
+                  );
+                })}
+              </View>
+            </View>
+          </View>
+          <View
+            style={{
+              margin: 10,
+              marginBottom: 100,
+              paddingBottom: 10,
+              marginTop: 15,
+              backgroundColor: '#EEEEEE',
+              borderWidth: 3,
+              borderRadius: 20,
+              padding: 5,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingTop: 10,
+                paddingLeft: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <View
+                style={{
+                  backgroundColor: '#FFFF',
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  justifyContent: 'center',
+                  width: 50,
+                  alignItems: 'center',
+                  height: 50,
+                }}>
+                <Text style={{fontSize: 30}}>4</Text>
+              </View>
+              <Text
+                style={{
+                  flex: 1,
+                  padding: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: 25,
+                  color: '#000099',
+                }}>
+                ---- (4) ----
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  paddingTop: 10,
+                  paddingLeft: 10,
+                  justifyContent: 'center',
+                }}>
+                {arr[nextquestion]?.options.map((item, index) => {
+                  return (
+                    <TouchableHighlight
+                      key={index}
+                      style={[
+                        styles.buttona,
+                        click4 == true
+                          ? {
+                              backgroundColor:
+                                item == arr[nextquestion]?.correct_answer4
+                                  ? COLORS.right
+                                  : selected4 == index
+                                  ? COLORS.wrong
+                                  : null,
+                            }
+                          : null,
+                      ]}
+                      activeOpacity={0.5}
+                      underlayColor="#00000000"
+                      onPress={() => {
+                        handleAnswer4(item, index);
+                      }}>
+                      <Text
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          fontSize: 20,
+                        }}>
+                        {item}
+                      </Text>
+                    </TouchableHighlight>
+                  );
+                })}
+              </View>
+              <View style={{flex: 1}}>
+                {arr[nextquestion]?.answer4.map((item, index) => {
+                  return (
+                    <TouchableWithoutFeedback
+                      key={index}
+                      style={styles.buttona}>
+                      <Text
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          fontSize: 25,
+                          padding: 20,
+                        }}>
+                        {item}
+                      </Text>
+                    </TouchableWithoutFeedback>
+                  );
+                })}
+              </View>
+            </View>
+          </View>
+        </ScrollView>
       </View>
       {loading ? (
         <OrientationLoadingOverlay
@@ -399,7 +795,7 @@ const scr5 = (navigation) => {
                   fontSize: 17,
                   borderRadius: 10,
                 }}>
-                Hỏi & Đáp
+                Điền vào đoạn văn
               </Text>
               <Text
                 style={{
@@ -410,7 +806,7 @@ const scr5 = (navigation) => {
                   fontSize: 17,
                   borderRadius: 10,
                 }}>
-                (Nghe hiểu)
+                (Đọc hiểu)
               </Text>
               <View
                 style={{
@@ -426,7 +822,7 @@ const scr5 = (navigation) => {
                     fontWeight: 'bold',
                     fontSize: 30,
                   }}>
-                  Correct: {correctcount}/{arr.length}
+                  Correct: {correctcount}/{countselectedanswer}
                 </Text>
                 <Text
                   style={{
@@ -446,13 +842,13 @@ const scr5 = (navigation) => {
               </Pressable>
               <Pressable
                 style={[styles.buttonmodal, styles.buttonClosemodal]}
-                onPress={() => navigation.navigate('Part2')}>
-                <Text style={styles.textmodal}>Làm lại Part 2</Text>
+                onPress={() => navigation.navigate('Part6')}>
+                <Text style={styles.textmodal}>Làm lại Part 6</Text>
               </Pressable>
               <Pressable
                 style={[styles.buttonmodal, styles.buttonClosemodal]}
-                onPress={() => navigation.navigate('Part3')}>
-                <Text style={styles.textmodal}>Tiếp tục Part 3</Text>
+                onPress={() => navigation.navigate('Part7')}>
+                <Text style={styles.textmodal}>Tiếp tục Part 7</Text>
               </Pressable>
               <View style={{flexDirection: 'row'}}>
                 <Image
@@ -506,7 +902,7 @@ const scr5 = (navigation) => {
                   fontSize: 17,
                   borderRadius: 10,
                 }}>
-                Hỏi & Đáp
+                Điền vào đoạn văn
               </Text>
               <Text
                 style={{
@@ -517,7 +913,7 @@ const scr5 = (navigation) => {
                   fontSize: 17,
                   borderRadius: 10,
                 }}>
-                (Nghe hiểu)
+                (Đọc hiểu)
               </Text>
               <View
                 style={{
@@ -533,7 +929,7 @@ const scr5 = (navigation) => {
                     fontWeight: 'bold',
                     fontSize: 30,
                   }}>
-                  Correct: {correctcount}/{arr.length}
+                  Correct: {correctcount}/{countselectedanswer}
                 </Text>
                 <Text
                   style={{
@@ -542,8 +938,7 @@ const scr5 = (navigation) => {
                     fontWeight: 'bold',
                     fontSize: 17,
                   }}>
-                  Bạn cần cải thiện nhiều hơn về Part1, vì nó đơn giản không thể
-                  mất điểm.
+                  Bạn tiếp tục cố gắng nhé!
                 </Text>
               </View>
 
@@ -554,13 +949,13 @@ const scr5 = (navigation) => {
               </Pressable>
               <Pressable
                 style={[styles.buttonmodal, styles.buttonClosemodal]}
-                onPress={() => navigation.navigate('Part2')}>
-                <Text style={styles.textmodal}>Làm lại Part 2</Text>
+                onPress={() => navigation.navigate('Part6')}>
+                <Text style={styles.textmodal}>Làm lại Part 6</Text>
               </Pressable>
               <Pressable
                 style={[styles.buttonmodal, styles.buttonClosemodal]}
-                onPress={() => navigation.navigate('Part2')}>
-                <Text style={styles.textmodal}>Tiếp tục Part 3</Text>
+                onPress={() => navigation.navigate('Part7')}>
+                <Text style={styles.textmodal}>Tiếp tục Part 7</Text>
               </Pressable>
               <View style={{flexDirection: 'row'}}>
                 <Image
@@ -587,7 +982,7 @@ const scr5 = (navigation) => {
     </ImageBackground>
   );
 };
-export default scr5;
+export default scr6;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -595,6 +990,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttona: {
+    marginBottom: 10,
     marginBottom: 10,
     padding: 5,
     justifyContent: 'center',

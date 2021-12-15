@@ -39,7 +39,7 @@ export default function Part3(navigation) {
     <ImageBackground
       source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')}
       style={{width: Dimensions.get('window').width, height: '100%'}}>
-      <Header title="Hỏi & Đáp" />
+      <Header title="Đoạn Hội Thoại" />
       <View style={styles.container}>
         <View
           style={{

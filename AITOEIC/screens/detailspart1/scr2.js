@@ -542,8 +542,7 @@ const scr2 = (navigation) => {
                     fontWeight: 'bold',
                     fontSize: 17,
                   }}>
-                  Bạn cần cải thiện nhiều hơn về Part1, vì nó đơn giản không thể
-                  mất điểm.
+                  Tiếp tục cố gắng nhé!
                 </Text>
               </View>
 

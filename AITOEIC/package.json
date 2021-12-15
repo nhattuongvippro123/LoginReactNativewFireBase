@@ -29,6 +29,7 @@
     "react-native-awesome-alerts": "^1.5.2",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-image-pan-zoom": "^2.1.12",
     "react-native-modal": "^13.0.0",
     "react-native-modalize": "^2.0.12",
     "react-native-orientation-loading-overlay": "^0.1.6",

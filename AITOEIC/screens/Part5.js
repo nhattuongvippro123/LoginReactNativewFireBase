@@ -23,7 +23,7 @@ export default function Part5(navigation) {
   const gettitle = async () => {
     firestore()
       .collection('Quizzes')
-      .doc('part1')
+      .doc('part5')
       .get()
       .then((documentSnapshot) => {
         console.log('title data: ', documentSnapshot.data());
@@ -39,7 +39,7 @@ export default function Part5(navigation) {
     <ImageBackground
       source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')}
       style={{width: Dimensions.get('window').width, height: '100%'}}>
-      <Header title="Hỏi & Đáp" />
+      <Header title="Điền Vào Câu" />
       <View style={styles.container}>
         <View
           style={{
@@ -53,21 +53,29 @@ export default function Part5(navigation) {
                 width: 360,
                 margin: 20,
                 height: 200,
-                alignItems: 'center',
                 backgroundColor: '#FFF',
                 justifyContent: 'center',
               },
             ]}>
-            <Image
-              source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/image/part2.png')}
-              style={{width: 100, height: 110, borderRadius: 10, marginTop: 9}}
-            />
-            <Text h4>Câu hỏi:</Text>
+            <View style={{alignItems: 'center'}}>
+              <Image
+                source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/image/part5.png')}
+                style={{
+                  width: 100,
+                  height: 110,
+                  borderRadius: 10,
+                  marginTop: 9,
+                }}
+              />
+            </View>
+            <Text style={{marginLeft: 10, paddingLeft: 5}} h4>
+              Câu hỏi:
+            </Text>
             <Text
               style={{
                 margin: 10,
+                paddingLeft: 5,
                 fontSize: 17,
-                textAlign: 'center',
                 color: '#000044',
               }}>
               {titlepart1.titleta}
@@ -76,7 +84,7 @@ export default function Part5(navigation) {
               style={{
                 margin: 10,
                 fontSize: 17,
-                textAlign: 'center',
+                paddingLeft: 5,
                 color: '#000044',
               }}>
               {titlepart1.titletv}

@@ -229,32 +229,32 @@ export default function AppStack() {
         component={scr2}
         options={{title: 'scr2', headerShown: false}}
       />
-       <AppStack.Screen
+      <AppStack.Screen
         name="scr3"
         component={scr3}
         options={{title: 'scr3', headerShown: false}}
       />
-       <AppStack.Screen
+      <AppStack.Screen
         name="scr4"
         component={scr4}
         options={{title: 'scr4', headerShown: false}}
       />
-       <AppStack.Screen
+      <AppStack.Screen
         name="scr5"
         component={scr5}
         options={{title: 'scr5', headerShown: false}}
       />
-       <AppStack.Screen
+      <AppStack.Screen
         name="scr6"
         component={scr6}
         options={{title: 'scr6', headerShown: false}}
       />
-       <AppStack.Screen
+      <AppStack.Screen
         name="scr7"
         component={scr7}
         options={{title: 'scr7', headerShown: false}}
       />
-       <AppStack.Screen
+      <AppStack.Screen
         name="scrthithu"
         component={scrthithu}
         options={{title: 'scrthithu', headerShown: false}}
