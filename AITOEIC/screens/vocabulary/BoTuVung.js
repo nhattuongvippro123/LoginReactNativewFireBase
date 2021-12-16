@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   HeaderBackButton,
   View,
@@ -12,7 +12,7 @@ import {
   Dimensions,
   FlatList,
 } from 'react-native';
-import Header from '../components/Header';
+import Header from './../../components/Header';
 import firestore from '@react-native-firebase/firestore';
 import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
 
@@ -20,6 +20,16 @@ export default function BoTuVung({navigation}) {
   const [loaddataxong, setLoadDataXong] = useState(false);
   const [loading, setLoading] = useState(false);
   const [arr, setTatCaData] = useState([]);
+  const scrollRef = useRef();
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
+
+  const backtotopscrollview = () => {
+    scrollRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  };
 
   const getdata = async () => {
     let arr = [];
@@ -43,6 +53,8 @@ export default function BoTuVung({navigation}) {
   useEffect(() => {
     if (!loaddataxong) {
       getdata();
+      backtotopscrollview();
+      console.log();
     }
   }, []);
   return (
@@ -52,6 +64,7 @@ export default function BoTuVung({navigation}) {
       <Header title="BỘ TỪ VỰNG" />
       <FlatList
         // horizontal
+
         style={{padding: 5}}
         numColumns={2}
         columnWrapperStyle={{justifyContent: 'space-between'}}
@@ -60,16 +73,31 @@ export default function BoTuVung({navigation}) {
         data={arr}
         keyExtractor={(item, index) => index}
         renderItem={({item, index}) => (
-          <ScrollView>
-            <View style={{padding: 1, margin: 5}}>
+          <ScrollView ref={scrollRef}>
+            <View
+              style={{
+                padding: 1,
+                margin: 5,
+                width: windowWidth / 1,
+                height: windowHeight / 4,
+              }}>
               <TouchableOpacity
-                style={{width: 180, height: 200}}
+                style={{
+                  backgroundColor: '#6699FF',
+                }}
                 activeOpacity={0.5}
                 onPress={() => navigation.navigate(item.id)}>
                 <ImageBackground
                   source={{uri: item?.imagebackground}}
-                  style={{}}>
-                  <Text style={styles.tuvungtext}>{item?.name}</Text>
+                  style={{
+                    width: windowWidth / 2,
+                    height: windowHeight / 4,
+                    padding: 10,
+                    borderWidth: 1,
+                  }}>
+                  <View style={{}}>
+                    <Text style={styles.tuvungtext}>{item?.name}</Text>
+                  </View>
                   <Text style={styles.sotu}>Số từ: {item?.sotu}</Text>
                 </ImageBackground>
               </TouchableOpacity>
@@ -95,15 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  text: {
-    margin: 20,
-    fontSize: 20,
-    color: '#333333',
-  },
-
   sotu: {
-    marginLeft: 10,
-    marginBottom: 10,
     fontSize: 23,
     // color: '#FFFF00',
     color: 'white',
@@ -111,13 +131,15 @@ const styles = StyleSheet.create({
     textShadowOffset: {width: -3, height: 3},
     textShadowRadius: 20,
     fontWeight: '800',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   tuvungtext: {
-    marginTop: 130,
-    marginLeft: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
     fontSize: 27,
     fontWeight: 'bold',
-    color: 'black',
+    color: '#0000DD',
     textShadowColor: 'white',
     textShadowOffset: {width: -3, height: 3},
     textShadowRadius: 6,
@@ -126,9 +148,6 @@ const styles = StyleSheet.create({
 
   background: {
     backgroundColor: '#6699FF',
-    width: 390,
-    justifyContent: 'center',
-    textAlign: 'center',
   },
 
   title: {

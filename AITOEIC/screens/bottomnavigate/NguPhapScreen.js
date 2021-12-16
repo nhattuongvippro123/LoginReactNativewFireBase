@@ -8,9 +8,9 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import {TabView, SceneMap} from 'react-native-tab-view';
-import coban from '../screens/coban';
-import thongdung from '../screens/thongdung';
-import Header from '../components/Header';
+import coban from './../../screens/nguphap/coban';
+import thongdung from './../../screens/nguphap/thongdung';
+import Header from './../../components/Header';
 
 export default function NguPhapScreen(navigation) {
   const renderScene = SceneMap({

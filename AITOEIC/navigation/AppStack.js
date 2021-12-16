@@ -1,38 +1,46 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
-import HomeScreen from '../screens/HomeScreen';
-import NguPhapScreen from '../screens/NguPhapScreen';
-import SettingScreen from '../screens/SettingScreen';
-import TuVungScreen from '../screens/TuVungScreen';
-import AIspeakScreen from '../screens/AIspeakScreen';
-import Part1 from '../screens/Part1';
-import Part2 from '../screens/Part2';
-import Part3 from '../screens/Part3';
-import Part4 from '../screens/Part4';
-import Part5 from '../screens/Part5';
-import Part6 from '../screens/Part6';
-import Part7 from '../screens/Part7';
-import BoTuVung from '../screens/BoTuVung';
-import thithu from '../screens/thithu';
+import HomeScreen from '../screens/bottomnavigate/HomeScreen';
+import NguPhapScreen from '../screens/bottomnavigate/NguPhapScreen';
+import SettingScreen from '../screens/bottomnavigate/SettingScreen';
+import TuVungScreen from '../screens/bottomnavigate/TuVungScreen';
+import AIspeakScreen from '../screens/bottomnavigate/AIspeakScreen';
+import Part1 from '../screens/allpartscreen/Part1';
+import Part2 from '../screens/allpartscreen/Part2';
+import Part3 from '../screens/allpartscreen/Part3';
+import Part4 from '../screens/allpartscreen/Part4';
+import Part5 from '../screens/allpartscreen/Part5';
+import Part6 from '../screens/allpartscreen/Part6';
+import Part7 from '../screens/allpartscreen/Part7';
+import thithu from '../screens/allpartscreen/thithu';
+import BoTuVung from '../screens/vocabulary/BoTuVung';
 import hopdong from '../screens/vocabulary/hopdong';
 import thitruong from '../screens/vocabulary/thitruong';
 import subaohanh from '../screens/vocabulary/subaohanh';
-import p1 from '../screens/detailsnguphap/p1';
-import scr1 from '../screens/detailspart1/scr1';
-import scr2 from '../screens/detailspart1/scr2';
-import scr3 from '../screens/detailspart1/scr3';
-import scr4 from '../screens/detailspart1/scr4';
-import scr5 from '../screens/detailspart1/scr5';
-import scr6 from '../screens/detailspart1/scr6';
-import scr7 from '../screens/detailspart1/scr7';
-import scrthithu from '../screens/detailspart1/scrthithu';
+import cacquytrinhtrongcongso from '../screens/vocabulary/cacquytrinhtrongcongso';
+import congnghechocongso from '../screens/vocabulary/congnghechocongso';
+import dientu from '../screens/vocabulary/dientu';
+import hoinghi from '../screens/vocabulary/hoinghi';
+import kehoachkinhdoanh from '../screens/vocabulary/kehoachkinhdoanh';
+import mayvitinh from '../screens/vocabulary/mayvitinh';
+import thutin from '../screens/vocabulary/thutin';
+import p1 from '../screens/detailsnguphap/1';
+import p901 from '../screens/detailsnguphap/901';
+import scr1 from '../screens/detailsallpart/scr1';
+import scr2 from '../screens/detailsallpart/scr2';
+import scr3 from '../screens/detailsallpart/scr3';
+import scr4 from '../screens/detailsallpart/scr4';
+import scr5 from '../screens/detailsallpart/scr5';
+import scr6 from '../screens/detailsallpart/scr6';
+import scr7 from '../screens/detailsallpart/scr7';
+import scrthithu from '../screens/detailsallpart/scrthithu';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import coban from '../screens/coban';
-import thongdung from '../screens/thongdung';
+import coban from '../screens/nguphap/coban';
+import thongdung from '../screens/nguphap/thongdung';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Icon} from 'react-native-elements';
 
@@ -200,14 +208,40 @@ export default function AppStack() {
         options={{title: 'Thi Thử', headerShown: false}}
       />
       <AppStack.Screen
+        name="cacquytrinhtrongcongso"
+        component={cacquytrinhtrongcongso}
+        options={{title: 'Các Quy Trình Công Sở', headerShown: false}}
+      />
+      <AppStack.Screen
+        name="congnghechocongso"
+        component={congnghechocongso}
+        options={{title: 'Công Nghệ Cho Công Sở', headerShown: false}}
+      />
+      <AppStack.Screen
+        name="dientu"
+        component={dientu}
+        options={{title: 'Điện Tử', headerShown: false}}
+      />
+      <AppStack.Screen
+        name="hoinghi"
+        component={hoinghi}
+        options={{title: 'Hội Nghị', headerShown: false}}
+      />
+      <AppStack.Screen
         name="hopdong"
         component={hopdong}
         options={{title: 'Hợp Đồng', headerShown: false}}
       />
+
       <AppStack.Screen
-        name="thitruong"
-        component={thitruong}
-        options={{title: 'Thị Trường', headerShown: false}}
+        name="kehoachkinhdoanh"
+        component={kehoachkinhdoanh}
+        options={{title: 'Kế Hoạch Kinh Doanh', headerShown: false}}
+      />
+      <AppStack.Screen
+        name="mayvitinh"
+        component={mayvitinh}
+        options={{title: 'Máy Vi Tính', headerShown: false}}
       />
       <AppStack.Screen
         name="subaohanh"
@@ -215,8 +249,23 @@ export default function AppStack() {
         options={{title: 'Sự Bảo Hành', headerShown: false}}
       />
       <AppStack.Screen
-        name="p1"
+        name="thitruong"
+        component={thitruong}
+        options={{title: 'Thị Trường', headerShown: false}}
+      />
+      <AppStack.Screen
+        name="thutin"
+        component={thutin}
+        options={{title: 'Thư Tín', headerShown: false}}
+      />
+      <AppStack.Screen
+        name="1"
         component={p1}
+        options={{title: 'Cấu trúc thành phần một câu', headerShown: false}}
+      />
+      <AppStack.Screen
+        name="901"
+        component={p901}
         options={{title: 'Cấu trúc thành phần một câu', headerShown: false}}
       />
       <AppStack.Screen

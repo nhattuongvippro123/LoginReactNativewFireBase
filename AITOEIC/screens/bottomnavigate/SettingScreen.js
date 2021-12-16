@@ -8,10 +8,10 @@ import {
   ImageBackground,
   SafeAreaView,
 } from 'react-native';
-import FormButton from '../components/FormButton';
-import {AuthContext} from '../navigation/AuthProvider';
+import FormButton from './../../components/FormButton';
+import {AuthContext} from './../../navigation/AuthProvider';
 import {useTheme} from '@react-navigation/native';
-import Header from '../components/Header';
+import Header from './../../components/Header';
 
 export default function SettingScreen() {
   const {user, logout} = useContext(AuthContext);

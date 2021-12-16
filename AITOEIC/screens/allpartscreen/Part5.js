@@ -10,20 +10,20 @@ import {
 import database from '@react-native-firebase/database';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import StatusBars from '../components/StatusBars';
+import StatusBars from './../../components/StatusBars';
 import {Text} from 'react-native-elements';
-import FormButton from '../components/FormButton';
+import FormButton from './../../components/FormButton';
 import {useNavigation} from '@react-navigation/native';
-import Header from './../components/Header';
+import Header from './../../components/Header';
 
-export default function Part3(navigation) {
+export default function Part5(navigation) {
   navigation = useNavigation();
   const [titlepart1, setTitlepart1] = useState('');
 
   const gettitle = async () => {
     firestore()
       .collection('Quizzes')
-      .doc('part3')
+      .doc('part5')
       .get()
       .then((documentSnapshot) => {
         console.log('title data: ', documentSnapshot.data());
@@ -39,7 +39,7 @@ export default function Part3(navigation) {
     <ImageBackground
       source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')}
       style={{width: Dimensions.get('window').width, height: '100%'}}>
-      <Header title="Đoạn Hội Thoại" />
+      <Header title="Điền Vào Câu" />
       <View style={styles.container}>
         <View
           style={{
@@ -59,7 +59,7 @@ export default function Part3(navigation) {
             ]}>
             <View style={{alignItems: 'center'}}>
               <Image
-                source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/image/part3.png')}
+                source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/image/part5.png')}
                 style={{
                   width: 100,
                   height: 110,
@@ -93,7 +93,7 @@ export default function Part3(navigation) {
           <View style={{alignItems: 'center', marginBottom: 50}}>
             <FormButton
               buttonTitle="Bắt đầu"
-              onPress={() => navigation.navigate('scr3')}
+              onPress={() => navigation.navigate('scr5')}
             />
           </View>
         </View>

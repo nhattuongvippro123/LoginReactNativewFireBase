@@ -25,7 +25,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 
-export default function hopdong() {
+export default function hoinghi() {
   const [loaddataxong, setLoadDataXong] = useState(false);
   const [isModalVisible, setModalVisible] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -105,7 +105,7 @@ export default function hopdong() {
     <ImageBackground
       source={require('./../../assets/theme/backgroundapp.jpg')}
       style={{width: '100%', height: '100%'}}>
-      <Header title="HỢP ĐỒNG" />
+      <Header title="HỘI NGHỊ" />
       <FlatList
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
@@ -369,32 +369,6 @@ export default function hopdong() {
                         marginBottom: 20,
                       }}>
                       {dataItem?.vdtv}
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: 'center',
-                      marginLeft: 18,
-                      marginTop: 18,
-                      padding: 5,
-                    }}>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        color: '#222222',
-                        marginBottom: 20,
-                        fontWeight: 'bold',
-                      }}>
-                      Từ đồng nghĩa:
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        color: '#222222',
-                        marginBottom: 20,
-                      }}>
-                      {dataItem?.tudongnghia}
                     </Text>
                   </View>
                 </View>

@@ -9,17 +9,20 @@ import {
   ScrollView,
   SafeAreaView,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
-import FormButton from '../components/FormButton';
-import {AuthContext} from '../navigation/AuthProvider';
+import FormButton from './../../components/FormButton';
+import {AuthContext} from './../../navigation/AuthProvider';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Header from '../components/Header';
-import StatusBars from '../components/StatusBars';
+import Header from './../../components/Header';
+import StatusBars from './../../components/StatusBars';
 import {StatusBar} from 'react-native';
 
 export default function HomeScreen({navigation}) {
   const {user, logout} = useContext(AuthContext);
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
   return (
     <View style={styles.container}>
       <StatusBar style={{backgroundColor: '#6699FF'}} />
@@ -32,7 +35,7 @@ export default function HomeScreen({navigation}) {
           showsVerticalScrollIndicator={false}
           options={{tabBarVisible: false}}>
           <Image
-            source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/banner/toeic.jpg')}
+            source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/banner.png')}
             style={{width: 360, height: 110, borderRadius: 10, marginTop: 9}}
           />
           <Text style={styles.loaitext}>Nghe Hiểu</Text>
@@ -338,10 +341,10 @@ export default function HomeScreen({navigation}) {
 
           <View style={{paddingTop: 20}}>
             <Image
-              source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/banner/banner1.png')}
+              source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/hinhthu.png')}
               style={{
-                width: 360,
-                height: 200,
+                width: windowWidth / 1.1,
+                height: windowHeight / 2,
                 borderRadius: 10,
                 marginLeft: 0.5,
               }}

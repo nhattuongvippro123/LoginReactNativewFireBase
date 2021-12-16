@@ -4,7 +4,6 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Modal from 'react-native-modal';
-import {COLORS} from './../detailspart1/colors';
 import Sound from 'react-native-sound';
 import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
 import Header from './../../components/Header';
@@ -118,7 +117,7 @@ export default function thitruong() {
               key={item}
               style={{
                 marginBottom: 3,
-                backgroundColor: COLORS.white,
+                backgroundColor: 'white',
                 width: Dimensions.get('window').width,
                 height: 110,
               }}
