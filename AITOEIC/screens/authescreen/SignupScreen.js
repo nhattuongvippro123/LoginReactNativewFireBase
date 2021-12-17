@@ -9,47 +9,78 @@ export default function SignupScreen() {
   const {register} = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [switchValue, setSwitchValue] = useState(false);
+  const [spinnerVisibility, setSpinnerVisibility] = useState(false);
 
+  const renderLogo = () => (
+    <View
+      style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 30,
+      }}>
+      <Image
+        resizeMode="contain"
+        source={require('./../../assets/banner/logo.png')}
+        style={{height: 400, width: 400}}
+      />
+      <Text
+        style={{
+          bottom: 32,
+          color: '#fdfdfd',
+          fontFamily: 'Now-Bold',
+          fontSize: 32,
+          shadowRadius: 3,
+          shadowOpacity: 0.7,
+          shadowColor: '#757575',
+          shadowOffset: {
+            width: 0,
+            height: 3,
+          },
+        }}>
+        Đăng ký tài khoản
+      </Text>
+    </View>
+  );
   return (
-    <ImageBackground
-      source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')}
-      style={{width: '100%', height: '100%'}}>
-      <View style={styles.container}>
-        <Image
-          style={{width: 200, height: 200}}
-          source={require('./../../assets/banner/logo.png')}
-        />
-        <Text style={styles.text}>Create an account</Text>
-        <FormInput
-          value={email}
-          placeholderText="Email"
-          onChangeText={(userEmail) => setEmail(userEmail)}
-          autoCapitalize="none"
-          keyboardType="email-address"
-          autoCorrect={false}
-        />
-        <FormInput
-          value={password}
-          placeholderText="Password"
-          onChangeText={(userPassword) => setPassword(userPassword)}
-          secureTextEntry={true}
-        />
-        <FormButton
-          buttonTitle="Signup"
-          onPress={() => register(email, password)}
-        />
-      </View>
-    </ImageBackground>
+    <View>
+      <LoginScreen
+        source={require('./../../assets/theme/backgroundapp.jpg')}
+        spinnerEnable
+        spinnerVisibility={spinnerVisibility}
+        logoComponent={renderLogo()}
+        labelTextStyle={{
+          color: '#adadad',
+          fontFamily: 'Now-Bold',
+        }}
+        logoTextStyle={{
+          fontSize: 20,
+          color: '#fdfdfd',
+          fontFamily: 'Now-Black',
+        }}
+        textStyle={{
+          color: '#757575',
+          fontFamily: 'Now-Regular',
+        }}
+        signupStyle={{
+          color: '#fdfdfd',
+          fontSize: 16,
+          fontFamily: 'Now-Bold',
+        }}
+        loginButtonBackgroundColor={282828}
+        loginText={'ĐĂNG KÝ'}
+        usernameTitle={'Email'}
+        passwordTitle={'Mật Khẩu'}
+        usernamePlaceholder={'abc@gmail.com'}
+        passwordPlaceholder={'********'}
+        disableSettings={true}
+        usernameTextInputValue={email}
+        passwordTextInputValue={password}
+        usernameOnChangeText={(userEmail) => setEmail(userEmail)}
+        onPressSettings={() => alert('Settings Button is pressed')}
+        passwordOnChangeText={(userPassword) => setPassword(userPassword)}
+        onPressSignup={() => register(email, password)}
+      />
+    </View>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 24,
-    marginBottom: 10,
-  },
-});

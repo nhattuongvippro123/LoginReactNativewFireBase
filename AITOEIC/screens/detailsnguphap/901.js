@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, StyleSheet, ImageBackground, ScrollView} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ImageBackground,
+  ScrollView,
+  Image,
+  Dimensions,
+} from 'react-native';
 import {Text, Header} from 'react-native-elements';
 import {
   Table,
@@ -12,9 +19,11 @@ import {
 } from 'react-native-table-component';
 
 export default function p901() {
-  const HeadTable = ['SUBJECT', 'VERB', 'COMPLEMENT', 'MODIFIER'];
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
+  const HeadTable = ['ST', 'Động từ tobe', 'Động từ thường'];
   const DataTable = [
-    ['Thai and I', 'ate', ' a pizza', 'last night.'],
+    ['Công thu', 'ate', 'last night.'],
     ['They', 'played', 'soccer', 'last week.'],
     ['The dog', 'runs', '', 'very fast.'],
     ['I', 'like', 'walking.', ''],
@@ -24,11 +33,7 @@ export default function p901() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.container1}>
-        <Text h3>1. Cấu trúc chung một câu:</Text>
-
-        <Text style={{marginTop: 15, fontSize: 17, padding: 5}}>
-          Một câu trong tiếng anh thường bao gồm các thành phần sau đây:
-        </Text>
+        <Text h3>Present simple</Text>
 
         <Text
           style={{
@@ -39,19 +44,49 @@ export default function p901() {
             fontWeight: 'bold',
             padding: 5,
           }}>
-          SUBJECT - VERB - COMPLEMENT - MODIFIER
+          KHÁI NIỆM THÌ HIỆN TẠI ĐƠN
+        </Text>
+        <Text style={{marginTop: 15, fontSize: 17, padding: 5}}>
+          Thì hiện tại đơn (Simple Present tense) là thì dùng để diễn đạt một
+          hành động mang tính thường xuyên (regular action), theo thói quen
+          (habitual action) hoặc hành động lặp đi lặp lại có tính quy luật, hoặc
+          diễn tả chân lý và sự thật hiển nhiên.
         </Text>
         <Text style={{fontSize: 17, padding: 5, marginBottom: 10}}>Ví dụ:</Text>
-        <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
-          <Row
-            data={HeadTable}
-            style={styles.HeadStyle}
-            textStyle={styles.TableText}
-          />
-          <Rows data={DataTable} textStyle={styles.TableTexts} />
-        </Table>
-        <Text></Text>
-        <Text h4>1.1 Subject (chủ ngữ):</Text>
+        <Text>I walk to school every day. ( Tôi đi học hằng ngày)</Text>
+        <Text>He often plays soccer. (Anh ấy thường xuyên chơi bóng đá)</Text>
+        <Text
+          style={{
+            marginBottom: 15,
+            marginTop: 15,
+            fontSize: 17,
+            alignItems: 'center',
+            color: 'red',
+            fontWeight: 'bold',
+            padding: 5,
+          }}>
+          CÔNG THỨC THÌ HIỆN TẠI ĐƠN
+        </Text>
+        <Text h4> Khẳng định:</Text>
+        <Image
+          source={require('./../../assets/nguphapimage/khangdinh.png')}
+          resizeMode="contain"
+          style={{
+            width: windowWidth / 1.1,
+            height: 300,
+            borderRadius: 10,
+            marginTop: 9,
+          }}
+        />
+        <Text h4> Phủ định:</Text>
+        <Image
+          source={require('./../../assets/nguphapimage/phudinh.png')}
+          resizeMode="contain"
+          style={{
+            width: windowWidth / 1.1,
+            borderRadius: 10,
+          }}
+        />
         <Text
           style={{marginTop: 15, fontSize: 18, padding: 5, color: '#3333FF'}}>
           Chủ ngữ là chủ thể của hành động trong câu, thường đứng trước động từ

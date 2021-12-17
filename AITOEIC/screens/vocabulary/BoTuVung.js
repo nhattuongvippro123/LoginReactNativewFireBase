@@ -84,16 +84,16 @@ export default function BoTuVung({navigation}) {
               <TouchableOpacity
                 style={{
                   backgroundColor: '#6699FF',
+                  borderWidth: 0.5,
                 }}
                 activeOpacity={0.5}
                 onPress={() => navigation.navigate(item.id)}>
                 <ImageBackground
                   source={{uri: item?.imagebackground}}
                   style={{
-                    width: windowWidth / 2,
+                    width: windowWidth / 2.1,
                     height: windowHeight / 4,
                     padding: 10,
-                    borderWidth: 1,
                   }}>
                   <View style={{}}>
                     <Text style={styles.tuvungtext}>{item?.name}</Text>
@@ -139,7 +139,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     fontSize: 27,
     fontWeight: 'bold',
-    color: '#0000DD',
+    // color: '#0000DD',
+    color: 'black',
     textShadowColor: 'white',
     textShadowOffset: {width: -3, height: 3},
     textShadowRadius: 6,
