@@ -5,8 +5,10 @@ import {
   StyleSheet,
   Image,
   ImageBackground,
+  LogBox,
 } from 'react-native';
 export default function Loading() {
+  LogBox.ignoreAllLogs();
   return (
     <View style={styles.loadingContainer}>
       <ImageBackground

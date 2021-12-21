@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   StatusBar,
+  LogBox,
 } from 'react-native';
 import FormButton from './../../components/FormButton';
 import FormInput from './../../components/FormInput';
@@ -25,7 +26,7 @@ export default function loginScreen({navigation}) {
   const [password, setPassword] = useState('');
   const {login} = useContext(AuthContext);
   const {register} = useContext(AuthContext);
-
+  LogBox.ignoreAllLogs();
   const renderLogo = () => (
     <View
       style={{

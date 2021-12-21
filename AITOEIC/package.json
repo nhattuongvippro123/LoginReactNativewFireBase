@@ -52,7 +52,9 @@
     "react-native-swipe-gestures": "^1.0.5",
     "react-native-tab-view": "^3.1.1",
     "react-native-table-component": "^1.2.1",
-    "react-native-vector-icons": "^9.0.0"
+    "react-native-tts": "^4.1.0",
+    "react-native-vector-icons": "^9.0.0",
+    "react-native-webview": "^11.15.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

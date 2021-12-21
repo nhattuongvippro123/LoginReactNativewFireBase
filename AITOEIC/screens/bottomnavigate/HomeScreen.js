@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   ImageBackground,
   Dimensions,
+  LogBox,
 } from 'react-native';
 import FormButton from './../../components/FormButton';
 import {AuthContext} from './../../navigation/AuthProvider';
@@ -18,6 +19,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Header from './../../components/Header';
 import StatusBars from './../../components/StatusBars';
 import {StatusBar} from 'react-native';
+
+
 
 export default function HomeScreen({navigation}) {
   const {user, logout} = useContext(AuthContext);
