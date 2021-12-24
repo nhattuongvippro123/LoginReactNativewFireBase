@@ -5,176 +5,132 @@ import {
   Text,
   View,
   FlatList,
-  TextInput,
   Keyboard,
   TouchableOpacity,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
 import Header from './../../components/Header';
 import Tts from 'react-native-tts';
 import {WebView} from 'react-native-webview';
+import {Platform} from 'react-native';
+import RNFS from 'react-native-fs';
+import FormButton from './../../components/FormButton';
+import {TextInput, Button} from 'react-native-paper';
 
 export default function AIspeakScreen() {
-  const [voices, setVoices] = useState([]);
-  const [ttsStatus, setTtsStatus] = useState('initiliazing');
-  const [selectedVoice, setSelectedVoice] = useState(null);
-  const [speechRate, setSpeechRate] = useState(0.5);
-  const [speechPitch, setSpeechPitch] = useState(1);
-  const [text, setText] = useState('Enter Text like Hello About React');
-  const handleVoice = (ttsText) => {
-    Tts.speak(ttsText);
-  };
-  // const myHtmlFile = require('../../screens/webspeek/webtts.html');
-  useEffect(() => {
-    Tts.addEventListener('tts-start', (_event) => setTtsStatus('started'));
-    Tts.addEventListener('tts-finish', (_event) => setTtsStatus('finished'));
-    Tts.addEventListener('tts-cancel', (_event) => setTtsStatus('cancelled'));
-    Tts.setDefaultRate(speechRate);
-    Tts.setDefaultPitch(speechPitch);
-    Tts.getInitStatus().then(initTts);
-    return () => {
-      Tts.removeEventListener('tts-start', (_event) => setTtsStatus('started'));
-      Tts.removeEventListener('tts-finish', (_event) =>
-        setTtsStatus('finished'),
-      );
-      Tts.removeEventListener('tts-cancel', (_event) =>
-        setTtsStatus('cancelled'),
-      );
+  const [text, setText] = useState();
+  const path = `${RNFS.DocumentDirectoryPath}/voice3.mp3`;
+  const Sound = require('react-native-sound');
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
+
+  const texttospeech = () => {
+    const url =
+      'https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=AIzaSyBoiKmTSoARItgKpVG9DXT3u8xD8cTvzjM';
+    const data = {
+      input: {
+        text,
+      },
+      voice: {
+        languageCode: 'en-GB',
+        name: 'en-GB-Wavenet-D',
+        ssmlGender: 'MALE',
+      },
+      audioConfig: {
+        audioEncoding: 'MP3',
+      },
     };
-  }, []);
-
-  const initTts = async () => {
-    const voices = await Tts.voices();
-    const availableVoices = voices
-      .filter((v) => !v.networkConnectionRequired && !v.notInstalled)
-      .map((v) => {
-        return {id: v.id, name: v.name, language: v.language};
+    const otherparam = {
+      headers: {
+        'content-type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify(data),
+      method: 'POST',
+    };
+    fetch(url, otherparam)
+      .then((data) => {
+        return data.json();
+      })
+      .then((res) => {
+        createFile(path, res.audioContent);
+        console.log(path);
+        playMusic(path);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-    let selectedVoice = null;
-    if (voices && voices.length > 0) {
-      selectedVoice = voices[0].id;
+
+    const createFile = async (path, data) => {
       try {
-        await Tts.setDefaultLanguage(voices[0].language);
+        return await RNFS.writeFile(path, data, 'base64');
       } catch (err) {
-        //Samsung S9 has always this error:
-        //"Language is not supported"
-        console.log(`setDefaultLanguage error `, err);
+        console.warn(err);
       }
-      await Tts.setDefaultVoice(voices[0].id);
-      setVoices(availableVoices);
-      setSelectedVoice(selectedVoice);
-      setTtsStatus('initialized');
-    } else {
-      setTtsStatus('initialized');
-    }
-  };
-  const readText = async () => {
-    Tts.stop();
-    Tts.speak(text);
-  };
+      return;
+      null;
+    };
+    const playMusic = (music = '') => {
+      const speech = new Sound(music, null, (error) => {
+        if (error) {
+          console.warn('failed to load the sound', error);
 
-  const updateSpeechRate = async (rate) => {
-    await Tts.setDefaultRate(rate);
-    setSpeechRate(rate);
+          return;
+          null;
+        }
+        speech.play((success) => {
+          if (!success) {
+            console.warn('playback failed due to audio decoding errors');
+          }
+        });
+        return;
+        null;
+      });
+    };
   };
-
-  const updateSpeechPitch = async (rate) => {
-    await Tts.setDefaultPitch(rate);
-    setSpeechPitch(rate);
-  };
-
-  const onVoicePress = async (voice) => {
-    try {
-      await Tts.setDefaultLanguage(voice.language);
-    } catch (err) {
-      // Samsung S9 has always this error:
-      // "Language is not supported"
-      console.log(`setDefaultLanguage error `, err);
-    }
-    await Tts.setDefaultVoice(voice.id);
-    setSelectedVoice(voice.id);
-  };
-
-  const renderVoiceItem = ({item}) => {
-    return (
-      <TouchableOpacity
-        style={{
-          backgroundColor: selectedVoice === item.id ? '#DDA0DD' : '#5F9EA0',
-        }}
-        onPress={() => onVoicePress(item)}>
-        <Text style={styles.buttonTextStyle}>
-          {`${item.language} - ${item.name || item.id}`}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
-  // return (
-  //   <ImageBackground
-  //     source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')}
-  //     style={{width: '100%', height: '100%'}}>
-  //     <Header title="AISPEAK" />
-  //     <WebView
-  //       source={{uri: 'http://192.168.1.8:5500/screens/webspeek/webtts.html'}}
-  //       style={{flex: 1}}
-  //     />
-  //   </ImageBackground>
-  // );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <Text style={styles.titleText}>
-          Text to Speech Conversion with Natural Voices
-        </Text>
-        <View style={styles.sliderContainer}>
-          <Text style={styles.sliderLabel}>
-            {`Speed: ${speechRate.toFixed(2)}`}
+    <ImageBackground
+      source={require('G:/LoginReactNativewFireBase/AITOEIC/assets/theme/backgroundapp.jpg')}
+      style={{width: Dimensions.get('window').width, height: '100%'}}>
+      <Header title="AI SPEAK" />
+      <View
+        style={{
+          flexDirection: 'column',
+          height: '100%',
+        }}>
+        <View
+          style={{flex: 1, alignCenter: 'center', justifyContent: 'center'}}>
+          <Text
+            style={{
+              padding: 25,
+              fontSize: 28,
+              color: '#000044',
+            }}>
+            Bạn có thể viết một câu hoặc dán một đoạn văn mà bạn thích AISPEAK
+            đọc cho bạn vào ô trống bên dưới.
           </Text>
-          <Slider
-            style={styles.slider}
-            minimumValue={0.01}
-            maximumValue={0.99}
-            value={speechRate}
-            onSlidingComplete={updateSpeechRate}
-          />
         </View>
-        <View style={styles.sliderContainer}>
-          <Text style={styles.sliderLabel}>
-            {`Pitch: ${speechPitch.toFixed(2)}`}
-          </Text>
-          <Slider
-            style={styles.slider}
-            minimumValue={0.5}
-            maximumValue={2}
-            value={speechPitch}
-            onSlidingComplete={updateSpeechPitch}
+        <View style={{flex: 1, padding: 25}}>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={(text) => setText(text)}
+            value={text}
+            placeholder="Nhập ở đây ..."
+            onSubmitEditing={Keyboard.dismiss}
           />
+          <Button
+            style={{marginTop: 20}}
+            color="#8ad24e"
+            icon="volume-high"
+            mode="contained"
+            onPress={() => texttospeech()}>
+            Bấm cái là đọc như thiệt luôn nè!
+          </Button>
         </View>
-        <Text style={styles.sliderContainer}>
-          {`Selected Voice: ${selectedVoice || ''}`}
-        </Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={(text) => setText(text)}
-          value={text}
-          onSubmitEditing={Keyboard.dismiss}
-        />
-        <TouchableOpacity style={styles.buttonStyle} onPress={readText}>
-          <Text style={styles.buttonTextStyle}>
-            Click to Read Text ({`Status: ${ttsStatus || ''}`})
-          </Text>
-        </TouchableOpacity>
-        <Text style={styles.sliderLabel}>Select the Voice from below</Text>
-        <FlatList
-          style={{width: '100%', marginTop: 5}}
-          keyExtractor={(item) => item.id}
-          renderItem={renderVoiceItem}
-          extraData={selectedVoice}
-          data={voices}
-        />
       </View>
-    </SafeAreaView>
+    </ImageBackground>
   );
 }
 const styles = StyleSheet.create({
@@ -182,6 +138,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     padding: 5,
+    alignCenter: 'center',
+    justifyContent: 'center',
   },
   titleText: {
     fontSize: 22,
@@ -213,11 +171,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   textInput: {
-    borderColor: 'gray',
     borderWidth: 1,
-    color: 'black',
-    width: '100%',
     textAlign: 'center',
-    height: 40,
+    height: 100,
   },
 });

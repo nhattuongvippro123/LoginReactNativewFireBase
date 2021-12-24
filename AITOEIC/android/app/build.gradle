@@ -196,6 +196,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-config')
     compile project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
