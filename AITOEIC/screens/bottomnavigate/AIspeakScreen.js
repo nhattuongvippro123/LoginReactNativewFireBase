@@ -21,7 +21,7 @@ import {TextInput, Button} from 'react-native-paper';
 
 export default function AIspeakScreen() {
   const [text, setText] = useState();
-  const path = `${RNFS.DocumentDirectoryPath}/voice3.mp3`;
+  const path = `${RNFS.DocumentDirectoryPath}/voice4.mp3`;
   const Sound = require('react-native-sound');
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
