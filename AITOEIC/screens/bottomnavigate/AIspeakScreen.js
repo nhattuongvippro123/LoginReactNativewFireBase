@@ -21,7 +21,8 @@ import {TextInput, Button} from 'react-native-paper';
 
 export default function AIspeakScreen() {
   const [text, setText] = useState();
-  const path = `${RNFS.DocumentDirectoryPath}/voice4.mp3`;
+  const [path, setPath] = useState();
+  // const path = `${RNFS.DocumentDirectoryPath}/voice5.mp3`;
   const Sound = require('react-native-sound');
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
@@ -54,9 +55,12 @@ export default function AIspeakScreen() {
         return data.json();
       })
       .then((res) => {
-        createFile(path, res.audioContent);
+        setPath(`${RNFS.DocumentDirectoryPath}/voice5.mp3`);
         console.log(path);
-        playMusic(path);
+        createFile(path, res.audioContent);
+        if (path) {
+          playMusic(path);
+        }
       })
       .catch((error) => {
         console.log(error);
