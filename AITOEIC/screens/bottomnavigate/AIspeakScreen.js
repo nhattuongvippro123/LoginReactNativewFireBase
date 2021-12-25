@@ -21,7 +21,8 @@ import {TextInput, Button} from 'react-native-paper';
 
 export default function AIspeakScreen() {
   const [text, setText] = useState();
-  const [path, setPath] = useState();
+  const [newpath, setPath] = useState();
+  const path = `${RNFS.DocumentDirectoryPath}/voice8.mp3`;
   // const path = `${RNFS.DocumentDirectoryPath}/voice5.mp3`;
   const Sound = require('react-native-sound');
   const windowWidth = Dimensions.get('window').width;
@@ -55,16 +56,31 @@ export default function AIspeakScreen() {
         return data.json();
       })
       .then((res) => {
-        setPath(`${RNFS.DocumentDirectoryPath}/voice5.mp3`);
-        console.log(path);
         createFile(path, res.audioContent);
-        if (path) {
-          playMusic(path);
+        setPath(path);
+        console.log(path);
+        if (newpath) {
+          playMusic(newpath);
+          deleteFile(path);
+
         }
       })
       .catch((error) => {
         console.log(error);
       });
+
+    const deleteFile = async (path) => {
+      return (
+        RNFS.unlink(path)
+          .then(() => {
+            console.log('FILE DELETED');
+          })
+          // `unlink` will throw an error, if the item to unlink does not exist
+          .catch((err) => {
+            console.log(err.message);
+          })
+      );
+    };
 
     const createFile = async (path, data) => {
       try {
