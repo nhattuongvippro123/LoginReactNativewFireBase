@@ -27,7 +27,6 @@ export default function AIspeakScreen() {
   const [newpath, setPath] = useState();
   const [image, setImage] = useState(null);
   const path = `${RNFS.DocumentDirectoryPath}/voice8.mp3`;
-  // const path = `${RNFS.DocumentDirectoryPath}/voice5.mp3`;
   const Sound = require('react-native-sound');
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
@@ -40,8 +39,8 @@ export default function AIspeakScreen() {
         text,
       },
       voice: {
-        languageCode: 'en-GB',
-        name: 'en-GB-Wavenet-D',
+        languageCode: 'en-US',
+        name: 'en-US-Wavenet-J	',
         ssmlGender: 'MALE',
       },
       audioConfig: {
@@ -73,16 +72,13 @@ export default function AIspeakScreen() {
       });
 
     const deleteFile = async (path) => {
-      return (
-        RNFS.unlink(path)
-          .then(() => {
-            console.log('FILE DELETED');
-          })
-          // `unlink` will throw an error, if the item to unlink does not exist
-          .catch((err) => {
-            console.log(err.message);
-          })
-      );
+      return RNFS.unlink(path)
+        .then(() => {
+          console.log('FILE DELETED');
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
     };
 
     const createFile = async (path, data) => {
@@ -117,7 +113,6 @@ export default function AIspeakScreen() {
     const result1 = 'Enclave';
     setText(result1);
   };
-  console.log(image);
   useEffect(() => {
     if (image) {
     }
