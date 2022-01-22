@@ -152,7 +152,7 @@ export default function AIspeakScreen() {
             Hoặc bạn có thể chọn ảnh từ thư viện, AI SPEAK sẽ đọc cho bạn nghe.
           </Text>
           <Text style={{marginLeft: 25, marginTop: 10, fontSize: 15}}>
-            Chọn ảnh bạn muốn scan:
+            Chọn ảnh bạn muốn quét:
           </Text>
           <View
             style={{
@@ -200,7 +200,7 @@ export default function AIspeakScreen() {
               color="#8ad24e"
               mode="contained"
               onPress={() => Scan()}>
-              Scan
+              QUÉT
             </Button>
           </View>
           <View style={{flex: 1, padding: 25}}>
@@ -217,7 +217,7 @@ export default function AIspeakScreen() {
               icon="volume-high"
               mode="contained"
               onPress={() => texttospeech()}>
-              Bấm cái là đọc như thiệt luôn nè!
+              Chuyển đổi sang giọng nói!
             </Button>
           </View>
         </View>
